@@ -162,9 +162,6 @@ int	main(void)
 	glUniform1i(glGetUniformLocation(shader1.index, "texture1"), 0);
 	glUniform1i(glGetUniformLocation(shader1.index, "texture2"), 1);
 
-	int texture2_loc = glGetUniformLocation(shader1.index, "texture2");
-	glUniform1i(texture2_loc, 1);
-
 	while (!glfwWindowShouldClose(window)) {
 		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
