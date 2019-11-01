@@ -1,7 +1,7 @@
 NAME	:= scop
 CC		:= gcc
 CFLAGS	:= -Wall -Wextra -g3 -I glad/include -I inc/
-LIBS	:= -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm
+LIBS	:= -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm -lcglm
 
 SRCS	:= \
 	glad/src/glad.c \

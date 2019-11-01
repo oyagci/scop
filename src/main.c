@@ -5,6 +5,7 @@
 #include "object.h"
 #include <math.h>
 #include "stb_image.h"
+#include <cglm/call.h>
 
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -13,12 +14,70 @@
 #include <string.h>
 
 #define WIDTH		800
-#define HEIGHT		800
+#define HEIGHT		600
 #define __unused	__attribute__((unused))
+
+GLfloat cube[] = {
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+};
 
 void framebufferResize(GLFWwindow __unused *win, int width, int height)
 {
 	glViewport(0, 0, width, height);
+}
+
+vec3 g_cam_pos;
+
+void processInput(GLFWwindow *win)
+{
+	if (glfwGetKey(win, GLFW_KEY_W)) {
+	}
+	if (glfwGetKey(win, GLFW_KEY_S)) {
+	}
+	if (glfwGetKey(win, GLFW_KEY_A)) {
+	}
+	if (glfwGetKey(win, GLFW_KEY_D)) {
+	}
 }
 
 int	read_file(char const *const filename, char **buf)
@@ -73,6 +132,7 @@ int	main(void)
 
 	glfwSetFramebufferSizeCallback(window, framebufferResize);
 	glViewport(0, 0, WIDTH, HEIGHT);
+	glEnable(GL_DEPTH_TEST);
 
 	char *vertexShaderSource = NULL;
 	char *fragmentShaderSource = NULL;
@@ -87,13 +147,13 @@ int	main(void)
 
 	program_create(&shader1, vertexShaderSource, fragmentShaderSource);
 
-	GLfloat vertices1[] = {
-		// Vertices         // Colors         // Texture Coords
-		-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-		-0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-		 0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-		 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-	};
+//	GLfloat vertices1[] = {
+//		// Vertices         // Colors         // Texture Coords
+//		-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+//		-0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+//		 0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+//		 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
+//	};
 	GLuint indices1[] = {
 		0, 1, 2,
 		0, 2, 3
@@ -102,8 +162,8 @@ int	main(void)
 	struct s_object o1;
 
 	object_init(&o1,
-		vertices1, indices1,
-		sizeof(vertices1) / sizeof(GLfloat),
+		cube, indices1,
+		sizeof(cube) / sizeof(GLfloat),
 		sizeof(indices1) / sizeof(GLuint),
 		&shader1);
 
@@ -162,13 +222,83 @@ int	main(void)
 	glUniform1i(glGetUniformLocation(shader1.index, "texture1"), 0);
 	glUniform1i(glGetUniformLocation(shader1.index, "texture2"), 1);
 
+	mat4 trans;
+	mat4 model;
+	mat4 view;
+	mat4 persp;
+
+	glm_mat4_identity(trans);
+	glm_mat4_identity(model);
+	glm_mat4_identity(view);
+	glm_mat4_identity(persp);
+
+	glm_rotate(model, glm_rad(-55.0f), (vec3){ 1.0f, 0.0f, 0.0f });
+	glUniformMatrix4fv(glGetUniformLocation(shader1.index, "model"), 1,
+		GL_FALSE, model[0]);
+
+	glm_perspective(45.0f, (float)WIDTH/(float)HEIGHT, 0.1f, 100.0f, persp);
+	glUniformMatrix4fv(glGetUniformLocation(shader1.index, "proj"), 1,
+		GL_FALSE, persp[0]);
+
+	vec3 cubePositions[] = {
+		{ 0.0f,  0.0f,  0.0f}, 
+		{ 2.0f,  5.0f, -15.0f}, 
+		{-1.5f, -2.2f, -2.5f},  
+		{-3.8f, -2.0f, -12.3f},  
+		{ 2.4f, -0.4f, -3.5f},  
+		{-1.7f,  3.0f, -7.5f},  
+		{ 1.3f, -2.0f, -2.5f},  
+		{ 1.5f,  2.0f, -2.5f}, 
+		{ 1.5f,  0.2f, -1.5f}, 
+		{-1.3f,  1.0f, -1.5f}  
+	};
+
+//	vec3 cam_pos = { 0.0f, 0.0f, -3.0f };
+//	vec3 cam_target = { 0.0f, 0.0f, 0.0f };
+//
+//
+//	vec3 cam_dir;
+//	glm_vec3_sub(cam_pos, cam_target, cam_dir);
+//
+//
+//	vec3 cam_right;
+//	glm_cross((vec3){ 0.0f, 1.0f, 0.0f }, cam_dir, cam_right);
+//	glm_normalize(cam_right);
+//
+//
+//	vec3 cam_up;
+//	glm_cross(cam_dir, cam_right, cam_up);
+//
+//	glm_lookat((vec3){ 0.0f, 0.0f, 3.0f }, (vec3){ 0.0f, 0.0f, 0.0f },
+//		(vec3){ 0.0f, 1.0f, 0.0f }, view);
+
+//	glUniformMatrix4fv(glGetUniformLocation(shader1.index, "view"), 1,
+//		GL_FALSE, view[0]);
+
+	vec3 cam_front = { 0.0f, 0.0f, -1.0f };
+	vec3 cam_up = { 0.0f, 1.0f, 0.0f };
+	vec3 cam_pos = { 0.0f, 0.0f, 3.0f};
+
 	while (!glfwWindowShouldClose(window)) {
 		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		program_use(&shader1);
 
-		object_draw(&o1);
+		vec3 cam_target;
+		glm_vec3_add(cam_front, cam_pos, cam_target);
+
+		glm_lookat(cam_pos, cam_target, cam_up, view);
+
+		glUniformMatrix4fv(glGetUniformLocation(shader1.index, "view"), 1,
+			GL_FALSE, view[0]);
+
+		for (size_t i = 0; i < sizeof(cubePositions) / sizeof(*cubePositions); i++) {
+			object_set_pos(&o1, cubePositions[i]);
+			object_rotx(&o1, 20.0f * i);
+			object_rotz(&o1, 20.0f * i);
+			object_draw(&o1);
+		}
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
