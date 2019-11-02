@@ -13,8 +13,8 @@
 #include <unistd.h>
 #include <string.h>
 
-#define WIDTH		800
-#define HEIGHT		600
+#define WIDTH		1280
+#define HEIGHT		720
 #define __unused	__attribute__((unused))
 
 // Keep track of aspect ratio changes when window is resized.
@@ -29,48 +29,48 @@ vec3	*g_cam_up_p;
 int		g_width = WIDTH;
 int		g_height = HEIGHT;
 
-GLfloat cube[] = {
-    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-     0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+GLfloat cubeVerts[] = {
+    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+    -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
 
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
 
-    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-    -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
 
-     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-     0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-     0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-     0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-     0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
 
-    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-     0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 };
 
 void framebufferResize(GLFWwindow __unused *win, int width, int height)
@@ -239,36 +239,41 @@ int	main(void)
 
 	char *vertexShaderSource = NULL;
 	char *fragmentShaderSource = NULL;
+	char *lampFragmentShaderSource = NULL;
 
 	if (!read_file("./shaders/vertex.glsl", &vertexShaderSource) ||
-		!read_file("./shaders/fragment.glsl", &fragmentShaderSource)) {
+		!read_file("./shaders/fragment.glsl", &fragmentShaderSource) ||
+		!read_file("./shaders/lamp_fragment.glsl", &lampFragmentShaderSource)) {
 		glfwTerminate();
 		return (1);
 	}
 
-	struct s_object		o1;
-	struct s_program	shader1;
+	struct s_object		cube;
+	struct s_object		lamp;
+	struct s_program	cubeShader;
+	struct s_program	lampShader;
 
-	program_create(&shader1, vertexShaderSource, fragmentShaderSource);
+	program_create(&cubeShader, vertexShaderSource, fragmentShaderSource);
+	program_create(&lampShader, vertexShaderSource, lampFragmentShaderSource);
 
-	object_init(&o1, cube, sizeof(cube) / sizeof(GLfloat), &shader1);
-	object_set_pos(&o1, (GLfloat []){ 0.0f, 0.0f, 0.0f });
+	object_init(&cube, cubeVerts,
+		sizeof(cubeVerts) / sizeof(GLfloat), &cubeShader);
 
-	mat4 trans;
-	mat4 model;
-	mat4 persp;
+	vec3 lampPos = { 1.2f, 1.0f, -1.0f };
+	object_init(&lamp, cubeVerts,
+		sizeof(cubeVerts) / sizeof(GLfloat), &lampShader);
 
-	glm_mat4_identity(trans);
-	glm_mat4_identity(model);
-	glm_mat4_identity(persp);
+	object_set_pos(&lamp, lampPos);
+	object_scale(&lamp, 0.2f);
+	object_set_pos(&cube, (GLfloat []){ 0.0f, 0.0f, 0.0f });
 
-	glm_rotate(model, glm_rad(-55.0f), (vec3){ 1.0f, 0.0f, 0.0f });
-	glUniformMatrix4fv(glGetUniformLocation(shader1.index, "model"), 1,
-		GL_FALSE, model[0]);
+	program_set_vec3(&cubeShader, "objectColor", (vec3){ 1.0f, 0.5f, 0.31f });
+	program_set_vec3(&cubeShader, "lightColor", (vec3){ 1.0f, 1.0f, 1.0f });
+	program_set_vec3(&cubeShader, "lightPos", lampPos);
 
 	vec3 cam_front = { 0.0f, 0.0f, -1.0f };
 	vec3 cam_up = { 0.0f, 1.0f, 0.0f };
-	vec3 cam_pos = { 0.0f, 0.0f, 3.0f};
+	vec3 cam_pos = { 0.0f, 0.5f, 3.0f};
 
 	g_cam_front_p = &cam_front;
 	g_cam_pos_p = &cam_pos;
@@ -295,7 +300,7 @@ int	main(void)
 			nimg = 0;
 		}
 
-		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		processInput(window);
@@ -305,13 +310,12 @@ int	main(void)
 		if (g_update_projection) {
 			glm_perspective(45.0f, (float)g_width/(float)g_height, 0.1f, 100.0f,
 				g_projection);
-			glUniformMatrix4fv(glGetUniformLocation(shader1.index, "proj"), 1,
-				GL_FALSE, g_projection[0]);
+
+			program_set_mat4(&cubeShader, "proj", g_projection);
+			program_set_mat4(&lampShader, "proj", g_projection);
 
 			g_update_projection = 0;
 		}
-
-		program_use(&shader1);
 
 		mat4 view;
 
@@ -319,18 +323,24 @@ int	main(void)
 		glm_vec3_add(cam_front, cam_pos, cam_target);
 
 		glm_lookat(cam_pos, cam_target, cam_up, view);
-		glUniformMatrix4fv(glGetUniformLocation(shader1.index, "view"), 1,
-			GL_FALSE, view[0]);
 
-		object_draw(&o1);
+		program_set_vec3(&cubeShader, "viewPos", cam_pos);
+
+		program_set_mat4(&cubeShader, "view", view);
+		program_set_mat4(&lampShader, "view", view);
+
+		object_draw(&cube);
+		object_draw(&lamp);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 
-	object_delete(&o1);
+	object_delete(&cube);
+	object_delete(&lamp);
 
-	program_delete(&shader1);
+	program_delete(&cubeShader);
+	program_delete(&lampShader);
 
 	free(vertexShaderSource);
 	free(fragmentShaderSource);

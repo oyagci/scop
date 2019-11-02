@@ -91,3 +91,17 @@ void program_use(struct s_program *p)
 {
 	glUseProgram(p->index);
 }
+
+void program_set_mat4(struct s_program *p, char *const name, mat4 mat)
+{
+	program_use(p);
+	glUniformMatrix4fv(
+		glGetUniformLocation(p->index, name), 1, GL_FALSE,
+		mat[0]);
+}
+
+void program_set_vec3(struct s_program *p, char *const name, vec3 vec)
+{
+	program_use(p);
+	glUniform3fv(glGetUniformLocation(p->index, name), 1, vec);
+}

@@ -3,6 +3,7 @@
 
 # include "glad/glad.h"
 # include <GLFW/glfw3.h>
+# include <cglm/cglm.h>
 
 struct s_shader {
     const char *source;
@@ -19,9 +20,11 @@ struct s_program
 
 void	program_init(struct s_program *p);
 void	program_create(struct s_program *p,
-        const char *const vertsrc,
-        const char *const fragsrc);
-void  program_use(struct s_program *p);
+			const char *const vertsrc,
+			const char *const fragsrc);
+void	program_use(struct s_program *p);
 void	program_delete(struct s_program *p);
+void	program_set_mat4(struct s_program *p, char *const name, mat4 mat);
+void	program_set_vec3(struct s_program *p, char *const name, vec3 vec);
 
 #endif
