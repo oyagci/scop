@@ -102,7 +102,7 @@ void mouseMove(GLFWwindow *win, double xpos, double ypos)
 	last_x = xpos;
 	last_y = ypos;
 
-	float sensitivity = 0.001f;
+	float sensitivity = 0.1f;
 	xoff *= sensitivity;
 	yoff *= sensitivity;
 
@@ -122,7 +122,6 @@ void mouseMove(GLFWwindow *win, double xpos, double ypos)
 		}, front);
 
 	glm_normalize(front);
-	glm_vec3_print(front, stderr);
 	glm_vec3_copy(front, *g_cam_front_p);
 }
 
@@ -230,8 +229,10 @@ int	main(void)
 	}
 
 	glfwSetFramebufferSizeCallback(window, framebufferResize);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(window, mouseMove);
+
+	// XXX: Wrong inputs are given when running in VM for some reason...
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	glViewport(0, 0, g_width, g_height);
 	glEnable(GL_DEPTH_TEST);
