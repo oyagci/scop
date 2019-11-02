@@ -252,61 +252,7 @@ int	main(void)
 	program_create(&shader1, vertexShaderSource, fragmentShaderSource);
 
 	object_init(&o1, cube, sizeof(cube) / sizeof(GLfloat), &shader1);
-
-	// --- TEXTURE ---
-	stbi_set_flip_vertically_on_load(1);
-
-	int				w, h, n_chan;
-	unsigned char	*tex_data = stbi_load("img/container.jpg",
-		&w, &h, &n_chan, 0);
-
-	if (!tex_data) {
-		fprintf(stderr, "Could not load texture data\n");
-		glfwTerminate();
-		return (1);
-	}
-
-	GLuint texture;
-	glGenTextures(1, &texture);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE,
-		tex_data);
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	stbi_image_free(tex_data);
-
-	tex_data = stbi_load("img/awesomeface.png", &w, &h, &n_chan, 0);
-	if (!tex_data) {
-		fprintf(stderr, "Could not load texture data\n");
-		glfwTerminate();
-		return (1);
-	}
-
-	GLuint texture2;
-	glGenTextures(1, &texture2);
-
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, texture2);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE,
-		tex_data);
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	program_use(&shader1);
-
-	glUniform1i(glGetUniformLocation(shader1.index, "texture1"), 0);
-	glUniform1i(glGetUniformLocation(shader1.index, "texture2"), 1);
+	object_set_pos(&o1, (GLfloat []){ 0.0f, 0.0f, 0.0f });
 
 	mat4 trans;
 	mat4 model;
@@ -376,7 +322,6 @@ int	main(void)
 		glUniformMatrix4fv(glGetUniformLocation(shader1.index, "view"), 1,
 			GL_FALSE, view[0]);
 
-		object_set_pos(&o1, (GLfloat []){ 0.0f, 0.0f, 0.0f });
 		object_draw(&o1);
 
 		glfwSwapBuffers(window);
