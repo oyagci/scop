@@ -19,8 +19,8 @@ void main()
 	vec3 normal = normalize(Normal);
 	vec3 lightDir = normalize(lightPos - FragPos);
 
-	float diffuse_raw = max(dot(normal, lightDir), 0.0);
-	vec3 diffuse = diffuse_raw * lightColor;
+	float diffuse_intensity = max(dot(normal, lightDir), 0.0);
+	vec3 diffuse = diffuse_intensity * lightColor;
 
 
 	float specular_strength = 0.5f;
