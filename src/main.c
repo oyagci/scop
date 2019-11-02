@@ -320,19 +320,6 @@ int	main(void)
 	glUniformMatrix4fv(glGetUniformLocation(shader1.index, "model"), 1,
 		GL_FALSE, model[0]);
 
-	vec3 cubePositions[] = {
-		{ 0.0f,  0.0f,  0.0f}, 
-		{ 2.0f,  5.0f, -15.0f}, 
-		{-1.5f, -2.2f, -2.5f},  
-		{-3.8f, -2.0f, -12.3f},  
-		{ 2.4f, -0.4f, -3.5f},  
-		{-1.7f,  3.0f, -7.5f},  
-		{ 1.3f, -2.0f, -2.5f},  
-		{ 1.5f,  2.0f, -2.5f}, 
-		{ 1.5f,  0.2f, -1.5f}, 
-		{-1.3f,  1.0f, -1.5f}  
-	};
-
 	vec3 cam_front = { 0.0f, 0.0f, -1.0f };
 	vec3 cam_up = { 0.0f, 1.0f, 0.0f };
 	vec3 cam_pos = { 0.0f, 0.0f, 3.0f};
@@ -389,13 +376,8 @@ int	main(void)
 		glUniformMatrix4fv(glGetUniformLocation(shader1.index, "view"), 1,
 			GL_FALSE, view[0]);
 
-		for (size_t i = 0; i < sizeof(cubePositions) / sizeof(*cubePositions);
-			i++) {
-			object_set_pos(&o1, cubePositions[i]);
-			object_rotx(&o1, 20.0f * i);
-			object_rotz(&o1, 20.0f * i);
-			object_draw(&o1);
-		}
+		object_set_pos(&o1, (GLfloat []){ 0.0f, 0.0f, 0.0f });
+		object_draw(&o1);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
