@@ -246,29 +246,12 @@ int	main(void)
 		return (1);
 	}
 
-	struct s_program shader1;
+	struct s_object		o1;
+	struct s_program	shader1;
 
 	program_create(&shader1, vertexShaderSource, fragmentShaderSource);
 
-//	GLfloat vertices1[] = {
-//		// Vertices         // Colors         // Texture Coords
-//		-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-//		-0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-//		 0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-//		 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-//	};
-	GLuint indices1[] = {
-		0, 1, 2,
-		0, 2, 3
-	};
-
-	struct s_object o1;
-
-	object_init(&o1,
-		cube, indices1,
-		sizeof(cube) / sizeof(GLfloat),
-		sizeof(indices1) / sizeof(GLuint),
-		&shader1);
+	object_init(&o1, cube, sizeof(cube) / sizeof(GLfloat), &shader1);
 
 	// --- TEXTURE ---
 	stbi_set_flip_vertically_on_load(1);

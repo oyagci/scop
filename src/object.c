@@ -5,35 +5,25 @@
 
 void	object_init(struct s_object *o,
 			GLfloat const *verts,
-			GLuint const *inds,
 			GLsizei nverts,
-			GLsizei ninds,
 			struct s_program *shader)
 {
 	memset(o, 0, sizeof(*o));
 
 	o->nvert = nverts;
-	o->nind = ninds;
 
 	o->vertices = malloc(sizeof(GLfloat) * o->nvert);
-	o->indices = malloc(sizeof(GLuint) * o->nind);
 
 	memcpy(o->vertices, verts, sizeof(GLfloat) * o->nvert);
-	memcpy(o->indices, inds, sizeof(GLuint) * o->nind);
 
 	glGenVertexArrays(1, &o->vao);
 	glGenBuffers(1, &o->vbo);
-//	glGenBuffers(1, &o->ebo);
 
 	glBindVertexArray(o->vao);
 
 	glBindBuffer(GL_ARRAY_BUFFER, o->vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * o->nvert, o->vertices,
 		GL_STATIC_DRAW);
-
-//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, o->ebo);
-//	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * o->nind, o->indices,
-//		GL_STATIC_DRAW);
 
 	size_t stride = sizeof(GLfloat) * 5;
 
@@ -47,7 +37,6 @@ void	object_init(struct s_object *o,
 	// Unbind buffers to prevent accidental changes
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
-//	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
 	o->shader = shader;
 }
@@ -78,7 +67,6 @@ void	object_prepare_draw(struct s_object *o)
 void	object_draw(struct s_object *o)
 {
 	object_prepare_draw(o);
-//	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
@@ -86,10 +74,8 @@ void object_delete(struct s_object *o)
 {
 	glDeleteVertexArrays(1, &o->vao);
 	glDeleteBuffers(1, &o->vbo);
-//	glDeleteBuffers(1, &o->ebo);
 
 	free(o->vertices);
-	free(o->indices);
 }
 
 void object_set_pos(struct s_object *o, vec3 newpos)
