@@ -105,3 +105,15 @@ void program_set_vec3(struct s_program *p, char *const name, vec3 vec)
 	program_use(p);
 	glUniform3fv(glGetUniformLocation(p->index, name), 1, vec);
 }
+
+void program_set_float(struct s_program *p, char *const name, float value)
+{
+	program_use(p);
+	glUniform1f(glGetUniformLocation(p->index, name), value);
+}
+
+void program_set_int(struct s_program *p, char *const name, int value)
+{
+	program_use(p);
+	glUniform1i(glGetUniformLocation(p->index, name), value);
+}

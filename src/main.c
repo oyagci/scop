@@ -30,47 +30,48 @@ int		g_width = WIDTH;
 int		g_height = HEIGHT;
 
 GLfloat cubeVerts[] = {
-    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-     0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-    -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
-    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f, 
+    // positions          // normals           // texture coords
+    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
+     0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
 
-    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-     0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
 
-    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
 
-    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-     0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
 
-    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-     0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
 };
 
 void framebufferResize(GLFWwindow __unused *win, int width, int height)
@@ -196,6 +197,12 @@ int	read_file(char const *const filename, char **buf)
 
 	int ret = read(fd, *buf, statbuf.st_size);
 
+	// Could not read the file
+	if (ret != statbuf.st_size) {
+		free(buf);
+		return (0);
+	}
+
 	// Null-terminate the string
 	(*buf)[ret] = 0;
 
@@ -232,7 +239,7 @@ int	main(void)
 	glfwSetCursorPosCallback(window, mouseMove);
 
 	// XXX: Wrong inputs are given when running in VM for some reason...
-	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	glViewport(0, 0, g_width, g_height);
 	glEnable(GL_DEPTH_TEST);
@@ -259,7 +266,7 @@ int	main(void)
 	object_init(&cube, cubeVerts,
 		sizeof(cubeVerts) / sizeof(GLfloat), &cubeShader);
 
-	vec3 lampPos = { 1.2f, 1.0f, -1.0f };
+	vec3 lampPos = { 1.2f, 2.0f, -1.0f };
 	object_init(&lamp, cubeVerts,
 		sizeof(cubeVerts) / sizeof(GLfloat), &lampShader);
 
@@ -270,6 +277,66 @@ int	main(void)
 	program_set_vec3(&cubeShader, "objectColor", (vec3){ 1.0f, 0.5f, 0.31f });
 	program_set_vec3(&cubeShader, "lightColor", (vec3){ 1.0f, 1.0f, 1.0f });
 	program_set_vec3(&cubeShader, "lightPos", lampPos);
+
+	program_set_vec3(&cubeShader, "material.diffuse", (vec3){ 1.0f, 0.5f, 0.31f });
+	program_set_vec3(&cubeShader, "material.specular", (vec3){ 0.5f, 0.5f, 0.5f });
+	program_set_float(&cubeShader, "material.shininess", 32.0f);
+
+	program_set_vec3(&cubeShader, "light.ambient", (vec3){ 0.2f, 0.2f, 0.2f });
+	program_set_vec3(&cubeShader, "light.diffuse", (vec3){ 0.5f, 0.5f, 0.5f });
+	program_set_vec3(&cubeShader, "light.specular", (vec3){ 1.0f, 1.0f, 1.0f });
+
+	/* CONTAINER TEXTURE */
+
+	int w, h, nchan;
+	unsigned char *containerTexData = stbi_load("img/container2.png",
+		&w, &h, &nchan, 0);
+
+	if (!containerTexData) {
+		fprintf(stderr, "Texture not found.\n");
+		return (0);
+	}
+	GLuint containerTexture;
+	glGenTextures(1, &containerTexture);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, containerTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE,
+		containerTexData);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	program_set_int(&cubeShader, "material.diffuse", 0); // GL_TEXTURE0
+	stbi_image_free(containerTexData);
+
+	/* CONTAINER SPECULAR */
+
+	containerTexData = stbi_load("img/container2_specular.png",
+		&w, &h, &nchan, 0);
+
+	if (!containerTexData) {
+		fprintf(stderr, "Texture not found.\n");
+		return (0);
+	}
+	GLuint containerSpecular;
+	glGenTextures(1, &containerSpecular);
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, containerSpecular);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE,
+		containerTexData);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	program_set_int(&cubeShader, "material.specular", 1); // GL_TEXTURE0
+	stbi_image_free(containerTexData);
+
+	containerTexData = stbi_load("img/matrix.jpg", &w, &h, &nchan, 0);
+	if (!containerTexData) {
+		fprintf(stderr, "Texture not found.\n");
+		return (0);
+	}
+	GLuint containerEmission;
+	glGenTextures(1, &containerEmission);
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, containerEmission);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, containerTexData);
+	glGenerateMipmap(GL_TEXTURE_2D);
+	program_set_int(&cubeShader, "material.emission", 2);
 
 	vec3 cam_front = { 0.0f, 0.0f, -1.0f };
 	vec3 cam_up = { 0.0f, 1.0f, 0.0f };
@@ -316,6 +383,14 @@ int	main(void)
 
 			g_update_projection = 0;
 		}
+
+		// Change Light's position over time
+		float x = sin(glfwGetTime());
+		float y = cos(glfwGetTime());
+		vec3 light_pos = { x * 1.5f, 1.0f, y * 1.5f };
+
+		object_set_pos(&lamp, light_pos);
+		program_set_vec3(&cubeShader, "lightPos", light_pos);
 
 		mat4 view;
 

@@ -11,11 +11,11 @@
             "-I",
             "inc/",
             "-o",
-            "src/main.o",
-            "src/main.c"
+            "glad/src/glad.o",
+            "glad/src/glad.c"
         ],
         "directory": "/home/oyagci/Projects/scop",
-        "file": "src/main.c"
+        "file": "glad/src/glad.c"
     },
     {
         "arguments": [
@@ -29,11 +29,11 @@
             "-I",
             "inc/",
             "-o",
-            "glad/src/glad.o",
-            "glad/src/glad.c"
+            "src/main.o",
+            "src/main.c"
         ],
         "directory": "/home/oyagci/Projects/scop",
-        "file": "glad/src/glad.c"
+        "file": "src/main.c"
     },
     {
         "arguments": [
@@ -70,5 +70,23 @@
         ],
         "directory": "/home/oyagci/Projects/scop",
         "file": "src/object.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-g3",
+            "-I",
+            "glad/include",
+            "-I",
+            "inc/",
+            "-o",
+            "src/stb_image.o",
+            "src/stb_image.c"
+        ],
+        "directory": "/home/oyagci/Projects/scop",
+        "file": "src/stb_image.c"
     }
 ]

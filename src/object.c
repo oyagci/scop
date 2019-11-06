@@ -24,16 +24,20 @@ void	object_init(struct s_object *o,
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * o->nvert, o->vertices,
 		GL_STATIC_DRAW);
 
-	size_t stride = sizeof(GLfloat) * 6;
+	size_t stride = sizeof(GLfloat) * 8;
 
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride,
+		(void*)0);
 
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride,
 		(void*)(sizeof(GLfloat) * 3));
 
-	// Unbind buffers to prevent accidental changes
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, stride,
+		(void*)(sizeof(GLfloat) * 6));
+
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
