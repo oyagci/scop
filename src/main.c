@@ -276,16 +276,19 @@ int	main(void)
 
 	program_set_vec3(&cubeShader, "objectColor", (vec3){ 1.0f, 0.5f, 0.31f });
 	program_set_vec3(&cubeShader, "lightColor", (vec3){ 1.0f, 1.0f, 1.0f });
-	program_set_vec3(&cubeShader, "lightPos", lampPos);
 
 	program_set_vec3(&cubeShader, "material.diffuse", (vec3){ 1.0f, 0.5f, 0.31f });
 	program_set_vec3(&cubeShader, "material.specular", (vec3){ 0.5f, 0.5f, 0.5f });
 	program_set_float(&cubeShader, "material.shininess", 32.0f);
 
-	program_set_vec3(&cubeShader, "light.direction", (vec3){ -1.0f, -1.0f, -1.0f });
+	program_set_vec3(&cubeShader, "light.position", (vec3){ 0.0f, 0.0f, 5.0f });
+//	program_set_vec3(&cubeShader, "light.direction", (vec3){ -1.0f, -1.0f, -1.0f });
 	program_set_vec3(&cubeShader, "light.ambient", (vec3){ 0.2f, 0.2f, 0.2f });
 	program_set_vec3(&cubeShader, "light.diffuse", (vec3){ 0.5f, 0.5f, 0.5f });
 	program_set_vec3(&cubeShader, "light.specular", (vec3){ 1.0f, 1.0f, 1.0f });
+	program_set_float(&cubeShader, "light.constant", 1.0f);
+	program_set_float(&cubeShader, "light.linear", 0.09f);
+	program_set_float(&cubeShader, "light.quadratic", 0.0032f);
 
 	/* CONTAINER TEXTURE */
 
@@ -402,6 +405,7 @@ int	main(void)
 		float x = sin(glfwGetTime());
 		float y = cos(glfwGetTime());
 
+
 		mat4 view;
 
 		vec3 cam_target;
@@ -422,7 +426,9 @@ int	main(void)
 			object_draw(&cube);
 		}
 
-//		object_draw(&lamp);
+		program_set_vec3(&cubeShader, "light.position", (vec3){ 0.0f, 0.0f, y * 2.0f + 5.0f });
+		object_set_pos(&lamp, (vec3){ 0.0f, 0.0f, y * 2.0f + 5.0f });
+		object_draw(&lamp);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
