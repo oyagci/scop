@@ -426,9 +426,10 @@ int	main(void)
 			object_draw(&cube);
 		}
 
-		program_set_vec3(&cubeShader, "light.position", (vec3){ 0.0f, 0.0f, y * 2.0f + 5.0f });
-		object_set_pos(&lamp, (vec3){ 0.0f, 0.0f, y * 2.0f + 5.0f });
-		object_draw(&lamp);
+		program_set_vec3(&cubeShader, "light.position", cam_pos);
+		program_set_vec3(&cubeShader, "light.direction", cam_front);
+		program_set_float(&cubeShader, "light.cutoff", cos(glm_rad(12.5f)));
+		program_set_float(&cubeShader, "light.outerCutoff", cos(glm_rad(19.5f)));
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
