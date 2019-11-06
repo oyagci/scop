@@ -282,6 +282,7 @@ int	main(void)
 	program_set_vec3(&cubeShader, "material.specular", (vec3){ 0.5f, 0.5f, 0.5f });
 	program_set_float(&cubeShader, "material.shininess", 32.0f);
 
+	program_set_vec3(&cubeShader, "light.direction", (vec3){ -1.0f, -1.0f, -1.0f });
 	program_set_vec3(&cubeShader, "light.ambient", (vec3){ 0.2f, 0.2f, 0.2f });
 	program_set_vec3(&cubeShader, "light.diffuse", (vec3){ 0.5f, 0.5f, 0.5f });
 	program_set_vec3(&cubeShader, "light.specular", (vec3){ 1.0f, 1.0f, 1.0f });
@@ -336,7 +337,7 @@ int	main(void)
 	glBindTexture(GL_TEXTURE_2D, containerEmission);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, containerTexData);
 	glGenerateMipmap(GL_TEXTURE_2D);
-	program_set_int(&cubeShader, "material.emission", 2);
+	//program_set_int(&cubeShader, "material.emission", 2);
 
 	vec3 cam_front = { 0.0f, 0.0f, -1.0f };
 	vec3 cam_up = { 0.0f, 1.0f, 0.0f };
@@ -345,6 +346,19 @@ int	main(void)
 	g_cam_front_p = &cam_front;
 	g_cam_pos_p = &cam_pos;
 	g_cam_up_p = &cam_up;
+
+	vec3 cubePositions[] = {
+		{ 0.0f,  0.0f,  0.0f},
+		{ 2.0f,  5.0f, -15.0f},
+		{-1.5f, -2.2f, -2.5f},
+		{-3.8f, -2.0f, -12.3f},
+		{ 2.4f, -0.4f, -3.5f},
+		{-1.7f,  3.0f, -7.5f},
+		{ 1.3f, -2.0f, -2.5f},
+		{ 1.5f,  2.0f, -2.5f},
+		{ 1.5f,  0.2f, -1.5f},
+		{-1.3f,  1.0f, -1.5f},
+	};
 
 	float delta_time = 0.0f;
 	float last_frame = 0.0f;
@@ -387,10 +401,6 @@ int	main(void)
 		// Change Light's position over time
 		float x = sin(glfwGetTime());
 		float y = cos(glfwGetTime());
-		vec3 light_pos = { x * 1.5f, 1.0f, y * 1.5f };
-
-		object_set_pos(&lamp, light_pos);
-		program_set_vec3(&cubeShader, "lightPos", light_pos);
 
 		mat4 view;
 
@@ -404,8 +414,15 @@ int	main(void)
 		program_set_mat4(&cubeShader, "view", view);
 		program_set_mat4(&lampShader, "view", view);
 
-		object_draw(&cube);
-		object_draw(&lamp);
+		for (size_t i = 0; i < sizeof(cubePositions) / sizeof(*cubePositions); i++) {
+			object_set_pos(&cube, cubePositions[i]);
+			object_rotx(&cube, 20.0f * i);
+			object_roty(&cube, 5.0f * i);
+			object_rotz(&cube, 10.0f * i);
+			object_draw(&cube);
+		}
+
+//		object_draw(&lamp);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
