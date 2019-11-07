@@ -211,6 +211,29 @@ int	read_file(char const *const filename, char **buf)
 	return (1);
 }
 
+void print_fps(void)
+{
+	static float last_frame = 0.0f;
+	static float total_time = 0.0f;
+	static size_t nimg = 0;
+
+	float delta_time = 0.0f;
+	float current_frame = glfwGetTime();
+
+	delta_time = current_frame - last_frame;
+	last_frame = current_frame;
+	g_delta_time = delta_time;
+
+	// FPS Counter
+	total_time += delta_time;
+	nimg += 1;
+	if (total_time >= 1.0f) {
+		fprintf(stderr, "\rFPS: %d", (int)(nimg / total_time));
+		total_time = 0.0f;
+		nimg = 0;
+	}
+}
+
 int	main(void)
 {
 	GLFWwindow *window = NULL;
@@ -274,21 +297,30 @@ int	main(void)
 	object_scale(&lamp, 0.2f);
 	object_set_pos(&cube, (GLfloat []){ 0.0f, 0.0f, 0.0f });
 
-	program_set_vec3(&cubeShader, "objectColor", (vec3){ 1.0f, 0.5f, 0.31f });
-	program_set_vec3(&cubeShader, "lightColor", (vec3){ 1.0f, 1.0f, 1.0f });
-
 	program_set_vec3(&cubeShader, "material.diffuse", (vec3){ 1.0f, 0.5f, 0.31f });
 	program_set_vec3(&cubeShader, "material.specular", (vec3){ 0.5f, 0.5f, 0.5f });
 	program_set_float(&cubeShader, "material.shininess", 32.0f);
 
-	program_set_vec3(&cubeShader, "light.position", (vec3){ 0.0f, 0.0f, 5.0f });
-//	program_set_vec3(&cubeShader, "light.direction", (vec3){ -1.0f, -1.0f, -1.0f });
-	program_set_vec3(&cubeShader, "light.ambient", (vec3){ 0.2f, 0.2f, 0.2f });
-	program_set_vec3(&cubeShader, "light.diffuse", (vec3){ 0.5f, 0.5f, 0.5f });
-	program_set_vec3(&cubeShader, "light.specular", (vec3){ 1.0f, 1.0f, 1.0f });
-	program_set_float(&cubeShader, "light.constant", 1.0f);
-	program_set_float(&cubeShader, "light.linear", 0.09f);
-	program_set_float(&cubeShader, "light.quadratic", 0.0032f);
+	program_set_vec3(&cubeShader, "dirLight.direction", (vec3){ -1.0f, -1.0f, -1.0f });
+	program_set_vec3(&cubeShader, "dirLight.ambient", (vec3){ 0.2f, 0.2f, 0.2f });
+	program_set_vec3(&cubeShader, "dirLight.diffuse", (vec3){ 0.5f, 0.5f, 0.5f });
+	program_set_vec3(&cubeShader, "dirLight.specular", (vec3){ 1.0f, 1.0f, 1.0f });
+
+	program_set_vec3(&cubeShader, "pointLights[0].position", (vec3){ 0.0f, 0.0f, 2.0f });
+	program_set_vec3(&cubeShader, "pointLights[0].ambient", (vec3){ 0.2f, 0.2f, 0.2f });
+	program_set_vec3(&cubeShader, "pointLights[0].diffuse", (vec3){ 0.5f, 0.5f, 0.5f });
+	program_set_vec3(&cubeShader, "pointLights[0].specular", (vec3){ 1.0f, 1.0f, 1.0f });
+	program_set_float(&cubeShader, "pointLights[0].constant", 1.0f);
+	program_set_float(&cubeShader, "pointLights[0].linear", 0.09f);
+	program_set_float(&cubeShader, "pointLights[0].quadratic", 0.0032f);
+
+	program_set_vec3(&cubeShader, "pointLights[1].position", (vec3){ 5.0f, 0.0f, 0.0f });
+	program_set_vec3(&cubeShader, "pointLights[1].ambient", (vec3){ 0.2f, 0.2f, 0.2f });
+	program_set_vec3(&cubeShader, "pointLights[1].diffuse", (vec3){ 0.5f, 0.5f, 0.5f });
+	program_set_vec3(&cubeShader, "pointLights[1].specular", (vec3){ 1.0f, 1.0f, 1.0f });
+	program_set_float(&cubeShader, "pointLights[1].constant", 1.0f);
+	program_set_float(&cubeShader, "pointLights[1].linear", 0.09f);
+	program_set_float(&cubeShader, "pointLights[1].quadratic", 0.0032f);
 
 	/* CONTAINER TEXTURE */
 
@@ -363,26 +395,8 @@ int	main(void)
 		{-1.3f,  1.0f, -1.5f},
 	};
 
-	float delta_time = 0.0f;
-	float last_frame = 0.0f;
-	float total_time = 0.0f;
-	size_t nimg = 0;
 	while (!glfwWindowShouldClose(window)) {
-
-		float current_frame = glfwGetTime();
-
-		delta_time = current_frame - last_frame;
-		last_frame = current_frame;
-		g_delta_time = delta_time;
-
-		// FPS Counter
-		total_time += delta_time;
-		nimg += 1;
-		if (total_time >= 1.0f) {
-			fprintf(stderr, "\rFPS: %d", (int)(nimg / total_time));
-			total_time = 0.0f;
-			nimg = 0;
-		}
+		print_fps();
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -405,6 +419,11 @@ int	main(void)
 		float x = sin(glfwGetTime());
 		float y = cos(glfwGetTime());
 
+		vec3 pos = { 0.0f, 0.0, x * 5.0 };
+
+		program_set_vec3(&cubeShader, "pointLights[0].position", pos);
+		object_set_pos(&lamp, pos);
+		object_draw(&lamp);
 
 		mat4 view;
 
@@ -418,6 +437,7 @@ int	main(void)
 		program_set_mat4(&cubeShader, "view", view);
 		program_set_mat4(&lampShader, "view", view);
 
+
 		for (size_t i = 0; i < sizeof(cubePositions) / sizeof(*cubePositions); i++) {
 			object_set_pos(&cube, cubePositions[i]);
 			object_rotx(&cube, 20.0f * i);
@@ -425,11 +445,6 @@ int	main(void)
 			object_rotz(&cube, 10.0f * i);
 			object_draw(&cube);
 		}
-
-		program_set_vec3(&cubeShader, "light.position", cam_pos);
-		program_set_vec3(&cubeShader, "light.direction", cam_front);
-		program_set_float(&cubeShader, "light.cutoff", cos(glm_rad(12.5f)));
-		program_set_float(&cubeShader, "light.outerCutoff", cos(glm_rad(19.5f)));
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
