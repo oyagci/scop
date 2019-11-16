@@ -10,6 +10,28 @@
             "glad/include",
             "-I",
             "inc/",
+            "-I",
+            "lib/obj/inc",
+            "-o",
+            "src/stb_image.o",
+            "src/stb_image.c"
+        ],
+        "directory": "/home/oyagci/Projects/scop",
+        "file": "src/stb_image.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-g3",
+            "-I",
+            "glad/include",
+            "-I",
+            "inc/",
+            "-I",
+            "lib/obj/inc",
             "-o",
             "src/main.o",
             "src/main.c"
@@ -28,12 +50,14 @@
             "glad/include",
             "-I",
             "inc/",
+            "-I",
+            "lib/obj/inc",
             "-o",
-            "glad/src/glad.o",
-            "glad/src/glad.c"
+            "src/object.o",
+            "src/object.c"
         ],
         "directory": "/home/oyagci/Projects/scop",
-        "file": "glad/src/glad.c"
+        "file": "src/object.c"
     },
     {
         "arguments": [
@@ -46,6 +70,8 @@
             "glad/include",
             "-I",
             "inc/",
+            "-I",
+            "lib/obj/inc",
             "-o",
             "src/shader.o",
             "src/shader.c"
@@ -64,11 +90,13 @@
             "glad/include",
             "-I",
             "inc/",
+            "-I",
+            "lib/obj/inc",
             "-o",
-            "src/object.o",
-            "src/object.c"
+            "glad/src/glad.o",
+            "glad/src/glad.c"
         ],
         "directory": "/home/oyagci/Projects/scop",
-        "file": "src/object.c"
+        "file": "glad/src/glad.c"
     }
 ]

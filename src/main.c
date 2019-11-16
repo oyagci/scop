@@ -6,6 +6,7 @@
 #include <math.h>
 #include "stb_image.h"
 #include <cglm/call.h>
+#include "obj.h"
 
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -102,7 +103,7 @@ void mouseMove(GLFWwindow *win, double xpos, double ypos)
 	last_x = xpos;
 	last_y = ypos;
 
-	float sensitivity = 0.001f;
+	float sensitivity = 0.1f;
 	xoff *= sensitivity;
 	yoff *= sensitivity;
 
@@ -122,7 +123,7 @@ void mouseMove(GLFWwindow *win, double xpos, double ypos)
 		}, front);
 
 	glm_normalize(front);
-	glm_vec3_print(front, stderr);
+//	glm_vec3_print(front, stderr);
 	glm_vec3_copy(front, *g_cam_front_p);
 }
 
@@ -205,8 +206,16 @@ int	read_file(char const *const filename, char **buf)
 	return (1);
 }
 
-int	main(void)
+int	main(int __unused ac, char *av[])
 {
+	t_obj	obj;
+
+	if (obj_load(&obj, av[1]) < 0) {
+		fprintf(stderr, "obj_load: error\n");
+	}
+	obj_parse(&obj);
+	obj_triangulate(&obj);
+
 	GLFWwindow *window = NULL;
 
 	glfwInit();
@@ -249,80 +258,23 @@ int	main(void)
 
 	program_create(&shader1, vertexShaderSource, fragmentShaderSource);
 
-//	GLfloat vertices1[] = {
-//		// Vertices         // Colors         // Texture Coords
-//		-0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
-//		-0.5f,  0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-//		 0.5f,  0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-//		 0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 0.0f,
-//	};
-	GLuint indices1[] = {
-		0, 1, 2,
-		0, 2, 3
-	};
+	GLfloat *vertices1 = obj_get_vertices(&obj);
+	GLuint *indices1 = obj_get_indices(&obj);
 
 	struct s_object o1;
 
-	object_init(&o1,
-		cube, indices1,
-		sizeof(cube) / sizeof(GLfloat),
-		sizeof(indices1) / sizeof(GLuint),
-		&shader1);
-
-	// --- TEXTURE ---
-	stbi_set_flip_vertically_on_load(1);
-
-	int				w, h, n_chan;
-	unsigned char	*tex_data = stbi_load("img/container.jpg",
-		&w, &h, &n_chan, 0);
-
-	if (!tex_data) {
-		fprintf(stderr, "Could not load texture data\n");
-		glfwTerminate();
-		return (1);
+	fprintf(stderr, "Vertices:\n");
+	for (size_t i = 0; i < obj.nverts * 4; i++) {
+		fprintf(stderr, "%.2f %c", vertices1[i], (i + 1) % 4 == 0 ? '\n' : '\0');
 	}
 
-	GLuint texture;
-	glGenTextures(1, &texture);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE,
-		tex_data);
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	stbi_image_free(tex_data);
-
-	tex_data = stbi_load("img/awesomeface.png", &w, &h, &n_chan, 0);
-	if (!tex_data) {
-		fprintf(stderr, "Could not load texture data\n");
-		glfwTerminate();
-		return (1);
+	fprintf(stderr, "Indices:\n");
+	for (size_t i = 0; i < obj.ntriangles * 3; i++) {
+		fprintf(stderr, "%u %c", indices1[i], (i + 1) % 3 == 0 ? '\n' : '\0');
 	}
+	fprintf(stderr, "\n");
 
-	GLuint texture2;
-	glGenTextures(1, &texture2);
-
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, texture2);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE,
-		tex_data);
-	glGenerateMipmap(GL_TEXTURE_2D);
-
-	program_use(&shader1);
-
-	glUniform1i(glGetUniformLocation(shader1.index, "texture1"), 0);
-	glUniform1i(glGetUniformLocation(shader1.index, "texture2"), 1);
+	object_init(&o1, vertices1, indices1, obj.nverts * 4, obj.ntriangles * 3, &shader1);
 
 	mat4 trans;
 	mat4 model;
@@ -336,19 +288,6 @@ int	main(void)
 	glUniformMatrix4fv(glGetUniformLocation(shader1.index, "model"), 1,
 		GL_FALSE, model[0]);
 
-	vec3 cubePositions[] = {
-		{ 0.0f,  0.0f,  0.0f}, 
-		{ 2.0f,  5.0f, -15.0f}, 
-		{-1.5f, -2.2f, -2.5f},  
-		{-3.8f, -2.0f, -12.3f},  
-		{ 2.4f, -0.4f, -3.5f},  
-		{-1.7f,  3.0f, -7.5f},  
-		{ 1.3f, -2.0f, -2.5f},  
-		{ 1.5f,  2.0f, -2.5f}, 
-		{ 1.5f,  0.2f, -1.5f}, 
-		{-1.3f,  1.0f, -1.5f}  
-	};
-
 	vec3 cam_front = { 0.0f, 0.0f, -1.0f };
 	vec3 cam_up = { 0.0f, 1.0f, 0.0f };
 	vec3 cam_pos = { 0.0f, 0.0f, 3.0f};
@@ -356,6 +295,8 @@ int	main(void)
 	g_cam_front_p = &cam_front;
 	g_cam_pos_p = &cam_pos;
 	g_cam_up_p = &cam_up;
+
+	object_roty(&o1, -90);
 
 	float delta_time = 0.0f;
 	float last_frame = 0.0f;
@@ -405,13 +346,9 @@ int	main(void)
 		glUniformMatrix4fv(glGetUniformLocation(shader1.index, "view"), 1,
 			GL_FALSE, view[0]);
 
-		for (size_t i = 0; i < sizeof(cubePositions) / sizeof(*cubePositions);
-			i++) {
-			object_set_pos(&o1, cubePositions[i]);
-			object_rotx(&o1, 20.0f * i);
-			object_rotz(&o1, 20.0f * i);
-			object_draw(&o1);
-		}
+		object_roty(&o1, sin(glfwGetTime()) + cos(glfwGetTime()));
+		object_set_pos(&o1, (vec3){ 0.0f, 0.0f, 0.0f });
+		object_draw(&o1);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
