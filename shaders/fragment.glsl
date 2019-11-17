@@ -2,12 +2,28 @@
 
 out vec4 FragColor;
 
-in vec2 texCoord;
+in vec3 Normal;
+in vec3 FragPos;
 
-uniform sampler2D texture1;
-uniform sampler2D texture2;
+uniform vec3 lightPos;
+uniform vec3 lightColor;
 
 void main()
 {
-	FragColor = vec4(1.0f);
+	vec3 objectColor = vec3(1.0f, 0.1f, 0.1f);
+
+	// Helpers
+	vec3 norm = normalize(Normal);
+	vec3 lightDir = normalize(lightPos - FragPos);
+
+	// Ambient
+	vec3 ambient = vec3(0.1f, 0.1f, 0.1f) * objectColor;
+
+	// Diffuse
+	float diff = max(dot(norm, lightDir), 0.0f);
+	vec3 diffuse = diff * objectColor;
+
+	// Specular
+
+	FragColor = vec4((ambient + diffuse) * lightColor, 1.0f);
 }

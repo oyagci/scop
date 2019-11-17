@@ -47,31 +47,27 @@ void	object_init(struct s_object *o,
 
 void	object_prepare_draw(struct s_object *o)
 {
-	if (o->should_update_mat) {
-		mat4	model;
+	mat4	model;
 
-		glm_mat4_identity(model);
+	glm_mat4_identity(model);
 
-		glm_translate(model, o->pos);
+	glm_translate(model, o->pos);
 
-		glm_rotate_x(model, o->rot[0], model);
-		glm_rotate_y(model, o->rot[1], model);
-		glm_rotate_z(model, o->rot[2], model);
-
-		glUniformMatrix4fv(glGetUniformLocation(o->shader->index, "model"), 1,
-			GL_FALSE, model[0]);
-
-		o->should_update_mat = 0;
-	}
+	glm_rotate_x(model, o->rot[0], model);
+	glm_rotate_y(model, o->rot[1], model);
+	glm_rotate_z(model, o->rot[2], model);
 
 	program_use(o->shader);
+
+	glUniformMatrix4fv(glGetUniformLocation(o->shader->index, "model"), 1,
+		GL_FALSE, model[0]);
+
 	glBindVertexArray(o->vao);
 }
 
 void	object_draw(struct s_object *o)
 {
 	object_prepare_draw(o);
-//	glDrawElements(GL_TRIANGLES, o->nind, GL_UNSIGNED_INT, 0);
 	glDrawArrays(GL_TRIANGLES, 0, o->nvert);
 }
 
@@ -79,7 +75,6 @@ void object_delete(struct s_object *o)
 {
 	glDeleteVertexArrays(1, &o->vao);
 	glDeleteBuffers(1, &o->vbo);
-//	glDeleteBuffers(1, &o->ebo);
 
 	free(o->vertices);
 	free(o->indices);

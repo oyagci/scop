@@ -18,6 +18,50 @@
 #define HEIGHT		600
 #define __unused	__attribute__((unused))
 
+float cubeVertices[] = {
+    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+     0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+     0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+
+    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+
+    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+     0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+     0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+    -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
+};
+
 void	processInput(GLFWwindow *win);
 void	framebufferResize(GLFWwindow __unused *win, int width, int height);
 int		read_file(char const *const filename, char **buf);
@@ -49,11 +93,17 @@ int		scop(GLFWwindow *window, char const *filename)
 	t_obj	obj;
 	char *vertexShaderSource = NULL;
 	char *fragmentShaderSource = NULL;
+	char *lampFragmentShaderSource = NULL;
+	char *lampVertexShaderSource = NULL;
 	struct s_program shader1;
+	struct s_program lampShader;
+
 	struct s_object o1;
+	struct s_object lamp;
 
 	if (obj_load(&obj, filename) < 0) {
 		fprintf(stderr, "obj_load: error\n");
+		return (1);
 	}
 	obj_parse(&obj);
 	obj_triangulate(&obj);
@@ -64,35 +114,37 @@ int		scop(GLFWwindow *window, char const *filename)
 		return (1);
 	}
 
+	if (!read_file("./shaders/vertex2.glsl", &lampVertexShaderSource) ||
+		!read_file("./shaders/fragment2.glsl", &lampFragmentShaderSource)) {
+		glfwTerminate();
+		return (1);
+	}
+
 	program_create(&shader1, vertexShaderSource, fragmentShaderSource);
+	program_create(&lampShader, lampVertexShaderSource, lampFragmentShaderSource);
+
+	free(vertexShaderSource);
+	free(fragmentShaderSource);
+	free(lampFragmentShaderSource);
+	free(lampVertexShaderSource);
 
 	t_gltri *vertices1 = obj_get_triangles_arr(&obj);
 
-	object_init(&o1, (float *)vertices1, NULL, obj.ntriangles * 3 * 6, 0, &shader1);
+	//object_init(&o1, (float *)vertices1, NULL, obj.ntriangles * 3 * 6, 0, &shader1);
+	object_init(&o1, cubeVertices, NULL, sizeof(cubeVertices) / sizeof(GLfloat), 0, &shader1);
+	object_init(&lamp, cubeVertices, NULL, sizeof(cubeVertices) / sizeof(GLfloat), 0, &lampShader);
 
 	free(vertices1);
 
-	mat4 trans;
-	mat4 model;
-	mat4 persp;
-
-	glm_mat4_identity(trans);
-	glm_mat4_identity(model);
-	glm_mat4_identity(persp);
-
-	glm_rotate(model, glm_rad(-55.0f), (vec3){ 1.0f, 0.0f, 0.0f });
-	glUniformMatrix4fv(glGetUniformLocation(shader1.index, "model"), 1,
-		GL_FALSE, model[0]);
-
 	vec3 cam_front = { 0.0f, 0.0f, -1.0f };
 	vec3 cam_up = { 0.0f, 1.0f, 0.0f };
-	vec3 cam_pos = { 0.0f, 0.0f, 3.0f};
+	vec3 cam_pos = { 0.0f, 0.0f, 6.0f};
 
 	g_cam_front_p = &cam_front;
 	g_cam_pos_p = &cam_pos;
 	g_cam_up_p = &cam_up;
 
-	object_roty(&o1, -90);
+	shader_set_vec3(&shader1, "lightColor", (vec3){ 1.0f, 1.0f, 1.0f });
 
 	float delta_time = 0.0f;
 	float last_frame = 0.0f;
@@ -115,7 +167,7 @@ int		scop(GLFWwindow *window, char const *filename)
 			nimg = 0;
 		}
 
-		glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		processInput(window);
@@ -125,25 +177,29 @@ int		scop(GLFWwindow *window, char const *filename)
 		if (g_update_projection) {
 			glm_perspective(45.0f, (float)g_width/(float)g_height, 0.1f, 100.0f,
 				g_projection);
-			glUniformMatrix4fv(glGetUniformLocation(shader1.index, "proj"), 1,
-				GL_FALSE, g_projection[0]);
+
+			shader_set_mat4(&shader1, "proj", g_projection);
+			shader_set_mat4(&lampShader, "proj", g_projection);
 
 			g_update_projection = 0;
 		}
 
-		program_use(&shader1);
+		vec3 lightPos = { sin(glfwGetTime()) * 5.0f, sin(glfwGetTime()), cos(glfwGetTime()) * 5.0f };
+
+		shader_set_vec3(&shader1, "lightPos", lightPos);
+		object_set_pos(&lamp, lightPos);
 
 		mat4 view;
-
 		vec3 cam_target;
+
 		glm_vec3_add(cam_front, cam_pos, cam_target);
-
 		glm_lookat(cam_pos, cam_target, cam_up, view);
-		glUniformMatrix4fv(glGetUniformLocation(shader1.index, "view"), 1,
-			GL_FALSE, view[0]);
+		shader_set_mat4(&shader1, "view", view);
+		shader_set_mat4(&lampShader, "view", view);
 
-		object_roty(&o1, sin(glfwGetTime()) + cos(glfwGetTime()));
-		object_set_pos(&o1, (vec3){ 0.0f, 0.0f, 0.0f });
+		object_roty(&o1, -90.0f);
+
+		object_draw(&lamp);
 		object_draw(&o1);
 
 		glfwSwapBuffers(window);
@@ -151,11 +207,8 @@ int		scop(GLFWwindow *window, char const *filename)
 	}
 
 	object_delete(&o1);
-
 	program_delete(&shader1);
 
-	free(vertexShaderSource);
-	free(fragmentShaderSource);
 	return (0);
 }
 
