@@ -23,7 +23,7 @@
 unsigned int		ft_abs(int nb);
 int					ft_pow(int nb, int pow);
 
-int					ft_atoi(char *str);
+int					ft_atoi(char const *str);
 char				*ft_itoa(int n);
 
 void				ft_putchar(char c);
