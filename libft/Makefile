@@ -50,21 +50,18 @@ NAME		= libft.a
 all: $(NAME)
 
 $(NAME): $(OBJECTS) $(DEPS)
-	@echo "Creating $(NAME)..."
-	@ar rc $(NAME) $(OBJECTS)
-	@ranlib $(NAME)
-	@echo "Done $(NAME)!"
+	ar rc $(NAME) $(OBJECTS)
+	ranlib $(NAME)
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(OBJDIR)
-	@echo "Compiling '$<'..."
-	@$(CC) -c $< -o $@ $(CFLAGS) $(INCLUDES)
+	$(CC) -c $< -o $@ $(CFLAGS) $(INCLUDES)
 
 clean:
-	@$(RM) $(OBJECTS)
-	@$(RM) -R $(OBJDIR)
+	$(RM) $(OBJECTS)
+	$(RM) -R $(OBJDIR)
 
 fclean: clean
-	@$(RM) $(NAME)
+	$(RM) $(NAME)
 
 re: fclean all

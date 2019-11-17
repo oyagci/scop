@@ -1,7 +1,7 @@
 NAME	:= scop
 CC		:= gcc
-CFLAGS	:= -Wall -Wextra -g3 -I glad/include -I inc/ -I lib/libobjparser/inc -I lib/libft/includes
-LIBS	:= -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm -lcglm -L./lib/libobjparser -lobjparser -L lib/libft -lft
+CFLAGS	:= -Wall -Wextra -g3 -I glad/include -I inc/ -I libft/includes
+LIBS	:= -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm -lcglm -L libft -lft
 
 SRCS	:= \
 	glad/src/glad.c \
@@ -9,6 +9,7 @@ SRCS	:= \
 	src/object.c \
 	src/shader.c \
 	src/stb_image.c \
+	src/objparser.c
 
 OBJS	:= $(SRCS:.c=.o)
 
@@ -17,7 +18,7 @@ OBJS	:= $(SRCS:.c=.o)
 $(NAME): all
 
 all: $(OBJS)
-	make -C lib/libobjparser
+	make -j$(nproc) -C libft
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBS)
 
 %.o: %.c
