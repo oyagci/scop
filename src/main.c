@@ -18,6 +18,10 @@
 #define HEIGHT		600
 #define __unused	__attribute__((unused))
 
+void processInput(GLFWwindow *win);
+void framebufferResize(GLFWwindow __unused *win, int width, int height);
+int	read_file(char const *const filename, char **buf);
+
 // Keep track of aspect ratio changes when window is resized.
 // Set to `1' to force the first frame to set up the projections matrix.
 int		g_update_projection = 1;
@@ -30,14 +34,6 @@ vec3	*g_cam_up_p;
 int		g_width = WIDTH;
 int		g_height = HEIGHT;
 
-void framebufferResize(GLFWwindow __unused *win, int width, int height)
-{
-	g_width = width;
-	g_height = height;
-	g_update_projection = 1;
-	glViewport(0, 0, width, height);
-}
-
 double last_x = WIDTH / 2;
 double last_y = HEIGHT / 2;
 
@@ -45,7 +41,7 @@ float pitch = 0;
 float yaw = -90.0f;
 int first_mouse = 1;
  
-void mouseMove(GLFWwindow *win, double xpos, double ypos)
+void mouseMove(GLFWwindow __unused *win, double xpos, double ypos)
 {
 	if (first_mouse) {
 		last_x = xpos;
@@ -84,83 +80,6 @@ void mouseMove(GLFWwindow *win, double xpos, double ypos)
 }
 
 float g_delta_time = 0.0f;
-
-void processInput(GLFWwindow *win)
-{
-	float speed = 4.f * g_delta_time;
-
-	if (glfwGetKey(win, GLFW_KEY_ESCAPE)) {
-		glfwSetWindowShouldClose(win, GLFW_TRUE);
-	}
-	if (glfwGetKey(win, GLFW_KEY_W)) {
-		vec3 newpos = {
-			(*g_cam_front_p)[0] * speed,
-			(*g_cam_front_p)[1] * speed,
-			(*g_cam_front_p)[2] * speed
-		};
-
-		glm_vec3_add(*g_cam_pos_p, newpos, *g_cam_pos_p);
-	}
-	if (glfwGetKey(win, GLFW_KEY_S)) {
-		vec3 newpos = {
-			(*g_cam_front_p)[0] * -speed,
-			(*g_cam_front_p)[1] * -speed,
-			(*g_cam_front_p)[2] * -speed
-		};
-
-		glm_vec3_add(*g_cam_pos_p, newpos, *g_cam_pos_p);
-	}
-	if (glfwGetKey(win, GLFW_KEY_A)) {
-		vec3 right;
-
-		glm_vec3_cross(*g_cam_front_p, *g_cam_up_p, right);
-		glm_normalize(right);
-		glm_vec3_muladds(right, -speed, *g_cam_pos_p);
-	}
-	if (glfwGetKey(win, GLFW_KEY_D)) {
-		vec3 right;
-
-		glm_vec3_cross(*g_cam_front_p, *g_cam_up_p, right);
-		glm_normalize(right);
-		glm_vec3_muladds(right, speed, *g_cam_pos_p);
-	}
-	if (glfwGetKey(win, GLFW_KEY_SPACE)) {
-		vec3 newpos = { 0.0f, 1.0f * speed, 0.0f };
-
-		glm_vec3_add(*g_cam_pos_p, newpos, *g_cam_pos_p);
-	}
-	if (glfwGetKey(win, GLFW_KEY_LEFT_CONTROL)) {
-		vec3 newpos = { 0.0f, 1.0f * -speed, 0.0f };
-
-		glm_vec3_add(*g_cam_pos_p, newpos, *g_cam_pos_p);
-	}
-}
-
-int	read_file(char const *const filename, char **buf)
-{
-	int			fd = open(filename, O_RDONLY);
-	struct stat	statbuf;
-
-	if (fd < 0) {
-		perror("fopen");
-		return (0);
-	}
-	if (fstat(fd, &statbuf) == -1) {
-		perror("fstat");
-		return (0);
-	}
-
-	*buf = malloc(sizeof(char) * (statbuf.st_size + 1));
-
-	int ret = read(fd, *buf, statbuf.st_size);
-
-	// Null-terminate the string
-	(*buf)[ret] = 0;
-
-	// Don't forget to close the FD as we don't need it anymore
-	close(fd);
-	return (1);
-}
 
 int	main(int __unused ac, char *av[])
 {
@@ -326,4 +245,63 @@ int	main(int __unused ac, char *av[])
 	glfwTerminate();
 
 	return (0);
+}
+
+void processInput(GLFWwindow *win)
+{
+	float speed = 4.f * g_delta_time;
+
+	if (glfwGetKey(win, GLFW_KEY_ESCAPE)) {
+		glfwSetWindowShouldClose(win, GLFW_TRUE);
+	}
+	if (glfwGetKey(win, GLFW_KEY_W)) {
+		vec3 newpos = {
+			(*g_cam_front_p)[0] * speed,
+			(*g_cam_front_p)[1] * speed,
+			(*g_cam_front_p)[2] * speed
+		};
+
+		glm_vec3_add(*g_cam_pos_p, newpos, *g_cam_pos_p);
+	}
+	if (glfwGetKey(win, GLFW_KEY_S)) {
+		vec3 newpos = {
+			(*g_cam_front_p)[0] * -speed,
+			(*g_cam_front_p)[1] * -speed,
+			(*g_cam_front_p)[2] * -speed
+		};
+
+		glm_vec3_add(*g_cam_pos_p, newpos, *g_cam_pos_p);
+	}
+	if (glfwGetKey(win, GLFW_KEY_A)) {
+		vec3 right;
+
+		glm_vec3_cross(*g_cam_front_p, *g_cam_up_p, right);
+		glm_normalize(right);
+		glm_vec3_muladds(right, -speed, *g_cam_pos_p);
+	}
+	if (glfwGetKey(win, GLFW_KEY_D)) {
+		vec3 right;
+
+		glm_vec3_cross(*g_cam_front_p, *g_cam_up_p, right);
+		glm_normalize(right);
+		glm_vec3_muladds(right, speed, *g_cam_pos_p);
+	}
+	if (glfwGetKey(win, GLFW_KEY_SPACE)) {
+		vec3 newpos = { 0.0f, 1.0f * speed, 0.0f };
+
+		glm_vec3_add(*g_cam_pos_p, newpos, *g_cam_pos_p);
+	}
+	if (glfwGetKey(win, GLFW_KEY_LEFT_CONTROL)) {
+		vec3 newpos = { 0.0f, 1.0f * -speed, 0.0f };
+
+		glm_vec3_add(*g_cam_pos_p, newpos, *g_cam_pos_p);
+	}
+}
+
+void framebufferResize(GLFWwindow __unused *win, int width, int height)
+{
+	g_width = width;
+	g_height = height;
+	g_update_projection = 1;
+	glViewport(0, 0, width, height);
 }

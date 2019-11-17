@@ -9,7 +9,8 @@ SRCS	:= \
 	src/object.c \
 	src/shader.c \
 	src/stb_image.c \
-	src/objparser.c
+	src/objparser.c \
+	src/read_file.c
 
 OBJS	:= $(SRCS:.c=.o)
 
