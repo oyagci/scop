@@ -4,6 +4,7 @@
 # include <string.h>
 # include "libft.h"
 # include <stddef.h>
+# include <cglm/cglm.h>
 
 enum			e_obj_tok
 {
@@ -45,13 +46,33 @@ typedef struct	s_face {
 }				t_face;
 
 typedef struct	s_triangle {
-	size_t	vert[3];
+	vec3	vert[3];
+	vec3	norm;
 }				t_triangle;
 
-int		obj_load(t_obj *obj, char const *const filename);
-int		obj_parse(t_obj *obj);
+
+/*
+** Special structures for OpenGL which expects data in an array of numbers
+** For each triangle we need:
+**  - A Vertex Data
+**  - A Normal Direction Vector
+**  - (Optional) Diffuse Texture coordinates
+**  - And anything we need to pass to the shaders...
+*/
+typedef struct	s_glvert {
+	float	v[3];
+	float	n[3];
+}				t_glvert;
+
+typedef struct	s_gltri {
+	t_glvert	data[3];
+}				t_gltri;
+
+int				obj_load(t_obj *obj, char const *const filename);
+int				obj_parse(t_obj *obj);
 unsigned int	*obj_get_indices(t_obj *obj);
-float	*obj_get_vertices(t_obj *obj);
-void	obj_triangulate(t_obj *obj);
+float			*obj_get_vertices(t_obj *obj);
+void			obj_triangulate(t_obj *obj);
+t_gltri			*obj_get_triangles_arr(t_obj *obj);
 
 #endif

@@ -269,13 +269,31 @@ void	obj_triangulate_face(t_obj *obj, t_face *face)
 		t_triangle *t1 = malloc(sizeof(*t1));
 		t_triangle *t2 = malloc(sizeof(*t2));
 
-		t1->vert[0] = face->indices[0].vert;
-		t1->vert[1] = face->indices[1].vert;
-		t1->vert[2] = face->indices[2].vert;
+		memcpy(&t1->vert[0], &obj->vertices[face->indices[0].vert], sizeof(float) * 3);
+		memcpy(&t1->vert[1], &obj->vertices[face->indices[1].vert], sizeof(float) * 3);
+		memcpy(&t1->vert[2], &obj->vertices[face->indices[2].vert], sizeof(float) * 3);
 
-		t2->vert[0] = face->indices[0].vert;
-		t2->vert[1] = face->indices[2].vert;
-		t2->vert[2] = face->indices[3].vert;
+		memcpy(&t2->vert[0], &obj->vertices[face->indices[0].vert], sizeof(float) * 3);
+		memcpy(&t2->vert[1], &obj->vertices[face->indices[2].vert], sizeof(float) * 3);
+		memcpy(&t2->vert[2], &obj->vertices[face->indices[3].vert], sizeof(float) * 3);
+
+		// Calculate the normal for the face
+
+		vec3 *a = &t1->vert[0];
+		vec3 *b = &t1->vert[1];
+		vec3 *c = &t1->vert[2];
+
+		vec3 ab;
+		vec3 ac;
+		vec3 norm;
+
+		glm_vec3_sub(*b, *a, ab);
+		glm_vec3_sub(*c, *a, ac);
+		glm_cross(ab, ac, norm);
+		glm_normalize(norm);
+
+		memcpy(t1->norm, norm, sizeof(vec3));
+		memcpy(t2->norm, norm, sizeof(vec3));
 
 		elem = ft_lstnew(NULL, 0);
 		elem->content = t1;
@@ -285,19 +303,31 @@ void	obj_triangulate_face(t_obj *obj, t_face *face)
 		elem->content = t2;
 		ft_lstpush(&triangles, elem);
 
-//		fprintf(stderr, "T { %2lu, %2lu, %2lu }\n",
-//				t1->vert[0], t1->vert[1], t1->vert[2]);
-//		fprintf(stderr, "T { %2lu, %2lu, %2lu }\n",
-//				t2->vert[0], t2->vert[1], t2->vert[2]);
-
 		obj->ntriangles += 2;
 	}
 	else if (face->nverts == 3) {
 		t_triangle *t1 = malloc(sizeof(*t1));
 
-		t1->vert[0] = face->indices[0].vert;
-		t1->vert[1] = face->indices[1].vert;
-		t1->vert[2] = face->indices[2].vert;
+		memcpy(&t1->vert[0], &obj->vertices[face->indices[0].vert], sizeof(float) * 3);
+		memcpy(&t1->vert[1], &obj->vertices[face->indices[1].vert], sizeof(float) * 3);
+		memcpy(&t1->vert[2], &obj->vertices[face->indices[2].vert], sizeof(float) * 3);
+
+		// Calculate the normal for the face
+
+		vec3 *a = &t1->vert[0];
+		vec3 *b = &t1->vert[1];
+		vec3 *c = &t1->vert[2];
+
+		vec3 ab;
+		vec3 ac;
+		vec3 norm;
+
+		glm_vec3_sub(*b, *a, ab);
+		glm_vec3_sub(*c, *a, ac);
+		glm_cross(ab, ac, norm);
+		glm_normalize(norm);
+
+		memcpy(t1->norm, norm, sizeof(vec3));
 
 		elem = ft_lstnew(NULL, 0);
 		elem->content = t1;
@@ -323,31 +353,60 @@ void	obj_triangulate(t_obj *obj)
 	}
 }
 
+t_gltri	*obj_get_triangles_arr(t_obj *obj)
+{
+	t_list	*t;
+	t_gltri	*triangles;
+	size_t	i;
+
+	triangles = malloc(sizeof(t_gltri) * (obj->ntriangles));
+	i = 0;
+	t = obj->triangles;
+	while (t) {
+		t_triangle *content = t->content;
+
+		memcpy(triangles[i].data[0].v, content->vert[0], sizeof(vec3));
+		memcpy(triangles[i].data[1].v, content->vert[1], sizeof(vec3));
+		memcpy(triangles[i].data[2].v, content->vert[2], sizeof(vec3));
+
+		memcpy(triangles[i].data[0].n, content->norm, sizeof(vec3));
+		memcpy(triangles[i].data[1].n, content->norm, sizeof(vec3));
+		memcpy(triangles[i].data[2].n, content->norm, sizeof(vec3));
+
+		i += 1;
+		t = t->next;
+	}
+
+	return (triangles);
+}
+
 unsigned int	*obj_get_indices(t_obj *obj)
 {
-	t_list			*t;
-	t_triangle		*tri;
-	unsigned int	*indices = NULL;
-	size_t			i;
-
-	indices = malloc(sizeof(*indices) * (obj->ntriangles * 3));
-	t = obj->triangles;
-	i = 0;
-	while (i < obj->ntriangles) {
-		tri = t->content;
-
-		size_t	j;
-		j = 0;
-		while (j < 3) {
+	(void)obj;
+	return (NULL);
+//	t_list			*t;
+//	t_triangle		*tri;
+//	unsigned int	*indices = NULL;
+//	size_t			i;
+//
+//	indices = malloc(sizeof(*indices) * (obj->ntriangles * 3));
+//	t = obj->triangles;
+//	i = 0;
+//	while (i < obj->ntriangles) {
+//		tri = t->content;
+//
+//		size_t	j;
+//		j = 0;
+//		while (j < 3) {
 //			fprintf(stderr, "%lu %lu\n", i * 3, j);
-			indices[i * 3 + j] = tri->vert[j];
-			j += 1;
-		}
-
-		t = t->next;
-		i += 1;
-	}
-	return (indices);
+//			indices[i * 3 + j] = tri->vert[j];
+//			j += 1;
+//		}
+//
+//		t = t->next;
+//		i += 1;
+//	}
+//	return (indices);
 }
 
 float	*obj_get_vertices(t_obj *obj)

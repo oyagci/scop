@@ -18,9 +18,10 @@
 #define HEIGHT		600
 #define __unused	__attribute__((unused))
 
-void processInput(GLFWwindow *win);
-void framebufferResize(GLFWwindow __unused *win, int width, int height);
-int	read_file(char const *const filename, char **buf);
+void	processInput(GLFWwindow *win);
+void	framebufferResize(GLFWwindow __unused *win, int width, int height);
+int		read_file(char const *const filename, char **buf);
+void	mouseMove(GLFWwindow __unused *win, double xpos, double ypos);
 
 // Keep track of aspect ratio changes when window is resized.
 // Set to `1' to force the first frame to set up the projections matrix.
@@ -34,99 +35,28 @@ vec3	*g_cam_up_p;
 int		g_width = WIDTH;
 int		g_height = HEIGHT;
 
-double last_x = WIDTH / 2;
-double last_y = HEIGHT / 2;
+double	last_x = WIDTH / 2;
+double	last_y = HEIGHT / 2;
 
-float pitch = 0;
-float yaw = -90.0f;
-int first_mouse = 1;
+float	pitch = 0;
+float	yaw = -90.0f;
+int		first_mouse = 1;
  
-void mouseMove(GLFWwindow __unused *win, double xpos, double ypos)
-{
-	if (first_mouse) {
-		last_x = xpos;
-		last_y = ypos;
-		first_mouse = 0;
-	}
-
-	float xoff = xpos - last_x;
-	float yoff = last_y - ypos;
-
-	last_x = xpos;
-	last_y = ypos;
-
-	float sensitivity = 0.1f;
-	xoff *= sensitivity;
-	yoff *= sensitivity;
-
-	yaw += xoff;
-	pitch += yoff;
-
-	if (pitch > 89.0f)
-		pitch = 89.0f;
-	if (pitch < -89.0f)
-		pitch = -89.0f;
-
-	vec3 front;
-	glm_vec3_copy((vec3){
-			cos(glm_rad(yaw)) * cos(glm_rad(pitch)),
-			sin(glm_rad(pitch)),
-			sin(glm_rad(yaw)) * cos(glm_rad(pitch)),
-		}, front);
-
-	glm_normalize(front);
-//	glm_vec3_print(front, stderr);
-	glm_vec3_copy(front, *g_cam_front_p);
-}
-
 float g_delta_time = 0.0f;
 
-int	main(int __unused ac, char *av[])
+int		scop(GLFWwindow *window, char const *filename)
 {
 	t_obj	obj;
+	char *vertexShaderSource = NULL;
+	char *fragmentShaderSource = NULL;
+	struct s_program shader1;
+	struct s_object o1;
 
-	if (ac <= 1) {
-		fprintf(stderr, "Usage: ./scop file.obj\n");
-		return (1);
-	}
-
-	if (obj_load(&obj, av[1]) < 0) {
+	if (obj_load(&obj, filename) < 0) {
 		fprintf(stderr, "obj_load: error\n");
 	}
 	obj_parse(&obj);
 	obj_triangulate(&obj);
-
-	GLFWwindow *window = NULL;
-
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-	window = glfwCreateWindow(g_width, g_height, "scop", NULL, NULL);
-	if (window == NULL) {
-		fprintf(stderr, "Could not create window!\n");
-		glfwTerminate();
-		return (1);
-	}
-
-	glfwMakeContextCurrent(window);
-
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-		fprintf(stderr, "Could not load GL loader\n");
-		glfwTerminate();
-		return (-1);
-	}
-
-	glfwSetFramebufferSizeCallback(window, framebufferResize);
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	glfwSetCursorPosCallback(window, mouseMove);
-
-	glViewport(0, 0, g_width, g_height);
-	glEnable(GL_DEPTH_TEST);
-
-	char *vertexShaderSource = NULL;
-	char *fragmentShaderSource = NULL;
 
 	if (!read_file("./shaders/vertex.glsl", &vertexShaderSource) ||
 		!read_file("./shaders/fragment.glsl", &fragmentShaderSource)) {
@@ -134,27 +64,13 @@ int	main(int __unused ac, char *av[])
 		return (1);
 	}
 
-	struct s_program shader1;
-
 	program_create(&shader1, vertexShaderSource, fragmentShaderSource);
 
-	GLfloat *vertices1 = obj_get_vertices(&obj);
-	GLuint *indices1 = obj_get_indices(&obj);
+	t_gltri *vertices1 = obj_get_triangles_arr(&obj);
 
-	struct s_object o1;
+	object_init(&o1, (float *)vertices1, NULL, obj.ntriangles * 3 * 6, 0, &shader1);
 
-	fprintf(stderr, "Vertices:\n");
-	for (size_t i = 0; i < obj.nverts * 4; i++) {
-		fprintf(stderr, "%.2f %c", vertices1[i], (i + 1) % 4 == 0 ? '\n' : '\0');
-	}
-
-	fprintf(stderr, "Indices:\n");
-	for (size_t i = 0; i < obj.ntriangles * 3; i++) {
-		fprintf(stderr, "%u %c", indices1[i], (i + 1) % 3 == 0 ? '\n' : '\0');
-	}
-	fprintf(stderr, "\n");
-
-	object_init(&o1, vertices1, indices1, obj.nverts * 4, obj.ntriangles * 3, &shader1);
+	free(vertices1);
 
 	mat4 trans;
 	mat4 model;
@@ -240,6 +156,44 @@ int	main(int __unused ac, char *av[])
 
 	free(vertexShaderSource);
 	free(fragmentShaderSource);
+	return (0);
+}
+
+int	main(int __unused ac, char *av[])
+{
+	GLFWwindow	*window = NULL;
+
+	if (ac <= 1) {
+		fprintf(stderr, "Usage: ./scop file.obj\n");
+		return (1);
+	}
+
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+	window = glfwCreateWindow(g_width, g_height, "scop", NULL, NULL);
+	if (window == NULL) {
+		fprintf(stderr, "Could not create window!\n");
+		glfwTerminate();
+		return (1);
+	}
+	glfwMakeContextCurrent(window);
+	glfwSetFramebufferSizeCallback(window, framebufferResize);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetCursorPosCallback(window, mouseMove);
+
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+		fprintf(stderr, "Could not load GL loader\n");
+		glfwTerminate();
+		return (-1);
+	}
+
+	glViewport(0, 0, g_width, g_height);
+	glEnable(GL_DEPTH_TEST);
+
+	scop(window, av[1]);
 
 	glfwDestroyWindow(window);
 	glfwTerminate();
@@ -304,4 +258,42 @@ void framebufferResize(GLFWwindow __unused *win, int width, int height)
 	g_height = height;
 	g_update_projection = 1;
 	glViewport(0, 0, width, height);
+}
+
+void mouseMove(GLFWwindow __unused *win, double xpos, double ypos)
+{
+	if (first_mouse) {
+		last_x = xpos;
+		last_y = ypos;
+		first_mouse = 0;
+	}
+
+	float xoff = xpos - last_x;
+	float yoff = last_y - ypos;
+
+	last_x = xpos;
+	last_y = ypos;
+
+	float sensitivity = 0.1f;
+	xoff *= sensitivity;
+	yoff *= sensitivity;
+
+	yaw += xoff;
+	pitch += yoff;
+
+	if (pitch > 89.0f)
+		pitch = 89.0f;
+	if (pitch < -89.0f)
+		pitch = -89.0f;
+
+	vec3 front;
+	glm_vec3_copy((vec3){
+			cos(glm_rad(yaw)) * cos(glm_rad(pitch)),
+			sin(glm_rad(pitch)),
+			sin(glm_rad(yaw)) * cos(glm_rad(pitch)),
+		}, front);
+
+	glm_normalize(front);
+//	glm_vec3_print(front, stderr);
+	glm_vec3_copy(front, *g_cam_front_p);
 }
