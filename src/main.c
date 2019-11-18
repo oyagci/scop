@@ -14,12 +14,6 @@
 #include <unistd.h>
 #include <string.h>
 
-#define WIDTH		800
-#define HEIGHT		600
-#define __unused	__attribute__((unused))
-
-void	print_fps(void);
-
 float cubeVertices[] = {
     -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
      0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
@@ -63,11 +57,6 @@ float cubeVertices[] = {
     -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
     -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 };
-
-void	processInput(GLFWwindow *win);
-void	framebufferResize(GLFWwindow __unused *win, int width, int height);
-int		read_file(char const *const filename, char **buf);
-void	mouseMove(GLFWwindow __unused *win, double xpos, double ypos);
 
 // Keep track of aspect ratio changes when window is resized.
 // Set to `1' to force the first frame to set up the projections matrix.
