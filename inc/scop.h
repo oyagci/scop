@@ -6,8 +6,8 @@
 # include <cglm/cglm.h>
 # include <stdint.h>
 
-# define WIDTH		800
-# define HEIGHT		600
+# define WIDTH		1280
+# define HEIGHT		720
 # define __unused	__attribute__((unused))
 
 typedef struct	s_render_win {

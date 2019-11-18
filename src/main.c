@@ -56,11 +56,6 @@ float cubeVertices[] = {
     -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
 };
 
-// Keep track of aspect ratio changes when window is resized.
-// Set to `1' to force the first frame to set up the projections matrix.
-int		g_update_projection = 1;
-mat4	g_projection;
-
 t_engine	g_engine;
 
 void	engine_init(t_engine *engine)
@@ -133,6 +128,13 @@ int		scop(GLFWwindow *window, char const *filename)
 
 	shader_set_vec3(&shader1, "lightColor", (vec3){ 1.0f, 1.0f, 1.0f });
 
+	mat4 projection;
+	glm_perspective(45.0f, (float)g_engine.window.width/(float)g_engine.window.height,
+		0.1f, 100.0f, projection);
+
+	shader_set_mat4(&shader1, "proj", projection);
+	shader_set_mat4(&lampShader, "proj", projection);
+
 	while (!glfwWindowShouldClose(window)) {
 
 		update_delta_time();
@@ -144,16 +146,6 @@ int		scop(GLFWwindow *window, char const *filename)
 		processInput(window);
 
 		// Rendering
-
-		if (g_update_projection) {
-			glm_perspective(45.0f, (float)g_engine.window.width/(float)g_engine.window.height, 0.1f, 100.0f,
-				g_projection);
-
-			shader_set_mat4(&shader1, "proj", g_projection);
-			shader_set_mat4(&lampShader, "proj", g_projection);
-
-			g_update_projection = 0;
-		}
 
 		vec3 lightPos = { 5.0f, sin(glfwGetTime()) * 2.0f, 5.0f };
 
@@ -284,7 +276,6 @@ void framebufferResize(GLFWwindow __unused *win, int width, int height)
 {
 	g_engine.window.width = width;
 	g_engine.window.height = height;
-	g_update_projection = 1;
 	glViewport(0, 0, width, height);
 }
 
