@@ -9,6 +9,7 @@
 struct s_object {
 	vec3			pos;
 	vec3			rot;
+	GLfloat			scale;
 	GLboolean		should_update_mat;
 
 	GLuint			vbo;
@@ -39,5 +40,6 @@ void	object_set_pos(struct s_object *o, vec3 newpos);
 void	object_rotx(struct s_object *o, float angle);
 void	object_roty(struct s_object *o, float angle);
 void	object_rotz(struct s_object *o, float angle);
+void object_set_scale(struct s_object *o, float angle);
 
 #endif

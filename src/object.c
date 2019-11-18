@@ -14,6 +14,7 @@ void	object_init(struct s_object *o,
 {
 	memset(o, 0, sizeof(*o));
 
+	o->scale = 1.0f;
 	o->nvert = nverts;
 	o->shader = shader;
 	o->vertices = malloc(sizeof(GLfloat) * o->nvert);
@@ -56,6 +57,8 @@ void	object_prepare_draw(struct s_object *o)
 	glm_rotate_x(model, o->rot[0], model);
 	glm_rotate_y(model, o->rot[1], model);
 	glm_rotate_z(model, o->rot[2], model);
+
+	glm_scale_uni(model, o->scale);
 
 	program_use(o->shader);
 
@@ -102,4 +105,9 @@ void object_rotz(struct s_object *o, float angle)
 {
 	o->rot[2] = angle;
 	o->should_update_mat = 1;
+}
+
+void object_set_scale(struct s_object *o, float angle)
+{
+	o->scale = angle;
 }
