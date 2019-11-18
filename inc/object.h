@@ -27,9 +27,7 @@ struct s_object {
 
 void	object_init(struct s_object *o,
 			GLfloat const *verts,
-			GLuint const *inds,
 			GLsizei nverts,
-			GLsizei ninds,
 			struct s_program *shader);
 void	object_prepare_draw(struct s_object *o);
 void	object_draw(struct s_object *o);
@@ -40,6 +38,6 @@ void	object_set_pos(struct s_object *o, vec3 newpos);
 void	object_rotx(struct s_object *o, float angle);
 void	object_roty(struct s_object *o, float angle);
 void	object_rotz(struct s_object *o, float angle);
-void object_set_scale(struct s_object *o, float angle);
+void	object_set_scale(struct s_object *o, float angle);
 
 #endif

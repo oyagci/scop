@@ -7,9 +7,7 @@
 
 void	object_init(struct s_object *o,
 			GLfloat const *verts,
-			__unused GLuint const *inds,
 			GLsizei nverts,
-			__unused GLsizei ninds,
 			struct s_program *shader)
 {
 	memset(o, 0, sizeof(*o));
