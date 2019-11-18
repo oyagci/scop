@@ -70,6 +70,36 @@ int	face_container_add(t_face_container *vc, t_face *v)
 	return (0);
 }
 
+int	triangle_container_init(t_triangle_container *vc)
+{
+	vc = calloc(500, sizeof(t_triangle));
+	if (vc) {
+		vc->capacity = 500;
+		vc->size = 0;
+		return (0);
+	}
+	return (-1);
+}
+
+int	triangle_container_add(t_triangle_container *vc, t_triangle *v)
+{
+	t_triangle	*d;
+
+	if (vc->size >= vc->capacity) {
+		d = realloc(vc->data, sizeof(t_triangle) * (vc->capacity + 500));
+		if (d) {
+			vc->data = d;
+			vc->capacity += 500;
+		}
+		else {
+			return (-1);
+		}
+	}
+	memcpy(vc->data + vc->size, v, sizeof(t_triangle));
+	vc->size += 1;
+	return (0);
+}
+
 void ft_dlstpush(t_dlist **lstp, t_dlist *elem)
 {
 	t_dlist	*lst;
@@ -226,33 +256,30 @@ int	obj_parse(t_obj *obj)
 
 void	obj_triangulate_face(t_obj *obj, t_face *face)
 {
-	t_list	*elem = NULL;
-	t_list	*triangles;
+	t_triangle t1;
+	t_triangle t2;
 
-	triangles = NULL;
 	if (face->nverts == 4) {
-		t_triangle *t1 = malloc(sizeof(*t1));
-		t_triangle *t2 = malloc(sizeof(*t2));
 
-		memcpy(&t1->vert[0], &obj->vertices.data[face->indices[0].vert],
+		memcpy(&t1.vert[0], &obj->vertices.data[face->indices[0].vert],
 			sizeof(float) * 3);
-		memcpy(&t1->vert[1], &obj->vertices.data[face->indices[1].vert],
+		memcpy(&t1.vert[1], &obj->vertices.data[face->indices[1].vert],
 			sizeof(float) * 3);
-		memcpy(&t1->vert[2], &obj->vertices.data[face->indices[2].vert],
+		memcpy(&t1.vert[2], &obj->vertices.data[face->indices[2].vert],
 			sizeof(float) * 3);
 
-		memcpy(&t2->vert[0], &obj->vertices.data[face->indices[0].vert],
+		memcpy(&t2.vert[0], &obj->vertices.data[face->indices[0].vert],
 			sizeof(float) * 3);
-		memcpy(&t2->vert[1], &obj->vertices.data[face->indices[2].vert],
+		memcpy(&t2.vert[1], &obj->vertices.data[face->indices[2].vert],
 			sizeof(float) * 3);
-		memcpy(&t2->vert[2], &obj->vertices.data[face->indices[3].vert],
+		memcpy(&t2.vert[2], &obj->vertices.data[face->indices[3].vert],
 			sizeof(float) * 3);
 
 		// Calculate the normal for the face
 
-		vec3 *a = &t1->vert[0];
-		vec3 *b = &t1->vert[1];
-		vec3 *c = &t1->vert[2];
+		vec3 *a = &t1.vert[0];
+		vec3 *b = &t1.vert[1];
+		vec3 *c = &t1.vert[2];
 
 		vec3 ab;
 		vec3 ac;
@@ -263,34 +290,25 @@ void	obj_triangulate_face(t_obj *obj, t_face *face)
 		glm_cross(ab, ac, norm);
 		glm_normalize(norm);
 
-		memcpy(t1->norm, norm, sizeof(vec3));
-		memcpy(t2->norm, norm, sizeof(vec3));
+		memcpy(t1.norm, norm, sizeof(vec3));
+		memcpy(t2.norm, norm, sizeof(vec3));
 
-		elem = ft_lstnew(NULL, 0);
-		elem->content = t1;
-		ft_lstpush(&triangles, elem);
-
-		elem = ft_lstnew(NULL, 0);
-		elem->content = t2;
-		ft_lstpush(&triangles, elem);
-
-		obj->ntriangles += 2;
+		triangle_container_add(&obj->triangles, &t1);
+		triangle_container_add(&obj->triangles, &t2);
 	}
 	else if (face->nverts == 3) {
-		t_triangle *t1 = malloc(sizeof(*t1));
-
-		memcpy(&t1->vert[0], &obj->vertices.data[face->indices[0].vert],
+		memcpy(&t1.vert[0], &obj->vertices.data[face->indices[0].vert],
 				sizeof(float) * 3);
-		memcpy(&t1->vert[1], &obj->vertices.data[face->indices[1].vert],
+		memcpy(&t1.vert[1], &obj->vertices.data[face->indices[1].vert],
 				sizeof(float) * 3);
-		memcpy(&t1->vert[2], &obj->vertices.data[face->indices[2].vert],
+		memcpy(&t1.vert[2], &obj->vertices.data[face->indices[2].vert],
 				sizeof(float) * 3);
 
 		// Calculate the normal for the face
 
-		vec3 *a = &t1->vert[0];
-		vec3 *b = &t1->vert[1];
-		vec3 *c = &t1->vert[2];
+		vec3 *a = &t1.vert[0];
+		vec3 *b = &t1.vert[1];
+		vec3 *c = &t1.vert[2];
 
 		vec3 ab;
 		vec3 ac;
@@ -301,15 +319,10 @@ void	obj_triangulate_face(t_obj *obj, t_face *face)
 		glm_cross(ab, ac, norm);
 		glm_normalize(norm);
 
-		memcpy(t1->norm, norm, sizeof(vec3));
+		memcpy(t1.norm, norm, sizeof(vec3));
 
-		elem = ft_lstnew(NULL, 0);
-		elem->content = t1;
-		ft_lstpush(&triangles, elem);
-
-		obj->ntriangles += 1;
+		triangle_container_add(&obj->triangles, &t1);
 	}
-	ft_lstpush(&obj->triangles, triangles);
 }
 
 void	obj_triangulate(t_obj *obj)
@@ -325,15 +338,13 @@ void	obj_triangulate(t_obj *obj)
 
 t_gltri	*obj_get_triangles_arr(t_obj *obj)
 {
-	t_list	*t;
 	t_gltri	*triangles;
 	size_t	i;
 
-	triangles = malloc(sizeof(t_gltri) * (obj->ntriangles));
+	triangles = malloc(sizeof(t_gltri) * (obj->triangles.size));
 	i = 0;
-	t = obj->triangles;
-	while (t) {
-		t_triangle *content = t->content;
+	while (i < obj->triangles.size) {
+		t_triangle *content = obj->triangles.data + i;
 
 		memcpy(triangles[i].data[0].v, content->vert[0], sizeof(vec3));
 		memcpy(triangles[i].data[1].v, content->vert[1], sizeof(vec3));
@@ -344,7 +355,6 @@ t_gltri	*obj_get_triangles_arr(t_obj *obj)
 		memcpy(triangles[i].data[2].n, content->norm, sizeof(vec3));
 
 		i += 1;
-		t = t->next;
 	}
 
 	return (triangles);

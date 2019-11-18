@@ -47,21 +47,26 @@ typedef struct	s_face_container
 	size_t		capacity;
 }				t_face_container;
 
+typedef struct	s_triangle {
+	vec3	vert[3];
+	vec3	norm;
+}				t_triangle;
+
+typedef struct	s_triangle_container
+{
+	t_triangle	*data;
+	size_t		size;
+	size_t		capacity;
+}				t_triangle_container;
+
 typedef struct	s_obj
 {
 	char				*data;
 
 	t_vertex_container	vertices;
 	t_face_container	faces;
-
-	t_list				*triangles;
-	size_t				ntriangles;
+	t_triangle_container	triangles;
 }				t_obj;
-
-typedef struct	s_triangle {
-	vec3	vert[3];
-	vec3	norm;
-}				t_triangle;
 
 
 /*
