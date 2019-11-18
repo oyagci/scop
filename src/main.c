@@ -128,13 +128,13 @@ int		scop(GLFWwindow *window, char const *filename)
 	free(lampFragmentShaderSource);
 	free(lampVertexShaderSource);
 
-	t_gltri *vertices1 = obj_get_triangles_arr(&obj);
+	t_gltri *vdata = obj_get_triangles_arr(&obj);
 
-	object_init(&o1, (float *)vertices1, NULL, obj.triangles.size * 3 * 6, 0, &shader1);
-	//object_init(&o1, cubeVertices, NULL, sizeof(cubeVertices) / sizeof(GLfloat), 0, &shader1);
-	object_init(&lamp, cubeVertices, NULL, sizeof(cubeVertices) / sizeof(GLfloat), 0, &lampShader);
+	object_init(&o1, (float *)vdata, NULL, obj.triangles.size * 3 * 6, 0, &shader1);
+	object_init(&lamp, cubeVertices, NULL,
+		sizeof(cubeVertices) / sizeof(GLfloat), 0, &lampShader);
 
-	free(vertices1);
+	free(vdata);
 
 	vec3 cam_front = { 0.0f, 0.0f, -1.0f };
 	vec3 cam_up = { 0.0f, 1.0f, 0.0f };
