@@ -63,14 +63,6 @@ mat4	g_projection;
 
 t_engine	g_engine;
 
-// Mouse input values
-double	last_x = WIDTH / 2;
-double	last_y = HEIGHT / 2;
-
-float	pitch = 0;
-float	yaw = -90.0f;
-int		first_mouse = 1;
- 
 float g_delta_time = 0.0f;
 
 void	engine_init(t_engine *engine)
@@ -78,8 +70,16 @@ void	engine_init(t_engine *engine)
 	memcpy(&engine->cam_front, (vec3){ 0.0f, 0.0f, -1.0f }, sizeof(vec3));
 	memcpy(&engine->cam_up, (vec3){ 0.0f, 1.0f, 0.0f }, sizeof(vec3));
 	memcpy(&engine->cam_pos, (vec3){ 0.0f, 0.0f, 6.0f }, sizeof(vec3));
+
 	engine->window.width = WIDTH;
 	engine->window.height = HEIGHT;
+
+	engine->mouse.first_mouse = 1;
+	engine->mouse.last_x = WIDTH / 2;
+	engine->mouse.last_y = HEIGHT / 2;
+	engine->mouse.pitch = 0.0f;
+	engine->mouse.yaw = -90.0f;
+	engine->mouse.sensitivity = 0.1f;
 }
 
 int		scop(GLFWwindow *window, char const *filename)
@@ -289,35 +289,37 @@ void framebufferResize(GLFWwindow __unused *win, int width, int height)
 
 void mouseMove(GLFWwindow __unused *win, double xpos, double ypos)
 {
-	if (first_mouse) {
-		last_x = xpos;
-		last_y = ypos;
-		first_mouse = 0;
+	t_mouse	*mouse;
+
+	mouse = &g_engine.mouse;
+	if (mouse->first_mouse) {
+		mouse->last_x = xpos;
+		mouse->last_y = ypos;
+		mouse->first_mouse = 0;
 	}
 
-	float xoff = xpos - last_x;
-	float yoff = last_y - ypos;
+	float xoff = xpos - mouse->last_x;
+	float yoff = mouse->last_y - ypos;
 
-	last_x = xpos;
-	last_y = ypos;
+	mouse->last_x = xpos;
+	mouse->last_y = ypos;
 
-	float sensitivity = 0.1f;
-	xoff *= sensitivity;
-	yoff *= sensitivity;
+	xoff *= mouse->sensitivity;
+	yoff *= mouse->sensitivity;
 
-	yaw += xoff;
-	pitch += yoff;
+	mouse->yaw += xoff;
+	mouse->pitch += yoff;
 
-	if (pitch > 89.0f)
-		pitch = 89.0f;
-	if (pitch < -89.0f)
-		pitch = -89.0f;
+	if (mouse->pitch > 89.0f)
+		mouse->pitch = 89.0f;
+	if (mouse->pitch < -89.0f)
+		mouse->pitch = -89.0f;
 
 	vec3 front;
 	glm_vec3_copy((vec3){
-			cos(glm_rad(yaw)) * cos(glm_rad(pitch)),
-			sin(glm_rad(pitch)),
-			sin(glm_rad(yaw)) * cos(glm_rad(pitch)),
+			cos(glm_rad(mouse->yaw)) * cos(glm_rad(mouse->pitch)),
+			sin(glm_rad(mouse->pitch)),
+			sin(glm_rad(mouse->yaw)) * cos(glm_rad(mouse->pitch)),
 		}, front);
 
 	glm_normalize(front);

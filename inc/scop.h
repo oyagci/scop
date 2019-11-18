@@ -15,11 +15,21 @@ typedef struct	s_render_win {
 	int	height;
 }				t_render_win;
 
+typedef struct	s_mouse {
+	double	last_x;
+	double	last_y;
+	float	pitch;
+	float	yaw;
+	float	first_mouse;
+	float	sensitivity;
+}				t_mouse;
+
 typedef struct	s_engine {
 	vec3			cam_pos;
 	vec3			cam_front;
 	vec3			cam_up;
 	t_render_win	window;
+	t_mouse			mouse;
 }				t_engine;
 
 void	engine_init(t_engine *engine);
