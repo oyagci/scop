@@ -133,7 +133,7 @@ int		scop(GLFWwindow *window, char const *filename)
 	object_init(&o1, (float *)vdata, obj.triangles.size * 3 * 6,
 		   sizeof(GLfloat) * 6,	&shader1);
 	object_init(&lamp, cubeVertices, sizeof(cubeVertices) / sizeof(GLfloat),
-		6, &lampShader);
+		sizeof(GLfloat) * 6, &lampShader);
 
 	free(vdata);
 
