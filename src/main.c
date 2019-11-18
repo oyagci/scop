@@ -78,7 +78,8 @@ void	engine_init(t_engine *engine)
 	engine->mouse.last_y = HEIGHT / 2;
 	engine->mouse.pitch = 0.0f;
 	engine->mouse.yaw = -90.0f;
-	engine->mouse.sensitivity = 0.1f;
+	engine->mouse.sensitivity = 2.6f;
+
 }
 
 int		scop(GLFWwindow *window, char const *filename)
@@ -134,6 +135,7 @@ int		scop(GLFWwindow *window, char const *filename)
 
 	while (!glfwWindowShouldClose(window)) {
 
+		update_delta_time();
 		print_fps();
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
@@ -166,7 +168,7 @@ int		scop(GLFWwindow *window, char const *filename)
 		shader_set_mat4(&shader1, "view", view);
 		shader_set_mat4(&lampShader, "view", view);
 
-		object_roty(&o1, 10.f * g_delta_time);
+		object_roty(&o1, 10.f * g_engine.delta_time);
 
 		object_set_scale(&lamp, 0.3f);
 
@@ -229,7 +231,7 @@ int	main(int __unused ac, char *av[])
 
 void processInput(GLFWwindow *win)
 {
-	float speed = 4.f * g_delta_time;
+	float speed = 4.f * g_engine.delta_time;
 
 	if (glfwGetKey(win, GLFW_KEY_ESCAPE)) {
 		glfwSetWindowShouldClose(win, GLFW_TRUE);
@@ -303,8 +305,8 @@ void mouseMove(GLFWwindow __unused *win, double xpos, double ypos)
 	mouse->last_x = xpos;
 	mouse->last_y = ypos;
 
-	xoff *= mouse->sensitivity;
-	yoff *= mouse->sensitivity;
+	xoff *= mouse->sensitivity * g_engine.delta_time;
+	yoff *= mouse->sensitivity * g_engine.delta_time;
 
 	mouse->yaw += xoff;
 	mouse->pitch += yoff;
@@ -325,20 +327,25 @@ void mouseMove(GLFWwindow __unused *win, double xpos, double ypos)
 	glm_vec3_copy(front, g_engine.cam_front);
 }
 
-void print_fps(void)
+void update_delta_time(void)
 {
-	static float delta_time = 0.0f;
-	static float last_frame = 0.0f;
-	static float total_time = 0.0f;
-	static size_t nimg = 0;
-	float current_frame = glfwGetTime();
+	static float	delta_time = 0.0f;
+	static float	last_frame = 0.0f;
+	float			current_frame;
 
+	current_frame = glfwGetTime();
 	delta_time = current_frame - last_frame;
 	last_frame = current_frame;
-	g_delta_time = delta_time;
+	g_engine.delta_time = delta_time;
+}
+
+void print_fps(void)
+{
+	static float total_time = 0.0f;
+	static size_t nimg = 0;
 
 	// FPS Counter
-	total_time += delta_time;
+	total_time += g_engine.delta_time;
 	nimg += 1;
 	if (total_time >= 1.0f) {
 		fprintf(stderr, "\rFPS: %d", (int)(nimg / total_time));

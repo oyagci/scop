@@ -40,5 +40,6 @@ void	framebufferResize(GLFWwindow __unused *win, int width, int height);
 int		read_file(char const *const filename, char **buf);
 void	mouseMove(GLFWwindow __unused *win, double xpos, double ypos);
 void	print_fps(void);
+void	update_delta_time(void);
 
 #endif
