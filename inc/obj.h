@@ -29,18 +29,6 @@ typedef struct	s_vertex_container
 	size_t		capacity;
 }				t_vertex_container;
 
-typedef struct	s_obj
-{
-	char				*data;
-
-	t_vertex_container	vertices;
-
-	struct s_list		*faces;
-
-	t_list				*triangles;
-	size_t				ntriangles;
-}				t_obj;
-
 typedef struct	s_face_indices {
 	size_t	vert;
 	size_t	text;
@@ -51,6 +39,24 @@ typedef struct	s_face {
 	t_face_indices	*indices;
 	size_t			nverts;
 }				t_face;
+
+typedef struct	s_face_container
+{
+	t_face		*data;
+	size_t		size;
+	size_t		capacity;
+}				t_face_container;
+
+typedef struct	s_obj
+{
+	char				*data;
+
+	t_vertex_container	vertices;
+	t_face_container	faces;
+
+	t_list				*triangles;
+	size_t				ntriangles;
+}				t_obj;
 
 typedef struct	s_triangle {
 	vec3	vert[3];

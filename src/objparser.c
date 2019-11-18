@@ -40,6 +40,36 @@ int	vertex_container_add(t_vertex_container *vc, t_vertex *v)
 	return (0);
 }
 
+int	face_container_init(t_face_container *vc)
+{
+	vc = calloc(500, sizeof(t_face));
+	if (vc) {
+		vc->capacity = 500;
+		vc->size = 0;
+		return (0);
+	}
+	return (-1);
+}
+
+int	face_container_add(t_face_container *vc, t_face *v)
+{
+	t_face	*d;
+
+	if (vc->size >= vc->capacity) {
+		d = realloc(vc->data, sizeof(t_face) * (vc->capacity + 500));
+		if (d) {
+			vc->data = d;
+			vc->capacity += 500;
+		}
+		else {
+			return (-1);
+		}
+	}
+	memcpy(vc->data + vc->size, v, sizeof(t_face));
+	vc->size += 1;
+	return (0);
+}
+
 void ft_dlstpush(t_dlist **lstp, t_dlist *elem)
 {
 	t_dlist	*lst;
@@ -126,7 +156,7 @@ int	scan_verts(unsigned int vert[3], char const *line)
 
 int	obj_add_face(t_obj *obj, const char *data)
 {
-	t_face	*face;
+	t_face	face;
 	size_t	nverts;
 	unsigned int verts[4][3];
 
@@ -143,22 +173,17 @@ int	obj_add_face(t_obj *obj, const char *data)
 		data++;
 	}
 
-	face = malloc(sizeof(*face));
-	face->indices = malloc(sizeof(*face->indices) * nverts);
-	face->nverts = nverts;
+	face.indices = malloc(sizeof(*face.indices) * nverts);
+	face.nverts = nverts;
 
 	size_t i = 0;
 	while (i < nverts) {
-		face->indices[i].vert = verts[i][0];
-		face->indices[i].norm = verts[i][1];
-		face->indices[i].text = verts[i][2];
+		face.indices[i].vert = verts[i][0];
+		face.indices[i].norm = verts[i][1];
+		face.indices[i].text = verts[i][2];
 		i++;
 	}
-
-	t_list	*elem = ft_lstnew(NULL, 0);
-	elem->content = face;
-	ft_lstpush(&obj->faces, elem);
-
+	face_container_add(&obj->faces, &face);
 	return (0);
 }
 
@@ -185,6 +210,7 @@ int	obj_parse(t_obj *obj)
 	char	*nl;
 
 	vertex_container_init(&obj->vertices);
+	face_container_init(&obj->faces);
 
 	lines = obj->data;
 	while (*lines) {
@@ -288,14 +314,12 @@ void	obj_triangulate_face(t_obj *obj, t_face *face)
 
 void	obj_triangulate(t_obj *obj)
 {
-	t_list			*f = NULL;
-	t_face			*face = NULL;
+	size_t	i;
 	
-	f = obj->faces;
-	while (f) {
-		face = f->content;
-		obj_triangulate_face(obj, face);
-		f = f->next;
+	i = 0;
+	while (i < obj->faces.size) {
+		obj_triangulate_face(obj, &obj->faces.data[i]);
+		i++;
 	}
 }
 
