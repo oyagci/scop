@@ -18,6 +18,8 @@
 #define HEIGHT		600
 #define __unused	__attribute__((unused))
 
+void	print_fps(void);
+
 float cubeVertices[] = {
     -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
      0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
@@ -147,27 +149,9 @@ int		scop(GLFWwindow *window, char const *filename)
 
 	shader_set_vec3(&shader1, "lightColor", (vec3){ 1.0f, 1.0f, 1.0f });
 
-
-	float delta_time = 0.0f;
-	float last_frame = 0.0f;
-	float total_time = 0.0f;
-	size_t nimg = 0;
 	while (!glfwWindowShouldClose(window)) {
 
-		float current_frame = glfwGetTime();
-
-		delta_time = current_frame - last_frame;
-		last_frame = current_frame;
-		g_delta_time = delta_time;
-
-		// FPS Counter
-		total_time += delta_time;
-		nimg += 1;
-		if (total_time >= 1.0f) {
-			fprintf(stderr, "\rFPS: %d", (int)(nimg / total_time));
-			total_time = 0.0f;
-			nimg = 0;
-		}
+		print_fps();
 
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -199,7 +183,7 @@ int		scop(GLFWwindow *window, char const *filename)
 		shader_set_mat4(&shader1, "view", view);
 		shader_set_mat4(&lampShader, "view", view);
 
-		object_roty(&o1, 10.f * delta_time);
+		object_roty(&o1, 10.f * g_delta_time);
 
 		object_set_scale(&lamp, 0.3f);
 
@@ -353,4 +337,26 @@ void mouseMove(GLFWwindow __unused *win, double xpos, double ypos)
 	glm_normalize(front);
 //	glm_vec3_print(front, stderr);
 	glm_vec3_copy(front, *g_cam_front_p);
+}
+
+void print_fps(void)
+{
+	static float delta_time = 0.0f;
+	static float last_frame = 0.0f;
+	static float total_time = 0.0f;
+	static size_t nimg = 0;
+	float current_frame = glfwGetTime();
+
+	delta_time = current_frame - last_frame;
+	last_frame = current_frame;
+	g_delta_time = delta_time;
+
+	// FPS Counter
+	total_time += delta_time;
+	nimg += 1;
+	if (total_time >= 1.0f) {
+		fprintf(stderr, "\rFPS: %d", (int)(nimg / total_time));
+		total_time = 0.0f;
+		nimg = 0;
+	}
 }
