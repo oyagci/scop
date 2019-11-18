@@ -58,23 +58,30 @@ float cubeVertices[] = {
 
 t_engine	g_engine;
 
+void	mouse_init(t_mouse *mouse)
+{
+	mouse->first_mouse = 1;
+	mouse->last_x = WIDTH / 2;
+	mouse->last_y = HEIGHT / 2;
+	mouse->pitch = 0.0f;
+	mouse->yaw = -90.0f;
+	mouse->sensitivity = 2.6f;
+}
+
+void	render_win_init(t_render_win *window)
+{
+	window->width = WIDTH;
+	window->height = HEIGHT;
+}
+
 void	engine_init(t_engine *engine)
 {
 	memcpy(&engine->cam_front, (vec3){ 0.0f, 0.0f, -1.0f }, sizeof(vec3));
 	memcpy(&engine->cam_up, (vec3){ 0.0f, 1.0f, 0.0f }, sizeof(vec3));
 	memcpy(&engine->cam_pos, (vec3){ 0.0f, 0.0f, 6.0f }, sizeof(vec3));
 	engine->delta_time = 0;
-
-	engine->window.width = WIDTH;
-	engine->window.height = HEIGHT;
-
-	engine->mouse.first_mouse = 1;
-	engine->mouse.last_x = WIDTH / 2;
-	engine->mouse.last_y = HEIGHT / 2;
-	engine->mouse.pitch = 0.0f;
-	engine->mouse.yaw = -90.0f;
-	engine->mouse.sensitivity = 2.6f;
-
+	mouse_init(&engine->mouse);
+	render_win_init(&engine->window);
 }
 
 int		scop(GLFWwindow *window, char const *filename)

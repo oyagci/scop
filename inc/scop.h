@@ -34,6 +34,8 @@ typedef struct	s_engine {
 }				t_engine;
 
 void	engine_init(t_engine *engine);
+void	mouse_init(t_mouse *mouse);
+void	render_win_init(t_render_win *window);
 
 void	processInput(GLFWwindow *win);
 void	framebufferResize(GLFWwindow __unused *win, int width, int height);
