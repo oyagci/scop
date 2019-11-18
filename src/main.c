@@ -335,7 +335,6 @@ void mouseMove(GLFWwindow __unused *win, double xpos, double ypos)
 		}, front);
 
 	glm_normalize(front);
-//	glm_vec3_print(front, stderr);
 	glm_vec3_copy(front, *g_cam_front_p);
 }
 
