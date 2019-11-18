@@ -49,4 +49,6 @@ void	mouseMove(GLFWwindow __unused *win, double xpos, double ypos);
 void	print_fps(void);
 void	update_delta_time(void);
 
+extern t_engine	g_engine;
+
 #endif
