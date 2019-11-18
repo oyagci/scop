@@ -22,16 +22,23 @@ typedef struct	s_vertex {
 	float	w;
 }				t_vertex;
 
+typedef struct	s_vertex_container
+{
+	t_vertex	*data;
+	size_t		size;
+	size_t		capacity;
+}				t_vertex_container;
+
 typedef struct	s_obj
 {
-	char			*data;
-	t_vertex		*vertices;
-	size_t			nverts;
+	char				*data;
 
-	struct s_list	*faces;
+	t_vertex_container	vertices;
 
-	t_list			*triangles;
-	size_t			ntriangles;
+	struct s_list		*faces;
+
+	t_list				*triangles;
+	size_t				ntriangles;
 }				t_obj;
 
 typedef struct	s_face_indices {

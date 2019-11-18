@@ -10,6 +10,36 @@
 
 int	read_file(char const *const filename, char **buf);
 
+int	vertex_container_init(t_vertex_container *vc)
+{
+	vc = calloc(500, sizeof(t_vertex));
+	if (vc) {
+		vc->capacity = 500;
+		vc->size = 0;
+		return (0);
+	}
+	return (-1);
+}
+
+int	vertex_container_add(t_vertex_container *vc, t_vertex *v)
+{
+	t_vertex	*d;
+
+	if (vc->size >= vc->capacity) {
+		d = realloc(vc->data, sizeof(t_vertex) * (vc->capacity + 500));
+		if (d) {
+			vc->data = d;
+			vc->capacity += 500;
+		}
+		else {
+			return (-1);
+		}
+	}
+	memcpy(vc->data + vc->size, v, sizeof(t_vertex));
+	vc->size += 1;
+	return (0);
+}
+
 void ft_dlstpush(t_dlist **lstp, t_dlist *elem)
 {
 	t_dlist	*lst;
@@ -66,28 +96,12 @@ enum e_obj_tok	obj_kind(char const *const stok)
 	return (OBJ_NONE);
 }
 
-int	obj_add_vertice(t_list **vertlst, char const *v)
+int	obj_add_vertice(t_vertex_container *vc, char const *v)
 {
-	float x = 0.0f;
-	float y = 0.0f;
-	float z = 0.0f;
-	float w = 1.0f;
+	t_vertex	vert;
 
-	// Read values
-	sscanf(v, "%f %f %f %f", &x, &y, &z, &w);
-
-	t_list		*elem = ft_lstnew(NULL, 0);
-	t_vertex	*vert = malloc(sizeof(t_vertex));
-
-	vert->x = x;
-	vert->y = y;
-	vert->z = z;
-	vert->w = w;
-
-	elem->content = vert;
-	ft_lstpush(vertlst, elem);
-
-	return (0);
+	sscanf(v, "%f %f %f %f", &vert.x, &vert.y, &vert.z, &vert.w);
+	return (vertex_container_add(vc, &vert));
 }
 
 int	scan_verts(unsigned int vert[3], char const *line)
@@ -148,36 +162,12 @@ int	obj_add_face(t_obj *obj, const char *data)
 	return (0);
 }
 
-t_vertex	*vertlst_to_arr(t_list **vertlstp, size_t nvert)
-{
-	t_vertex	*vertices;
-	t_list		*vertlst;
-	size_t		i;
-
-	vertlst = *vertlstp;
-	vertices = malloc(sizeof(*vertices) * nvert);
-	i = 0;
-	while (i < nvert) {
-		memcpy(vertices + i, vertlst->content, sizeof(*vertices));
-		vertlst = vertlst->next;
-		i++;
-	}
-	return (vertices);
-}
-
-void	del_vertex(void *content,
-	size_t __attribute__((unused)) csize)
-{
-	free(content);
-}
-
-int obj_add_data(t_obj *obj, char *line, t_list **vertlst)
+int obj_add_data(t_obj *obj, char *line)
 {
 	switch (obj_kind(line)) {
 		case OBJ_VERTEX:
 			line += 2;
-			obj_add_vertice(vertlst, line);
-			obj->nverts++;
+			obj_add_vertice(&obj->vertices, line);
 			break ;
 		case OBJ_FACE:
 			line += 2;
@@ -191,27 +181,20 @@ int obj_add_data(t_obj *obj, char *line, t_list **vertlst)
 
 int	obj_parse(t_obj *obj)
 {
-	t_list	*vertlst;
 	char	*lines;
 	char	*nl;
 
-	alarm(60);
-	fprintf(stderr, "parsing");
-	vertlst = NULL;
+	vertex_container_init(&obj->vertices);
+
 	lines = obj->data;
 	while (*lines) {
 		nl = strchr(lines, '\n');
 		if (nl) {
 			*nl = 0;
-			obj_add_data(obj, lines, &vertlst);
+			obj_add_data(obj, lines);
 			lines = nl + 1;
 		}
 	}
-	fprintf(stderr, "done -- parsing");
-	alarm(60);
-	obj->vertices = vertlst_to_arr(&vertlst, obj->nverts);
-	ft_lstdel(&vertlst, del_vertex);
-	alarm(0);
 	return (0);
 }
 
@@ -225,13 +208,19 @@ void	obj_triangulate_face(t_obj *obj, t_face *face)
 		t_triangle *t1 = malloc(sizeof(*t1));
 		t_triangle *t2 = malloc(sizeof(*t2));
 
-		memcpy(&t1->vert[0], &obj->vertices[face->indices[0].vert], sizeof(float) * 3);
-		memcpy(&t1->vert[1], &obj->vertices[face->indices[1].vert], sizeof(float) * 3);
-		memcpy(&t1->vert[2], &obj->vertices[face->indices[2].vert], sizeof(float) * 3);
+		memcpy(&t1->vert[0], &obj->vertices.data[face->indices[0].vert],
+			sizeof(float) * 3);
+		memcpy(&t1->vert[1], &obj->vertices.data[face->indices[1].vert],
+			sizeof(float) * 3);
+		memcpy(&t1->vert[2], &obj->vertices.data[face->indices[2].vert],
+			sizeof(float) * 3);
 
-		memcpy(&t2->vert[0], &obj->vertices[face->indices[0].vert], sizeof(float) * 3);
-		memcpy(&t2->vert[1], &obj->vertices[face->indices[2].vert], sizeof(float) * 3);
-		memcpy(&t2->vert[2], &obj->vertices[face->indices[3].vert], sizeof(float) * 3);
+		memcpy(&t2->vert[0], &obj->vertices.data[face->indices[0].vert],
+			sizeof(float) * 3);
+		memcpy(&t2->vert[1], &obj->vertices.data[face->indices[2].vert],
+			sizeof(float) * 3);
+		memcpy(&t2->vert[2], &obj->vertices.data[face->indices[3].vert],
+			sizeof(float) * 3);
 
 		// Calculate the normal for the face
 
@@ -264,9 +253,12 @@ void	obj_triangulate_face(t_obj *obj, t_face *face)
 	else if (face->nverts == 3) {
 		t_triangle *t1 = malloc(sizeof(*t1));
 
-		memcpy(&t1->vert[0], &obj->vertices[face->indices[0].vert], sizeof(float) * 3);
-		memcpy(&t1->vert[1], &obj->vertices[face->indices[1].vert], sizeof(float) * 3);
-		memcpy(&t1->vert[2], &obj->vertices[face->indices[2].vert], sizeof(float) * 3);
+		memcpy(&t1->vert[0], &obj->vertices.data[face->indices[0].vert],
+				sizeof(float) * 3);
+		memcpy(&t1->vert[1], &obj->vertices.data[face->indices[1].vert],
+				sizeof(float) * 3);
+		memcpy(&t1->vert[2], &obj->vertices.data[face->indices[2].vert],
+				sizeof(float) * 3);
 
 		// Calculate the normal for the face
 
@@ -299,7 +291,6 @@ void	obj_triangulate(t_obj *obj)
 	t_list			*f = NULL;
 	t_face			*face = NULL;
 	
-	fprintf(stderr, "Triangulating\n");
 	f = obj->faces;
 	while (f) {
 		face = f->content;
@@ -337,5 +328,5 @@ t_gltri	*obj_get_triangles_arr(t_obj *obj)
 
 float	*obj_get_vertices(t_obj *obj)
 {
-	return (float *)obj->vertices;
+	return (float *)obj->vertices.data;
 }
