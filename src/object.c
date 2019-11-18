@@ -6,30 +6,25 @@
 #define __unused __attribute__((unused))
 
 void	object_init(struct s_object *o,
-			GLfloat const *verts,
-			GLsizei nverts,
+			GLfloat const *vdata,
+			GLsizei ndata,
+			GLsizei stride,
 			struct s_program *shader)
 {
 	memset(o, 0, sizeof(*o));
-
 	o->scale = 1.0f;
-	o->nvert = nverts;
+	o->nvert = ndata;
 	o->shader = shader;
 	o->vertices = malloc(sizeof(GLfloat) * o->nvert);
-	memcpy(o->vertices, verts, sizeof(GLfloat) * o->nvert);
-
-	glUseProgram(shader->index);
+	memcpy(o->vertices, vdata, sizeof(GLfloat) * o->nvert);
 
 	glGenVertexArrays(1, &o->vao);
-	glGenBuffers(1, &o->vbo);
-
 	glBindVertexArray(o->vao);
 
+	glGenBuffers(1, &o->vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, o->vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * o->nvert, o->vertices,
 		GL_STATIC_DRAW);
-
-	size_t stride = sizeof(GLfloat) * 6;
 
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);

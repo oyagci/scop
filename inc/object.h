@@ -26,8 +26,9 @@ struct s_object {
 };
 
 void	object_init(struct s_object *o,
-			GLfloat const *verts,
-			GLsizei nverts,
+			GLfloat const *vdata,
+			GLsizei ndata,
+			GLsizei stride,
 			struct s_program *shader);
 void	object_prepare_draw(struct s_object *o);
 void	object_draw(struct s_object *o);
