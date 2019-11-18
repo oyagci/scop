@@ -80,6 +80,7 @@ typedef struct	s_obj
 typedef struct	s_glvert {
 	float	v[3];
 	float	n[3];
+	float	color[3];
 }				t_glvert;
 
 typedef struct	s_gltri {

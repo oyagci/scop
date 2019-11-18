@@ -345,6 +345,9 @@ t_gltri	*obj_get_triangles_arr(t_obj *obj)
 	while (i < obj->triangles.size) {
 		t_triangle *content = obj->triangles.data + i;
 
+		float	color_val = i % 2 ? 0.7f : 1.0f;
+		vec3	color = { color_val, color_val, color_val };
+
 		memcpy(triangles[i].data[0].v, content->vert[0], sizeof(vec3));
 		memcpy(triangles[i].data[1].v, content->vert[1], sizeof(vec3));
 		memcpy(triangles[i].data[2].v, content->vert[2], sizeof(vec3));
@@ -352,6 +355,10 @@ t_gltri	*obj_get_triangles_arr(t_obj *obj)
 		memcpy(triangles[i].data[0].n, content->norm, sizeof(vec3));
 		memcpy(triangles[i].data[1].n, content->norm, sizeof(vec3));
 		memcpy(triangles[i].data[2].n, content->norm, sizeof(vec3));
+
+		memcpy(triangles[i].data[0].color, color, sizeof(vec3));
+		memcpy(triangles[i].data[1].color, color, sizeof(vec3));
+		memcpy(triangles[i].data[2].color, color, sizeof(vec3));
 
 		i += 1;
 	}

@@ -32,6 +32,9 @@ void	object_init(struct s_object *o,
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride, (void*)(sizeof(float) * 3));
 
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride, (void*)(sizeof(float) * 6));
+
 	// Unbind buffers to prevent accidental changes
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

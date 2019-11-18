@@ -100,8 +100,8 @@ int		scop(GLFWwindow *window, char const *filename)
 
 	t_gltri *vdata = obj_get_triangles_arr(&obj);
 
-	object_init(&o1, (float *)vdata, obj.triangles.size * 3 * 6,
-		   sizeof(GLfloat) * 6,	&shader1);
+	object_init(&o1, (float *)vdata, obj.triangles.size * 3 * 9,
+		   sizeof(GLfloat) * 9,	&shader1);
 	object_init(&lamp, cubeVertices, sizeof(cubeVertices) / sizeof(GLfloat),
 		sizeof(GLfloat) * 6, &lampShader);
 

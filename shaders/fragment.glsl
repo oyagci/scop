@@ -4,13 +4,15 @@ out vec4 FragColor;
 
 in vec3 Normal;
 in vec3 FragPos;
+in vec3 ObjectColor;
 
 uniform vec3 lightPos;
 uniform vec3 lightColor;
+uniform vec3 viewPos;
 
 void main()
 {
-	vec3 objectColor = vec3(1.0f, 1.0f, 1.0f);
+	vec3 objectColor = ObjectColor;
 
 	// Helpers
 	vec3 norm = normalize(Normal);
