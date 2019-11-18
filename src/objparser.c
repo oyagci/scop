@@ -160,7 +160,7 @@ int	obj_add_vertice(t_vertex_container *vc, char const *v)
 {
 	t_vertex	vert;
 
-	sscanf(v, "%f %f %f %f", &vert.x, &vert.y, &vert.z, &vert.w);
+	sscanf(v, "v %f %f %f %f", &vert.x, &vert.y, &vert.z, &vert.w);
 	return (vertex_container_add(vc, &vert));
 }
 
@@ -221,7 +221,6 @@ int obj_add_data(t_obj *obj, char *line)
 {
 	switch (obj_kind(line)) {
 		case OBJ_VERTEX:
-			line += 2;
 			obj_add_vertice(&obj->vertices, line);
 			break ;
 		case OBJ_FACE:
