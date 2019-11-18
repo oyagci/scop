@@ -14,6 +14,7 @@ void	object_init(struct s_object *o,
 {
 	memset(o, 0, sizeof(*o));
 
+	o->scale = 1.0f;
 	o->nvert = nverts;
 	o->shader = shader;
 	o->vertices = malloc(sizeof(GLfloat) * o->nvert);
@@ -28,7 +29,7 @@ void	object_init(struct s_object *o,
 
 	glBindBuffer(GL_ARRAY_BUFFER, o->vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * o->nvert, o->vertices,
-		GL_STATIC_DRAW);
+		GL_DYNAMIC_DRAW);
 
 	size_t stride = sizeof(GLfloat) * 6;
 
@@ -57,10 +58,9 @@ void	object_prepare_draw(struct s_object *o)
 	glm_rotate_y(model, o->rot[1], model);
 	glm_rotate_z(model, o->rot[2], model);
 
-	program_use(o->shader);
+	glm_scale_uni(model, o->scale);
 
-	glUniformMatrix4fv(glGetUniformLocation(o->shader->index, "model"), 1,
-		GL_FALSE, model[0]);
+	shader_set_mat4(o->shader, "model", model);
 
 	glBindVertexArray(o->vao);
 }
@@ -83,23 +83,24 @@ void object_delete(struct s_object *o)
 void object_set_pos(struct s_object *o, vec3 newpos)
 {
 	memcpy(o->pos, newpos, sizeof(o->pos));
-	o->should_update_mat = 1;
 }
 
 void object_rotx(struct s_object *o, float angle)
 {
-	o->rot[0] = angle;
-	o->should_update_mat = 1;
+	o->rot[0] = glm_rad(angle);
 }
 
 void object_roty(struct s_object *o, float angle)
 {
-	o->rot[1] = angle;
-	o->should_update_mat = 1;
+	o->rot[1] = glm_rad(angle);
 }
 
 void object_rotz(struct s_object *o, float angle)
 {
-	o->rot[2] = angle;
-	o->should_update_mat = 1;
+	o->rot[2] = glm_rad(angle);
+}
+
+void object_set_scale(struct s_object *o, float scale)
+{
+	o->scale = scale;
 }

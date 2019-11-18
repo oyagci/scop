@@ -24,7 +24,7 @@ typedef struct	s_vertex {
 
 typedef struct	s_obj
 {
-	char			*data;
+	t_list			*data;
 	t_vertex		*vertices;
 	size_t			nverts;
 

@@ -7,11 +7,10 @@ in vec3 FragPos;
 
 uniform vec3 lightPos;
 uniform vec3 lightColor;
+uniform vec3 objectColor;
 
 void main()
 {
-	vec3 objectColor = vec3(1.0f, 0.1f, 0.1f);
-
 	// Helpers
 	vec3 norm = normalize(Normal);
 	vec3 lightDir = normalize(lightPos - FragPos);
@@ -20,7 +19,7 @@ void main()
 	vec3 ambient = vec3(0.1f, 0.1f, 0.1f) * objectColor;
 
 	// Diffuse
-	float diff = max(dot(norm, lightDir), 0.0f);
+	float diff = max(dot(lightDir, norm), 0.0f);
 	vec3 diffuse = diff * objectColor;
 
 	// Specular

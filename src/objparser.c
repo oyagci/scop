@@ -34,12 +34,17 @@ void ft_dlstpush(t_dlist **lstp, t_dlist *elem)
 
 int	obj_load(t_obj *obj, char const *const filename)
 {
+	t_list		*last;
+	t_list		*lines;
+	t_list		*elem;
+	char		*data;
 	int			fd;
 	struct stat	st;
-	char		*content;
 
+	alarm(10);
+	fprintf(stderr, "Loading data in memory...\n");
+	lines = NULL;
 	memset(obj, 0, sizeof(*obj));
-
 	fd = open(filename, O_RDONLY);
 	if (fd < 0) {
 		return (-1);
@@ -53,17 +58,24 @@ int	obj_load(t_obj *obj, char const *const filename)
 		perror("malloc");
 		return (-1);
 	}
-	content = malloc(sizeof(*content) * (st.st_size + 1));
-	if (!content) {
-		perror("malloc");
-		close(fd);
-		free(obj);
-		return (-1);
+
+	if (get_next_line(fd, &data)) {
+		elem = ft_lstnew(NULL, 0);
+		elem->content = data;
+		ft_lstpush(&lines, elem);
+		last = elem;
 	}
-	read(fd, content, st.st_size);
-	content[st.st_size] = '\0';
-	obj->data = content;
+	int i = 1;
+	while (get_next_line(fd, &data) > 0) {
+		elem = ft_lstnew(NULL, 0);
+		elem->content = data;
+		ft_lstpush(&last, elem);
+		last = last->next;
+		fprintf(stdout, "%d\n", i++);
+	}
+	obj->data = lines;
 	close(fd);
+	fprintf(stderr, "Done -- Loading data in memory...\n");
 	return (0);
 }
 
@@ -224,18 +236,19 @@ void	del_vertex(void *content,
 
 int	obj_parse(t_obj *obj)
 {
-	size_t	i;
-	char	**lines;
+	t_list	*lines;
 	char	**line;
 	size_t	nvert;
 	t_list	*vertlst;
 
+	alarm(10);
 	vertlst = 0;
 	nvert = 0;
-	lines = ft_strsplit(obj->data, '\n');
-	i = 0;
-	while (lines[i] != 0) {
-		line = ft_strsplit(lines[i], ' ');
+	lines = obj->data;
+	int i = 0;
+	while (lines) {
+		line = ft_strsplit(lines->content, ' ');
+		fprintf(stderr, "%d\n", i++);
 		switch (obj_kind(line[0])) {
 			case OBJ_VERTEX:
 				obj_add_vertice(&vertlst, (const char **)(line + 1));
@@ -247,15 +260,12 @@ int	obj_parse(t_obj *obj)
 			default:
 				break ;
 		}
-
-		for (int i = 0; line[i] != 0; i++) {
-			free(line[i]);
-		}
-		i += 1;
+		lines = lines->next;
 	}
 	obj->vertices = vertlst_to_arr(&vertlst, nvert);
 	obj->nverts = nvert;
 	ft_lstdel(&vertlst, del_vertex);
+	alarm(0);
 	return (0);
 }
 
@@ -345,12 +355,15 @@ void	obj_triangulate(t_obj *obj)
 	t_list			*f = NULL;
 	t_face			*face = NULL;
 	
+	fprintf(stderr, "Triangulating\n");
+	alarm(10);
 	f = obj->faces;
 	while (f) {
 		face = f->content;
 		obj_triangulate_face(obj, face);
 		f = f->next;
 	}
+	alarm(0);
 }
 
 t_gltri	*obj_get_triangles_arr(t_obj *obj)

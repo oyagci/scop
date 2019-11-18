@@ -102,5 +102,5 @@ void shader_set_mat4(struct s_program *p, char const *name, mat4 m)
 {
 	program_use(p);
 	glUniformMatrix4fv(glGetUniformLocation(p->index, name), 1,
-		GL_FALSE, *m);
+		GL_FALSE, m[0]);
 }

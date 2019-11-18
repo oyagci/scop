@@ -130,9 +130,15 @@ int		scop(GLFWwindow *window, char const *filename)
 
 	t_gltri *vertices1 = obj_get_triangles_arr(&obj);
 
-	//object_init(&o1, (float *)vertices1, NULL, obj.ntriangles * 3 * 6, 0, &shader1);
-	object_init(&o1, cubeVertices, NULL, sizeof(cubeVertices) / sizeof(GLfloat), 0, &shader1);
-	object_init(&lamp, cubeVertices, NULL, sizeof(cubeVertices) / sizeof(GLfloat), 0, &lampShader);
+	object_init(&o1, (float *)vertices1, NULL, obj.ntriangles * 3 * 6, 0, &shader1);
+
+	object_init(&lamp, cubeVertices, NULL, sizeof(cubeVertices) / sizeof(GLfloat),
+		0, &lampShader);
+	object_set_scale(&lamp, 0.3f);
+	object_set_pos(&o1, (GLfloat []){ 0.0f, 0.0f, 0.0f });
+
+	shader_set_vec3(&shader1, "objectColor", (vec3){ 1.0f, 1.0f, 1.0f});
+	shader_set_vec3(&shader1, "lightColor", (vec3){ 1.0f, 1.0f, 1.0f });
 
 	free(vertices1);
 
@@ -143,8 +149,6 @@ int		scop(GLFWwindow *window, char const *filename)
 	g_cam_front_p = &cam_front;
 	g_cam_pos_p = &cam_pos;
 	g_cam_up_p = &cam_up;
-
-	shader_set_vec3(&shader1, "lightColor", (vec3){ 1.0f, 1.0f, 1.0f });
 
 	float delta_time = 0.0f;
 	float last_frame = 0.0f;
@@ -184,23 +188,23 @@ int		scop(GLFWwindow *window, char const *filename)
 			g_update_projection = 0;
 		}
 
-		vec3 lightPos = { sin(glfwGetTime()) * 5.0f, sin(glfwGetTime()), cos(glfwGetTime()) * 5.0f };
-
-		shader_set_vec3(&shader1, "lightPos", lightPos);
-		object_set_pos(&lamp, lightPos);
-
 		mat4 view;
 		vec3 cam_target;
 
 		glm_vec3_add(cam_front, cam_pos, cam_target);
 		glm_lookat(cam_pos, cam_target, cam_up, view);
+
 		shader_set_mat4(&shader1, "view", view);
 		shader_set_mat4(&lampShader, "view", view);
 
-		object_roty(&o1, -90.0f);
-
-		object_draw(&lamp);
+		object_roty(&o1, delta_time * glfwGetTime());
 		object_draw(&o1);
+
+		vec3 lightPos = { sin(glfwGetTime()) * 3.5f, 1.0f, 3.5f };
+
+		shader_set_vec3(&shader1, "lightPos", lightPos);
+		object_set_pos(&lamp, lightPos);
+		object_draw(&lamp);
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
