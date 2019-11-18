@@ -63,13 +63,12 @@ mat4	g_projection;
 
 t_engine	g_engine;
 
-float g_delta_time = 0.0f;
-
 void	engine_init(t_engine *engine)
 {
 	memcpy(&engine->cam_front, (vec3){ 0.0f, 0.0f, -1.0f }, sizeof(vec3));
 	memcpy(&engine->cam_up, (vec3){ 0.0f, 1.0f, 0.0f }, sizeof(vec3));
 	memcpy(&engine->cam_pos, (vec3){ 0.0f, 0.0f, 6.0f }, sizeof(vec3));
+	engine->delta_time = 0;
 
 	engine->window.width = WIDTH;
 	engine->window.height = HEIGHT;

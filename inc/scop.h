@@ -30,6 +30,7 @@ typedef struct	s_engine {
 	vec3			cam_up;
 	t_render_win	window;
 	t_mouse			mouse;
+	float			delta_time;
 }				t_engine;
 
 void	engine_init(t_engine *engine);
