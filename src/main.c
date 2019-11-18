@@ -1,18 +1,16 @@
-#include "glad/glad.h"
-#include <GLFW/glfw3.h>
 #include <stdio.h>
-#include "shader.h"
-#include "object.h"
 #include <math.h>
-#include "stb_image.h"
-#include <cglm/call.h>
-#include "obj.h"
-
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+
+#include "scop.h"
+#include "shader.h"
+#include "object.h"
+#include "stb_image.h"
+#include "obj.h"
 
 float cubeVertices[] = {
     -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
@@ -63,10 +61,7 @@ float cubeVertices[] = {
 int		g_update_projection = 1;
 mat4	g_projection;
 
-// Camera Values
-vec3	*g_cam_pos_p;
-vec3	*g_cam_front_p;
-vec3	*g_cam_up_p;
+t_engine	g_engine;
 
 // Window default size
 int		g_width = WIDTH;
@@ -82,6 +77,13 @@ int		first_mouse = 1;
  
 float g_delta_time = 0.0f;
 
+void	engine_init(t_engine *engine)
+{
+	memcpy(&engine->cam_front, (vec3){ 0.0f, 0.0f, -1.0f }, sizeof(vec3));
+	memcpy(&engine->cam_up, (vec3){ 0.0f, 1.0f, 0.0f }, sizeof(vec3));
+	memcpy(&engine->cam_pos, (vec3){ 0.0f, 0.0f, 6.0f }, sizeof(vec3));
+}
+
 int		scop(GLFWwindow *window, char const *filename)
 {
 	t_obj	obj;
@@ -94,6 +96,8 @@ int		scop(GLFWwindow *window, char const *filename)
 
 	struct s_object o1;
 	struct s_object lamp;
+
+	engine_init(&g_engine);
 
 	if (obj_load(&obj, filename) < 0) {
 		fprintf(stderr, "obj_load: error\n");
@@ -131,14 +135,6 @@ int		scop(GLFWwindow *window, char const *filename)
 
 	free(vdata);
 
-	vec3 cam_front = { 0.0f, 0.0f, -1.0f };
-	vec3 cam_up = { 0.0f, 1.0f, 0.0f };
-	vec3 cam_pos = { 0.0f, 0.0f, 6.0f};
-
-	g_cam_front_p = &cam_front;
-	g_cam_pos_p = &cam_pos;
-	g_cam_up_p = &cam_up;
-
 	shader_set_vec3(&shader1, "lightColor", (vec3){ 1.0f, 1.0f, 1.0f });
 
 	while (!glfwWindowShouldClose(window)) {
@@ -170,8 +166,8 @@ int		scop(GLFWwindow *window, char const *filename)
 		mat4 view;
 		vec3 cam_target;
 
-		glm_vec3_add(cam_front, cam_pos, cam_target);
-		glm_lookat(cam_pos, cam_target, cam_up, view);
+		glm_vec3_add(g_engine.cam_front, g_engine.cam_pos, cam_target);
+		glm_lookat(g_engine.cam_pos, cam_target, g_engine.cam_up, view);
 		shader_set_mat4(&shader1, "view", view);
 		shader_set_mat4(&lampShader, "view", view);
 
@@ -243,45 +239,45 @@ void processInput(GLFWwindow *win)
 	}
 	if (glfwGetKey(win, GLFW_KEY_W)) {
 		vec3 newpos = {
-			(*g_cam_front_p)[0] * speed,
-			(*g_cam_front_p)[1] * speed,
-			(*g_cam_front_p)[2] * speed
+			g_engine.cam_front[0] * speed,
+			g_engine.cam_front[1] * speed,
+			g_engine.cam_front[2] * speed
 		};
 
-		glm_vec3_add(*g_cam_pos_p, newpos, *g_cam_pos_p);
+		glm_vec3_add(g_engine.cam_pos, newpos, g_engine.cam_pos);
 	}
 	if (glfwGetKey(win, GLFW_KEY_S)) {
 		vec3 newpos = {
-			(*g_cam_front_p)[0] * -speed,
-			(*g_cam_front_p)[1] * -speed,
-			(*g_cam_front_p)[2] * -speed
+			g_engine.cam_front[0] * -speed,
+			g_engine.cam_front[1] * -speed,
+			g_engine.cam_front[2] * -speed
 		};
 
-		glm_vec3_add(*g_cam_pos_p, newpos, *g_cam_pos_p);
+		glm_vec3_add(g_engine.cam_pos, newpos, g_engine.cam_pos);
 	}
 	if (glfwGetKey(win, GLFW_KEY_A)) {
 		vec3 right;
 
-		glm_vec3_cross(*g_cam_front_p, *g_cam_up_p, right);
+		glm_vec3_cross(g_engine.cam_front, g_engine.cam_up, right);
 		glm_normalize(right);
-		glm_vec3_muladds(right, -speed, *g_cam_pos_p);
+		glm_vec3_muladds(right, -speed, g_engine.cam_pos);
 	}
 	if (glfwGetKey(win, GLFW_KEY_D)) {
 		vec3 right;
 
-		glm_vec3_cross(*g_cam_front_p, *g_cam_up_p, right);
+		glm_vec3_cross(g_engine.cam_front, g_engine.cam_up, right);
 		glm_normalize(right);
-		glm_vec3_muladds(right, speed, *g_cam_pos_p);
+		glm_vec3_muladds(right, speed, g_engine.cam_pos);
 	}
 	if (glfwGetKey(win, GLFW_KEY_SPACE)) {
 		vec3 newpos = { 0.0f, 1.0f * speed, 0.0f };
 
-		glm_vec3_add(*g_cam_pos_p, newpos, *g_cam_pos_p);
+		glm_vec3_add(g_engine.cam_pos, newpos, g_engine.cam_pos);
 	}
 	if (glfwGetKey(win, GLFW_KEY_LEFT_CONTROL)) {
 		vec3 newpos = { 0.0f, 1.0f * -speed, 0.0f };
 
-		glm_vec3_add(*g_cam_pos_p, newpos, *g_cam_pos_p);
+		glm_vec3_add(g_engine.cam_pos, newpos, g_engine.cam_pos);
 	}
 }
 
@@ -327,7 +323,7 @@ void mouseMove(GLFWwindow __unused *win, double xpos, double ypos)
 		}, front);
 
 	glm_normalize(front);
-	glm_vec3_copy(front, *g_cam_front_p);
+	glm_vec3_copy(front, g_engine.cam_front);
 }
 
 void print_fps(void)
