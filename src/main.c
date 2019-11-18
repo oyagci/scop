@@ -186,7 +186,6 @@ int		scop(GLFWwindow *window, char const *filename)
 			g_update_projection = 0;
 		}
 
-		//vec3 lightPos = { sin(glfwGetTime()) * 5.0f, sin(glfwGetTime()), cos(glfwGetTime()) * 5.0f };
 		vec3 lightPos = { 5.0f, sin(glfwGetTime()) * 2.0f, 5.0f };
 
 		shader_set_vec3(&shader1, "lightPos", lightPos);
