@@ -74,13 +74,16 @@ void	mouseMove(GLFWwindow __unused *win, double xpos, double ypos);
 int		g_update_projection = 1;
 mat4	g_projection;
 
+// Camera Values
 vec3	*g_cam_pos_p;
 vec3	*g_cam_front_p;
 vec3	*g_cam_up_p;
 
+// Window default size
 int		g_width = WIDTH;
 int		g_height = HEIGHT;
 
+// Mouse input values
 double	last_x = WIDTH / 2;
 double	last_y = HEIGHT / 2;
 
