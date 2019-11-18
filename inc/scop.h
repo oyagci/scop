@@ -10,6 +10,12 @@
 # define HEIGHT		720
 # define __unused	__attribute__((unused))
 
+typedef struct	s_gl_camera {
+	vec3	pos;
+	vec3	front;
+	vec3	up;
+}				t_gl_camera;
+
 typedef struct	s_render_win {
 	int	width;
 	int	height;
@@ -25,9 +31,7 @@ typedef struct	s_mouse {
 }				t_mouse;
 
 typedef struct	s_engine {
-	vec3			cam_pos;
-	vec3			cam_front;
-	vec3			cam_up;
+	t_gl_camera		camera;
 	t_render_win	window;
 	t_mouse			mouse;
 	float			delta_time;
@@ -36,6 +40,7 @@ typedef struct	s_engine {
 void	engine_init(t_engine *engine);
 void	mouse_init(t_mouse *mouse);
 void	render_win_init(t_render_win *window);
+void	gl_camera_init(t_gl_camera *camera);
 
 void	processInput(GLFWwindow *win);
 void	framebufferResize(GLFWwindow __unused *win, int width, int height);

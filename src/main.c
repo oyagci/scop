@@ -74,14 +74,19 @@ void	render_win_init(t_render_win *window)
 	window->height = HEIGHT;
 }
 
+void	gl_camera_init(t_gl_camera *camera)
+{
+	memcpy(&camera->front, (vec3){ 0.0f, 0.0f, -1.0f }, sizeof(vec3));
+	memcpy(&camera->up, (vec3){ 0.0f, 1.0f, 0.0f }, sizeof(vec3));
+	memcpy(&camera->pos, (vec3){ 0.0f, 0.0f, 6.0f }, sizeof(vec3));
+}
+
 void	engine_init(t_engine *engine)
 {
-	memcpy(&engine->cam_front, (vec3){ 0.0f, 0.0f, -1.0f }, sizeof(vec3));
-	memcpy(&engine->cam_up, (vec3){ 0.0f, 1.0f, 0.0f }, sizeof(vec3));
-	memcpy(&engine->cam_pos, (vec3){ 0.0f, 0.0f, 6.0f }, sizeof(vec3));
 	engine->delta_time = 0;
 	mouse_init(&engine->mouse);
 	render_win_init(&engine->window);
+	gl_camera_init(&engine->camera);
 }
 
 int		scop(GLFWwindow *window, char const *filename)
@@ -162,8 +167,8 @@ int		scop(GLFWwindow *window, char const *filename)
 		mat4 view;
 		vec3 cam_target;
 
-		glm_vec3_add(g_engine.cam_front, g_engine.cam_pos, cam_target);
-		glm_lookat(g_engine.cam_pos, cam_target, g_engine.cam_up, view);
+		glm_vec3_add(g_engine.camera.front, g_engine.camera.pos, cam_target);
+		glm_lookat(g_engine.camera.pos, cam_target, g_engine.camera.up, view);
 		shader_set_mat4(&shader1, "view", view);
 		shader_set_mat4(&lampShader, "view", view);
 
@@ -237,45 +242,45 @@ void processInput(GLFWwindow *win)
 	}
 	if (glfwGetKey(win, GLFW_KEY_W)) {
 		vec3 newpos = {
-			g_engine.cam_front[0] * speed,
-			g_engine.cam_front[1] * speed,
-			g_engine.cam_front[2] * speed
+			g_engine.camera.front[0] * speed,
+			g_engine.camera.front[1] * speed,
+			g_engine.camera.front[2] * speed
 		};
 
-		glm_vec3_add(g_engine.cam_pos, newpos, g_engine.cam_pos);
+		glm_vec3_add(g_engine.camera.pos, newpos, g_engine.camera.pos);
 	}
 	if (glfwGetKey(win, GLFW_KEY_S)) {
 		vec3 newpos = {
-			g_engine.cam_front[0] * -speed,
-			g_engine.cam_front[1] * -speed,
-			g_engine.cam_front[2] * -speed
+			g_engine.camera.front[0] * -speed,
+			g_engine.camera.front[1] * -speed,
+			g_engine.camera.front[2] * -speed
 		};
 
-		glm_vec3_add(g_engine.cam_pos, newpos, g_engine.cam_pos);
+		glm_vec3_add(g_engine.camera.pos, newpos, g_engine.camera.pos);
 	}
 	if (glfwGetKey(win, GLFW_KEY_A)) {
 		vec3 right;
 
-		glm_vec3_cross(g_engine.cam_front, g_engine.cam_up, right);
+		glm_vec3_cross(g_engine.camera.front, g_engine.camera.up, right);
 		glm_normalize(right);
-		glm_vec3_muladds(right, -speed, g_engine.cam_pos);
+		glm_vec3_muladds(right, -speed, g_engine.camera.pos);
 	}
 	if (glfwGetKey(win, GLFW_KEY_D)) {
 		vec3 right;
 
-		glm_vec3_cross(g_engine.cam_front, g_engine.cam_up, right);
+		glm_vec3_cross(g_engine.camera.front, g_engine.camera.up, right);
 		glm_normalize(right);
-		glm_vec3_muladds(right, speed, g_engine.cam_pos);
+		glm_vec3_muladds(right, speed, g_engine.camera.pos);
 	}
 	if (glfwGetKey(win, GLFW_KEY_SPACE)) {
 		vec3 newpos = { 0.0f, 1.0f * speed, 0.0f };
 
-		glm_vec3_add(g_engine.cam_pos, newpos, g_engine.cam_pos);
+		glm_vec3_add(g_engine.camera.pos, newpos, g_engine.camera.pos);
 	}
 	if (glfwGetKey(win, GLFW_KEY_LEFT_CONTROL)) {
 		vec3 newpos = { 0.0f, 1.0f * -speed, 0.0f };
 
-		glm_vec3_add(g_engine.cam_pos, newpos, g_engine.cam_pos);
+		glm_vec3_add(g_engine.camera.pos, newpos, g_engine.camera.pos);
 	}
 }
 
@@ -322,7 +327,7 @@ void mouseMove(GLFWwindow __unused *win, double xpos, double ypos)
 		}, front);
 
 	glm_normalize(front);
-	glm_vec3_copy(front, g_engine.cam_front);
+	glm_vec3_copy(front, g_engine.camera.front);
 }
 
 void update_delta_time(void)
