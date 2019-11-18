@@ -200,7 +200,7 @@ int		scop(GLFWwindow *window, char const *filename)
 		shader_set_mat4(&shader1, "view", view);
 		shader_set_mat4(&lampShader, "view", view);
 
-		object_roty(&o1, glfwGetTime());
+		object_roty(&o1, 10.f * delta_time);
 
 		object_set_scale(&lamp, 0.3f);
 
