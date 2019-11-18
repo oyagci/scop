@@ -130,8 +130,8 @@ int		scop(GLFWwindow *window, char const *filename)
 
 	t_gltri *vertices1 = obj_get_triangles_arr(&obj);
 
-	//object_init(&o1, (float *)vertices1, NULL, obj.ntriangles * 3 * 6, 0, &shader1);
-	object_init(&o1, cubeVertices, NULL, sizeof(cubeVertices) / sizeof(GLfloat), 0, &shader1);
+	object_init(&o1, (float *)vertices1, NULL, obj.ntriangles * 3 * 6, 0, &shader1);
+	//object_init(&o1, cubeVertices, NULL, sizeof(cubeVertices) / sizeof(GLfloat), 0, &shader1);
 	object_init(&lamp, cubeVertices, NULL, sizeof(cubeVertices) / sizeof(GLfloat), 0, &lampShader);
 
 	free(vertices1);

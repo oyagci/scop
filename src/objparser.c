@@ -8,6 +8,8 @@
 #include <errno.h>
 #include <assert.h>
 
+int	read_file(char const *const filename, char **buf);
+
 void ft_dlstpush(t_dlist **lstp, t_dlist *elem)
 {
 	t_dlist	*lst;
@@ -34,36 +36,14 @@ void ft_dlstpush(t_dlist **lstp, t_dlist *elem)
 
 int	obj_load(t_obj *obj, char const *const filename)
 {
-	int			fd;
-	struct stat	st;
-	char		*content;
+	char *data;
 
 	memset(obj, 0, sizeof(*obj));
 
-	fd = open(filename, O_RDONLY);
-	if (fd < 0) {
-		return (-1);
+	if (!read_file(filename, &data)) {
+		return (1);
 	}
-	if (-1 == fstat(fd, &st)) {
-		perror("fstat");
-		close(fd);
-		return (-1);
-	}
-	if (!obj) {
-		perror("malloc");
-		return (-1);
-	}
-	content = malloc(sizeof(*content) * (st.st_size + 1));
-	if (!content) {
-		perror("malloc");
-		close(fd);
-		free(obj);
-		return (-1);
-	}
-	read(fd, content, st.st_size);
-	content[st.st_size] = '\0';
-	obj->data = content;
-	close(fd);
+	obj->data = data;
 	return (0);
 }
 
@@ -116,9 +96,6 @@ int	obj_add_vertice(t_list **vertlst, char const **v)
 	vert->y = y;
 	vert->z = z;
 	vert->w = w;
-
-//	fprintf(stderr, "V { x: %.2f, y: %.2f, z: %.2f, w: %.2f }\n",
-//		x, y, z, w);
 
 	elem->content = vert;
 	ft_lstpush(vertlst, elem);
@@ -224,11 +201,11 @@ void	del_vertex(void *content,
 
 int	obj_parse(t_obj *obj)
 {
-	size_t	i;
 	char	**lines;
 	char	**line;
 	size_t	nvert;
 	t_list	*vertlst;
+	int		i;
 
 	vertlst = 0;
 	nvert = 0;
@@ -247,10 +224,10 @@ int	obj_parse(t_obj *obj)
 			default:
 				break ;
 		}
-
 		for (int i = 0; line[i] != 0; i++) {
 			free(line[i]);
 		}
+
 		i += 1;
 	}
 	obj->vertices = vertlst_to_arr(&vertlst, nvert);
