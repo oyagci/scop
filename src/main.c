@@ -63,10 +63,6 @@ mat4	g_projection;
 
 t_engine	g_engine;
 
-// Window default size
-int		g_width = WIDTH;
-int		g_height = HEIGHT;
-
 // Mouse input values
 double	last_x = WIDTH / 2;
 double	last_y = HEIGHT / 2;
@@ -82,6 +78,8 @@ void	engine_init(t_engine *engine)
 	memcpy(&engine->cam_front, (vec3){ 0.0f, 0.0f, -1.0f }, sizeof(vec3));
 	memcpy(&engine->cam_up, (vec3){ 0.0f, 1.0f, 0.0f }, sizeof(vec3));
 	memcpy(&engine->cam_pos, (vec3){ 0.0f, 0.0f, 6.0f }, sizeof(vec3));
+	engine->window.width = WIDTH;
+	engine->window.height = HEIGHT;
 }
 
 int		scop(GLFWwindow *window, char const *filename)
@@ -96,8 +94,6 @@ int		scop(GLFWwindow *window, char const *filename)
 
 	struct s_object o1;
 	struct s_object lamp;
-
-	engine_init(&g_engine);
 
 	if (obj_load(&obj, filename) < 0) {
 		fprintf(stderr, "obj_load: error\n");
@@ -149,7 +145,7 @@ int		scop(GLFWwindow *window, char const *filename)
 		// Rendering
 
 		if (g_update_projection) {
-			glm_perspective(45.0f, (float)g_width/(float)g_height, 0.1f, 100.0f,
+			glm_perspective(45.0f, (float)g_engine.window.width/(float)g_engine.window.height, 0.1f, 100.0f,
 				g_projection);
 
 			shader_set_mat4(&shader1, "proj", g_projection);
@@ -197,12 +193,14 @@ int	main(int __unused ac, char *av[])
 		return (1);
 	}
 
+	engine_init(&g_engine);
+
 	glfwInit();
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	window = glfwCreateWindow(g_width, g_height, "scop", NULL, NULL);
+	window = glfwCreateWindow(g_engine.window.width, g_engine.window.height, "scop", NULL, NULL);
 	if (window == NULL) {
 		fprintf(stderr, "Could not create window!\n");
 		glfwTerminate();
@@ -219,7 +217,7 @@ int	main(int __unused ac, char *av[])
 		return (-1);
 	}
 
-	glViewport(0, 0, g_width, g_height);
+	glViewport(0, 0, g_engine.window.width, g_engine.window.height);
 	glEnable(GL_DEPTH_TEST);
 
 	scop(window, av[1]);
@@ -283,8 +281,8 @@ void processInput(GLFWwindow *win)
 
 void framebufferResize(GLFWwindow __unused *win, int width, int height)
 {
-	g_width = width;
-	g_height = height;
+	g_engine.window.width = width;
+	g_engine.window.height = height;
 	g_update_projection = 1;
 	glViewport(0, 0, width, height);
 }
