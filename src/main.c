@@ -141,6 +141,8 @@ int		scop(GLFWwindow *window, char const *filename)
 		shader_set_mat4(&shader1, "view", view);
 		shader_set_mat4(&lampShader, "view", view);
 
+		shader_set_vec3(&shader1, "viewPos", g_engine.camera.pos);
+
 		object_roty(&o1, 10.f * g_engine.delta_time);
 
 		object_set_scale(&lamp, 0.3f);
