@@ -79,25 +79,21 @@ void object_delete(struct s_object *o)
 void object_set_pos(struct s_object *o, vec3 newpos)
 {
 	memcpy(o->pos, newpos, sizeof(o->pos));
-	o->should_update_mat = 1;
 }
 
 void object_rotx(struct s_object *o, float angle)
 {
 	o->rot[0] = angle;
-	o->should_update_mat = 1;
 }
 
 void object_roty(struct s_object *o, float angle)
 {
 	o->rot[1] = angle;
-	o->should_update_mat = 1;
 }
 
 void object_rotz(struct s_object *o, float angle)
 {
 	o->rot[2] = angle;
-	o->should_update_mat = 1;
 }
 
 void object_set_scale(struct s_object *o, float angle)

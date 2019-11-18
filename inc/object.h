@@ -10,7 +10,6 @@ struct s_object {
 	vec3			pos;
 	vec3			rot;
 	GLfloat			scale;
-	GLboolean		should_update_mat;
 
 	GLuint			vbo;
 	GLuint			vao;
