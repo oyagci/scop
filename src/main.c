@@ -146,6 +146,7 @@ int		scop(GLFWwindow *window, char const *filename)
 
 	shader_set_vec3(&shader1, "lightColor", (vec3){ 1.0f, 1.0f, 1.0f });
 
+
 	float delta_time = 0.0f;
 	float last_frame = 0.0f;
 	float total_time = 0.0f;
@@ -184,7 +185,8 @@ int		scop(GLFWwindow *window, char const *filename)
 			g_update_projection = 0;
 		}
 
-		vec3 lightPos = { sin(glfwGetTime()) * 5.0f, sin(glfwGetTime()), cos(glfwGetTime()) * 5.0f };
+		//vec3 lightPos = { sin(glfwGetTime()) * 5.0f, sin(glfwGetTime()), cos(glfwGetTime()) * 5.0f };
+		vec3 lightPos = { 5.0f, sin(glfwGetTime()) * 2.0f, 5.0f };
 
 		shader_set_vec3(&shader1, "lightPos", lightPos);
 		object_set_pos(&lamp, lightPos);
@@ -197,7 +199,9 @@ int		scop(GLFWwindow *window, char const *filename)
 		shader_set_mat4(&shader1, "view", view);
 		shader_set_mat4(&lampShader, "view", view);
 
-		object_roty(&o1, -90.0f);
+		object_roty(&o1, glfwGetTime());
+
+		object_set_scale(&lamp, 0.3f);
 
 		object_draw(&lamp);
 		object_draw(&o1);

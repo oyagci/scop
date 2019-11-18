@@ -10,7 +10,7 @@ uniform vec3 lightColor;
 
 void main()
 {
-	vec3 objectColor = vec3(1.0f, 0.1f, 0.1f);
+	vec3 objectColor = vec3(1.0f, 1.0f, 1.0f);
 
 	// Helpers
 	vec3 norm = normalize(Normal);
