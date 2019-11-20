@@ -24,11 +24,19 @@ void	gl_camera_init(t_gl_camera *camera)
 	memcpy(&camera->pos, (vec3){ 0.0f, 0.0f, 6.0f }, sizeof(vec3));
 }
 
+void	obj_info_init(t_obj_info *obj)
+{
+	memset(obj->pos, 0, sizeof(vec3));
+	memset(obj->rot, 0, sizeof(vec3));
+	obj->opacity_value = 0;
+	obj->opacity = GL_FALSE;
+}
+
 void	engine_init(t_engine *engine)
 {
 	engine->delta_time = 0;
 	mouse_init(&engine->mouse);
 	render_win_init(&engine->window);
 	gl_camera_init(&engine->camera);
-	memset(engine->obj_pos, 0, sizeof(vec3));
+	obj_info_init(&engine->obj);
 }

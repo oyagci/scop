@@ -121,7 +121,7 @@ int		scop(GLFWwindow *window, char const *filename)
 	int width;
 	int height;
 
-	stoneWall = bmp_load("img/Stonewall15_512x512.bmp", &width, &height);
+	stoneWall = bmp_load("img/chaton_roux.bmp", &width, &height);
 
 	if (!stoneWall) {
 		fprintf(stderr, "Could not load texture\n");
@@ -134,17 +134,15 @@ int		scop(GLFWwindow *window, char const *filename)
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, stoneWallTex);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, stoneWall);
-
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	free(stoneWall);
 
 	shader_set_float(&shader1, "opacity", 1.0f);
 
-	object_set_pos(&o1, g_engine.obj_pos);
+	object_set_pos(&o1, g_engine.obj.pos);
 
 	while (!glfwWindowShouldClose(window)) {
 
@@ -163,7 +161,16 @@ int		scop(GLFWwindow *window, char const *filename)
 		shader_set_vec3(&shader1, "lightPos", lightPos);
 		object_set_pos(&lamp, lightPos);
 
-		object_set_pos(&o1, g_engine.obj_pos);
+		object_set_pos(&o1, g_engine.obj.pos);
+
+		// Rotation
+		//object_roty(&o1, 10.f * g_engine.delta_time);
+		object_rotx(&o1, g_engine.obj.rot[0]);
+		object_roty(&o1, g_engine.obj.rot[1]);
+		object_rotz(&o1, g_engine.obj.rot[2]);
+		g_engine.obj.rot[0] = 0.0f;
+		g_engine.obj.rot[1] = 0.0f;
+		g_engine.obj.rot[2] = 0.0f;
 
 		mat4 view;
 		vec3 cam_target;
@@ -175,7 +182,6 @@ int		scop(GLFWwindow *window, char const *filename)
 
 		shader_set_vec3(&shader1, "viewPos", g_engine.camera.pos);
 
-		object_roty(&o1, 10.f * g_engine.delta_time);
 
 		object_set_scale(&lamp, 0.3f);
 
@@ -234,45 +240,6 @@ int	main(int __unused ac, char *av[])
 	glfwTerminate();
 
 	return (0);
-}
-
-void process_input(GLFWwindow *win)
-{
-	float speed = 4.f * g_engine.delta_time;
-
-	if (glfwGetKey(win, GLFW_KEY_ESCAPE)) {
-		glfwSetWindowShouldClose(win, GLFW_TRUE);
-	}
-	if (glfwGetKey(win, GLFW_KEY_W)) {
-		vec3 newpos = { 0.0f, 0.0f, -speed };
-
-		glm_vec3_add(g_engine.obj_pos, newpos, g_engine.obj_pos);
-	}
-	if (glfwGetKey(win, GLFW_KEY_S)) {
-		vec3 newpos = { 0.0f, 0.0f, speed };
-
-		glm_vec3_add(g_engine.obj_pos, newpos, g_engine.obj_pos);
-	}
-	if (glfwGetKey(win, GLFW_KEY_A)) {
-		vec3 newpos = { -speed, 0.0f, 0.0f };
-
-		glm_vec3_add(g_engine.obj_pos, newpos, g_engine.obj_pos);
-	}
-	if (glfwGetKey(win, GLFW_KEY_D)) {
-		vec3 newpos = { speed, 0.0f, 0.0f };
-
-		glm_vec3_add(g_engine.obj_pos, newpos, g_engine.obj_pos);
-	}
-	if (glfwGetKey(win, GLFW_KEY_SPACE)) {
-		vec3 newpos = { 0.0f, speed, 0.0f };
-
-		glm_vec3_add(g_engine.obj_pos, newpos, g_engine.obj_pos);
-	}
-	if (glfwGetKey(win, GLFW_KEY_LEFT_CONTROL)) {
-		vec3 newpos = { 0.0f, -speed, 0.0f };
-
-		glm_vec3_add(g_engine.obj_pos, newpos, g_engine.obj_pos);
-	}
 }
 
 void framebuffer_resize(GLFWwindow __unused *win, int width, int height)

@@ -30,13 +30,26 @@ typedef struct	s_mouse {
 	float	sensitivity;
 }				t_mouse;
 
+typedef struct	s_obj_info {
+	vec3		pos;
+	vec3		rot;
+	GLboolean	opacity;
+	float		opacity_value;
+}				t_obj_info;
+
 typedef struct	s_engine {
 	t_gl_camera		camera;
 	t_render_win	window;
 	t_mouse			mouse;
 	float			delta_time;
-	vec3			obj_pos;
+	t_obj_info		obj;
 }				t_engine;
+
+typedef struct	s_glfw_input {
+	unsigned int	key;
+	void			(*handler)(float);
+	float			dir;
+}				t_glfw_input;
 
 void	engine_init(t_engine *engine);
 void	mouse_init(t_mouse *mouse);

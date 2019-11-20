@@ -13,7 +13,8 @@ SRCS	:= \
 	src/read_file.c \
 	src/engine_init.c \
 	src/print_fps.c \
-	src/bmp/bmp.c
+	src/bmp/bmp.c \
+	src/process_input.c
 
 OBJS	:= $(SRCS:.c=.o)
 
