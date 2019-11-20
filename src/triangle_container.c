@@ -4,14 +4,10 @@
 
 int	triangle_container_init(t_triangle_container *vc)
 {
-	vc = calloc(500, sizeof(t_triangle));
-	if (vc)
-	{
-		vc->capacity = 500;
-		vc->size = 0;
-		return (0);
-	}
-	return (-1);
+	vc = calloc_abort(500, sizeof(t_triangle));
+	vc->capacity = 500;
+	vc->size = 0;
+	return (0);
 }
 
 int	triangle_container_add(t_triangle_container *vc, t_triangle *v)
