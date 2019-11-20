@@ -241,11 +241,12 @@ int	obj_parse(t_obj *obj)
 
 	vertex_container_init(&obj->vertices);
 	face_container_init(&obj->faces);
-
 	lines = obj->data;
-	while (*lines) {
+	while (*lines)
+	{
 		nl = strchr(lines, '\n');
-		if (nl) {
+		if (nl)
+		{
 			*nl = 0;
 			obj_add_data(obj, lines);
 			lines = nl + 1;
