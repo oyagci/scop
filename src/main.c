@@ -153,7 +153,7 @@ int		scop(GLFWwindow *window, char const *filename)
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		processInput(window);
+		process_input(window);
 
 		// Rendering
 
@@ -212,7 +212,7 @@ int	main(int __unused ac, char *av[])
 		return (1);
 	}
 	glfwMakeContextCurrent(window);
-	glfwSetFramebufferSizeCallback(window, framebufferResize);
+	glfwSetFramebufferSizeCallback(window, framebuffer_resize);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(window, mouse_move);
 
@@ -233,7 +233,7 @@ int	main(int __unused ac, char *av[])
 	return (0);
 }
 
-void processInput(GLFWwindow *win)
+void process_input(GLFWwindow *win)
 {
 	float speed = 4.f * g_engine.delta_time;
 
@@ -284,7 +284,7 @@ void processInput(GLFWwindow *win)
 	}
 }
 
-void framebufferResize(GLFWwindow __unused *win, int width, int height)
+void framebuffer_resize(GLFWwindow __unused *win, int width, int height)
 {
 	g_engine.window.width = width;
 	g_engine.window.height = height;

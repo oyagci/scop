@@ -72,14 +72,10 @@ void	*bmp_load(char *path, int *width, int *height)
 		free(rawdata);
 		return (NULL);
 	}
-
 	*width = hdr->bi.bi_width;
 	*height = hdr->bi.bi_height;
-
 	bmp_copy_data(hdr, &data);
-
 	free(rawdata);
-
 	return (data);
 }
 

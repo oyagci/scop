@@ -42,8 +42,8 @@ void	mouse_init(t_mouse *mouse);
 void	render_win_init(t_render_win *window);
 void	gl_camera_init(t_gl_camera *camera);
 
-void	processInput(GLFWwindow *win);
-void	framebufferResize(GLFWwindow __unused *win, int width, int height);
+void	process_input(GLFWwindow *win);
+void	framebuffer_resize(GLFWwindow __unused *win, int width, int height);
 int		read_file(char const *const filename, char **buf);
 void	mouse_move(GLFWwindow __unused *win, double xpos, double ypos);
 void	print_fps(void);
