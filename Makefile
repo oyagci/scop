@@ -21,7 +21,8 @@ SRCS	:= \
 	src/glm/util.c \
 	src/malloc_abort.c \
 	src/triangle_container.c \
-	src/face_container.c
+	src/face_container.c \
+	src/vertex_container.c
 
 OBJS	:= $(SRCS:.c=.o)
 

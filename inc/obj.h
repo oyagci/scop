@@ -29,6 +29,9 @@ typedef struct	s_vertex_container
 	size_t		capacity;
 }				t_vertex_container;
 
+int	vertex_container_init(t_vertex_container *vc);
+int	vertex_container_add(t_vertex_container *vc, t_vertex *v);
+
 typedef struct	s_face_indices {
 	size_t	vert;
 	size_t	text;
