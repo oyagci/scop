@@ -167,20 +167,17 @@ int	obj_add_vertice(t_vertex_container *vc, char const *v)
 
 int	scan_verts(unsigned int vert[3], char const *line)
 {
-	if (*line) {
+	if (*line)
+	{
 		sscanf(line, "%u/%u/%u", &vert[0], &vert[1], &vert[2]);
-		if (vert[0] > 0) {
+		if (vert[0] > 0)
 			vert[0]--;
-		}
-		if (vert[1] > 0) {
+		if (vert[1] > 0)
 			vert[1]--;
-		}
-		if (vert[2] > 0) {
+		if (vert[2] > 0)
 			vert[2]--;
-		}
-		if (vert[0] != 0) {
+		if (vert[0] != 0)
 			return (1);
-		}
 	}
 	return (0);
 }
