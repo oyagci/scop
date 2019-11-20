@@ -24,12 +24,10 @@ void main()
 
 	// Ambient
 	vec3 ambient = 0.1f * objectColor;
-//	ambient *= vec3(texture(diffuseTex, TexCoords));
 
 	// Diffuse
 	float diff = max(dot(norm, lightDir), 0.0f);
 	vec3 diffuse = diff * objectColor;
-//	diffuse *= vec3(texture(diffuseTex, TexCoords));
 
 	// Specular
 	float specStrength = 0.5;
@@ -37,7 +35,6 @@ void main()
 	vec3 reflectDir = reflect(-lightDir, norm);
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
 	vec3 specular = specStrength * spec * objectColor;
-//	specular *= vec3(texture(diffuseTex, TexCoords));
 
 	FragColor = vec4((ambient + diffuse + specular) * lightColor, 1.0f);
 }
