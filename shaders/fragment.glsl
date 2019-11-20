@@ -23,19 +23,19 @@ void main()
 	vec3 lightDir = normalize(lightPos - FragPos);
 
 	// Ambient
-	vec3 ambient = 1.0f * objectColor;
+	vec3 ambient = 0.1f * lightColor;
 
 	// Diffuse
 	float diff = max(dot(norm, lightDir), 0.0f);
-	vec3 diffuse = diff * objectColor;
+	vec3 diffuse = diff * lightColor;
 
 	// Specular
 	float specStrength = 0.5;
 	vec3 viewDir = normalize(viewPos - FragPos);
 	vec3 reflectDir = reflect(-lightDir, norm);
 	float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-	vec3 specular = specStrength * spec * objectColor;
+	vec3 specular = specStrength * spec * lightColor;
 
-	vec3 result = ambient /*+ diffuse + specular*/;
-	FragColor = vec4(result * lightColor, 1.0f);
+	vec3 result = (ambient + diffuse + specular) * objectColor;
+	FragColor = vec4(result, 1.0f);
 }

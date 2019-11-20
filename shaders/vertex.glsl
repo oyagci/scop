@@ -20,6 +20,7 @@ void main()
 	Normal = vec3(model * vec4(aNormal, 1.0f));
 
 	TexCoords = normalize(aPos.xy);
+
 	ObjectColor = aColor;
 
 	gl_Position = proj * view * vec4(FragPos, 1.0f);
