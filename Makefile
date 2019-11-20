@@ -19,7 +19,8 @@ SRCS	:= \
 	src/glm/mat4.c \
 	src/glm/cam.c \
 	src/glm/util.c \
-	src/malloc_abort.c
+	src/malloc_abort.c \
+	src/triangle_container.c
 
 OBJS	:= $(SRCS:.c=.o)
 
