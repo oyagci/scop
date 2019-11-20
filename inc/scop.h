@@ -52,25 +52,26 @@ typedef struct	s_glfw_input {
 	float			dir;
 }				t_glfw_input;
 
-void	engine_init(t_engine *engine);
-void	mouse_init(t_mouse *mouse);
-void	render_win_init(t_render_win *window);
-void	gl_camera_init(t_gl_camera *camera);
+void			engine_init(t_engine *engine);
+void			mouse_init(t_mouse *mouse);
+void			render_win_init(t_render_win *window);
+void			gl_camera_init(t_gl_camera *camera);
 
-void	process_input(GLFWwindow *win);
-void	framebuffer_resize(GLFWwindow __unused *win, int width, int height);
-int		read_file(char const *const filename, char **buf);
-void	mouse_move(GLFWwindow __unused *win, double xpos, double ypos);
-void	print_fps(void);
-void	update_delta_time(void);
+void			process_input(GLFWwindow *win);
+void			framebuffer_resize(GLFWwindow __unused *win, int width,
+					int height);
+int				read_file(char const *const filename, char **buf);
+void			mouse_move(GLFWwindow __unused *win, double xpos, double ypos);
+void			print_fps(void);
+void			update_delta_time(void);
 
 extern t_engine	g_engine;
 
-void	handle_pitch(float speed);
-void	handle_yaw(float speed);
-void	handle_roll(float speed);
-void	handle_forward(float speed);
-void	handle_up(float speed);
-void	handle_left(float speed);
+void			handle_pitch(float speed);
+void			handle_yaw(float speed);
+void			handle_roll(float speed);
+void			handle_forward(float speed);
+void			handle_up(float speed);
+void			handle_left(float speed);
 
 #endif
