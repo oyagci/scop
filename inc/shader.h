@@ -5,23 +5,23 @@
 # include <GLFW/glfw3.h>
 # include "glm.h"
 
-struct s_shader {
-    const char *source;
-    GLuint index;
-    GLenum type;
+struct	s_shader {
+    const char	*source;
+    GLuint		index;
+    GLenum		type;
 };
 
-struct s_program
+struct	s_program
 {
     struct s_shader	vertex;
     struct s_shader	fragment;
-    GLuint index;
+    GLuint			index;
 };
 
 void	program_init(struct s_program *p);
 void	program_create(struct s_program *p,
-        const char *const vertsrc,
-        const char *const fragsrc);
+			const char *const vertsrc,
+			const char *const fragsrc);
 void 	program_use(struct s_program *p);
 void	program_delete(struct s_program *p);
 void	shader_set_vec3(struct s_program *p, char const *name, vec3 v);
