@@ -214,7 +214,7 @@ int	main(int __unused ac, char *av[])
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebufferResize);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	glfwSetCursorPosCallback(window, mouseMove);
+	glfwSetCursorPosCallback(window, mouse_move);
 
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		fprintf(stderr, "Could not load GL loader\n");
@@ -291,7 +291,7 @@ void framebufferResize(GLFWwindow __unused *win, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-void mouseMove(GLFWwindow __unused *win, double xpos, double ypos)
+void mouse_move(GLFWwindow __unused *win, double xpos, double ypos)
 {
 	t_mouse	*mouse;
 
