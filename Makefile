@@ -1,7 +1,7 @@
 NAME	:= scop
 CC		:= gcc
 CFLAGS	:= -Wall -Wextra -g3 -I glad/include -I inc/ -I libft/includes
-LIBS	:= -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm -lcglm -L libft -lft
+LIBS	:= -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm -L libft -lft
 
 SRCS	:= \
 	glad/src/glad.c \
@@ -14,7 +14,12 @@ SRCS	:= \
 	src/engine_init.c \
 	src/print_fps.c \
 	src/bmp/bmp.c \
-	src/process_input.c
+	src/process_input.c \
+	src/glm/vec3.c \
+	src/glm/vec4.c \
+	src/glm/mat4.c \
+	src/glm/cam.c \
+	src/glm/util.c
 
 OBJS	:= $(SRCS:.c=.o)
 

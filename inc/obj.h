@@ -4,7 +4,7 @@
 # include <string.h>
 # include "libft.h"
 # include <stddef.h>
-# include <cglm/cglm.h>
+# include "glm.h"
 
 enum			e_obj_tok
 {

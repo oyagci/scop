@@ -3,7 +3,7 @@
 
 # include "glad/glad.h"
 # include <GLFW/glfw3.h>
-# include <cglm/cglm.h>
+# include "glm.h"
 
 struct s_shader {
     const char *source;

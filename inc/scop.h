@@ -3,8 +3,8 @@
 
 # include "glad/glad.h"
 # include <GLFW/glfw3.h>
-# include <cglm/cglm.h>
 # include <stdint.h>
+# include "glm.h"
 
 # define WIDTH		1280
 # define HEIGHT		720

@@ -4,7 +4,7 @@
 # include "glad/glad.h"
 # include <GLFW/glfw3.h>
 # include "shader.h"
-# include <cglm/cglm.h>
+# include "glm.h"
 
 struct s_object {
 	vec3			pos;

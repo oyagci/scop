@@ -1,7 +1,6 @@
 #include "object.h"
 #include <stdlib.h>
 #include <string.h>
-#include <cglm/cglm.h>
 
 #define __unused __attribute__((unused))
 
