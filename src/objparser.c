@@ -26,13 +26,13 @@ int	obj_load(t_obj *obj, char const *const filename)
 
 enum e_obj_tok	obj_kind(char const *const stok)
 {
-	t_tuple_tok	tokens[] = {
+	t_tuple_tok const	tokens[] = {
 		{ "v ", OBJ_VERTEX },
 		{ "vt ", OBJ_TEXTURE },
 		{ "vn ", OBJ_NORMAL },
 		{ "f ", OBJ_FACE },
 	};
-	size_t		i;
+	size_t				i;
 
 	i = 0;
 	while (i < sizeof(tokens) / sizeof(*tokens))
