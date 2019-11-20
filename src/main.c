@@ -13,50 +13,6 @@
 #include "obj.h"
 #include "bmp.h"
 
-float cubeVertices[] = {
-    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-     0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-     0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
-
-    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-     0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
-
-    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-    -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
-
-     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-     0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
-
-    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-     0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-    -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
-    -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
-
-    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-     0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-     0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-    -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
-    -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
-};
-
 t_engine	g_engine;
 
 void	update_opacity(struct s_object *o)
@@ -87,14 +43,10 @@ int		scop(GLFWwindow *window, char const *filename)
 	t_obj	obj;
 	char *vertexShaderSource = NULL;
 	char *fragmentShaderSource = NULL;
-	char *lampFragmentShaderSource = NULL;
-	char *lampVertexShaderSource = NULL;
 	struct s_program shader1;
-	struct s_program lampShader;
 	char *stoneWall;
 
 	struct s_object o1;
-	struct s_object lamp;
 
 	if (obj_load(&obj, filename) < 0) {
 		fprintf(stderr, "obj_load: error\n");
@@ -109,37 +61,25 @@ int		scop(GLFWwindow *window, char const *filename)
 		return (1);
 	}
 
-	if (!read_file("./shaders/vertex2.glsl", &lampVertexShaderSource) ||
-		!read_file("./shaders/fragment2.glsl", &lampFragmentShaderSource)) {
-		glfwTerminate();
-		return (1);
-	}
-
 	program_create(&shader1, vertexShaderSource, fragmentShaderSource);
-	program_create(&lampShader, lampVertexShaderSource, lampFragmentShaderSource);
 
 	free(vertexShaderSource);
 	free(fragmentShaderSource);
-	free(lampFragmentShaderSource);
-	free(lampVertexShaderSource);
 
 	t_gltri *vdata = obj_get_triangles_arr(&obj);
 
 	object_init(&o1, (float *)vdata, obj.triangles.size * 3 * 9,
 		   sizeof(GLfloat) * 9,	&shader1);
-	object_init(&lamp, cubeVertices, sizeof(cubeVertices) / sizeof(GLfloat),
-		sizeof(GLfloat) * 6, &lampShader);
-
 	free(vdata);
 
 	shader_set_vec3(&shader1, "lightColor", (vec3){ 1.0f, 1.0f, 1.0f });
+	shader_set_vec3(&shader1, "lightPos", (vec3){ 5.0f, 1.0f, 5.0f });
 
 	mat4 projection;
 	glm_perspective(45.0f, (float)g_engine.window.width/(float)g_engine.window.height,
 		0.1f, 100.0f, projection);
 
 	shader_set_mat4(&shader1, "proj", projection);
-	shader_set_mat4(&lampShader, "proj", projection);
 
 	int width;
 	int height;
@@ -179,11 +119,6 @@ int		scop(GLFWwindow *window, char const *filename)
 
 		// Rendering
 
-		vec3 lightPos = { 5.0f, sin(glfwGetTime()) * 2.0f, 5.0f };
-
-		shader_set_vec3(&shader1, "lightPos", lightPos);
-		object_set_pos(&lamp, lightPos);
-
 		object_set_pos(&o1, g_engine.obj.pos);
 
 		// Rotation
@@ -203,13 +138,9 @@ int		scop(GLFWwindow *window, char const *filename)
 		glm_vec3_add(g_engine.camera.front, g_engine.camera.pos, cam_target);
 		glm_lookat(g_engine.camera.pos, cam_target, g_engine.camera.up, view);
 		shader_set_mat4(&shader1, "view", view);
-		shader_set_mat4(&lampShader, "view", view);
 
 		shader_set_vec3(&shader1, "viewPos", g_engine.camera.pos);
 
-		object_set_scale(&lamp, 0.3f);
-
-		object_draw(&lamp);
 		object_draw(&o1);
 
 		glfwSwapBuffers(window);
