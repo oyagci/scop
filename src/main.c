@@ -187,7 +187,7 @@ int		scop(GLFWwindow *window, char const *filename)
 		object_set_pos(&o1, g_engine.obj.pos);
 
 		// Rotation
-		//object_roty(&o1, 10.f * g_engine.delta_time);
+		object_roty(&o1, 10.f * g_engine.delta_time);
 		object_rotx(&o1, g_engine.obj.rot[0]);
 		object_roty(&o1, g_engine.obj.rot[1]);
 		object_rotz(&o1, g_engine.obj.rot[2]);
