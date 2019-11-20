@@ -25,11 +25,17 @@ void	glm_vec4_copy(vec4 v, vec4 dest);
 void	glm_mat4_zero(mat4 m);
 void	glm_mat4_copy(mat4 mat, mat4 dest);
 void	glm_mat4_identity(mat4 mat);
+void	glm_translate(mat4 m, vec3 v);
+void	glm_scale_uni(mat4 m, float s);
 
 void	glm_rotate_x(mat4 m, float angle, mat4 dest);
 void	glm_rotate_y(mat4 m, float angle, mat4 dest);
 void	glm_rotate_z(mat4 m, float angle, mat4 dest);
 
+void	glm_lookat(vec3 eye,
+			vec3 center,
+			vec3 up,
+			mat4 dest);
 void	glm_perspective(float fovy,
 			float aspect,
 			float nearVal,
