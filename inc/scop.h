@@ -34,6 +34,7 @@ typedef struct	s_obj_info {
 	vec3		pos;
 	vec3		rot;
 	GLboolean	opacity;
+	GLint		opacity_dir;
 	float		opacity_value;
 }				t_obj_info;
 

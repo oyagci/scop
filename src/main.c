@@ -59,6 +59,29 @@ float cubeVertices[] = {
 
 t_engine	g_engine;
 
+void	update_opacity(struct s_object *o)
+{
+	float	speed;
+
+	speed = 1.0f * g_engine.delta_time;
+	if (g_engine.obj.opacity_dir > 0) {
+		g_engine.obj.opacity_value += speed;
+		shader_set_float(o->shader, "opacity", g_engine.obj.opacity_value);
+		if (g_engine.obj.opacity_value >= 1.0f) {
+			g_engine.obj.opacity_dir = 0;
+			g_engine.obj.opacity_value = 1.0f;
+		}
+	}
+	else if (g_engine.obj.opacity_dir < 0) {
+		g_engine.obj.opacity_value -= speed;
+		shader_set_float(o->shader, "opacity", g_engine.obj.opacity_value);
+		if (g_engine.obj.opacity_value <= 0.05f) {
+			g_engine.obj.opacity_dir = 0;
+			g_engine.obj.opacity_value = 0.0f;
+		}
+	}
+}
+
 int		scop(GLFWwindow *window, char const *filename)
 {
 	t_obj	obj;
@@ -140,7 +163,7 @@ int		scop(GLFWwindow *window, char const *filename)
 
 	free(stoneWall);
 
-	shader_set_float(&shader1, "opacity", 1.0f);
+	shader_set_float(&shader1, "opacity", 0.0f);
 
 	object_set_pos(&o1, g_engine.obj.pos);
 
@@ -172,6 +195,8 @@ int		scop(GLFWwindow *window, char const *filename)
 		g_engine.obj.rot[1] = 0.0f;
 		g_engine.obj.rot[2] = 0.0f;
 
+		update_opacity(&o1);
+
 		mat4 view;
 		vec3 cam_target;
 
@@ -181,7 +206,6 @@ int		scop(GLFWwindow *window, char const *filename)
 		shader_set_mat4(&lampShader, "view", view);
 
 		shader_set_vec3(&shader1, "viewPos", g_engine.camera.pos);
-
 
 		object_set_scale(&lamp, 0.3f);
 
