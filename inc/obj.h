@@ -47,6 +47,9 @@ typedef struct	s_face_container
 	size_t		capacity;
 }				t_face_container;
 
+int	face_container_init(t_face_container *vc);
+int	face_container_add(t_face_container *vc, t_face *v);
+
 typedef struct	s_triangle {
 	vec3	vert[3];
 	vec3	norm;
