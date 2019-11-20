@@ -1,6 +1,8 @@
 #include "scop.h"
 #include "bmp.h"
 #include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 void	bmp_print_hdrs(t_bmp_hdr *hdr)
 {

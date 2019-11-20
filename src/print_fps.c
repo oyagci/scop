@@ -1,4 +1,5 @@
 #include "scop.h"
+#include <stdio.h>
 
 void print_fps(void)
 {
