@@ -326,9 +326,10 @@ void	obj_triangulate_face(t_obj *obj, t_face *face)
 void	obj_triangulate(t_obj *obj)
 {
 	size_t	i;
-	
+
 	i = 0;
-	while (i < obj->faces.size) {
+	while (i < obj->faces.size)
+	{
 		obj_triangulate_face(obj, &obj->faces.data[i]);
 		i++;
 	}
