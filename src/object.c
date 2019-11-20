@@ -1,8 +1,7 @@
 #include "object.h"
 #include <stdlib.h>
 #include <string.h>
-
-#define __unused __attribute__((unused))
+#include "common.h"
 
 void	object_init(struct s_object *o,
 			GLfloat const *vdata,
@@ -14,31 +13,23 @@ void	object_init(struct s_object *o,
 	o->scale = 1.0f;
 	o->nvert = ndata;
 	o->shader = shader;
-	o->vertices = malloc(sizeof(GLfloat) * o->nvert);
+	o->vertices = malloc_abort(sizeof(GLfloat) * o->nvert);
 	memcpy(o->vertices, vdata, sizeof(GLfloat) * o->nvert);
-
 	glGenVertexArrays(1, &o->vao);
 	glBindVertexArray(o->vao);
-
 	glGenBuffers(1, &o->vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, o->vbo);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * o->nvert, o->vertices,
 		GL_STATIC_DRAW);
-
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
-
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride, (void*)(sizeof(float) * 3));
-
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride, (void*)(sizeof(float) * 6));
-
-	// Unbind buffers to prevent accidental changes
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
 }
 
 void	object_prepare_draw(struct s_object *o)
