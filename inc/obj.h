@@ -59,6 +59,9 @@ typedef struct	s_triangle_container
 	size_t		capacity;
 }				t_triangle_container;
 
+int	triangle_container_init(t_triangle_container *vc);
+int	triangle_container_add(t_triangle_container *vc, t_triangle *v);
+
 typedef struct	s_obj
 {
 	char				*data;
