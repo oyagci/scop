@@ -66,4 +66,11 @@ void	update_delta_time(void);
 
 extern t_engine	g_engine;
 
+void	handle_pitch(float speed);
+void	handle_yaw(float speed);
+void	handle_roll(float speed);
+void	handle_forward(float speed);
+void	handle_up(float speed);
+void	handle_left(float speed);
+
 #endif
