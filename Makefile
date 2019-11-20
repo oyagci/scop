@@ -12,7 +12,8 @@ SRCS	:= \
 	src/objparser.c \
 	src/read_file.c \
 	src/engine_init.c \
-	src/print_fps.c
+	src/print_fps.c \
+	src/bmp/bmp.c
 
 OBJS	:= $(SRCS:.c=.o)
 
