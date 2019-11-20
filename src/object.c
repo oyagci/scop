@@ -46,20 +46,14 @@ void	object_prepare_draw(struct s_object *o)
 	mat4	model;
 
 	glm_mat4_identity(model);
-
 	glm_translate(model, o->pos);
-
 	glm_rotate_x(model, o->rot[0], model);
 	glm_rotate_y(model, o->rot[1], model);
 	glm_rotate_z(model, o->rot[2], model);
-
 	glm_scale_uni(model, o->scale);
-
 	program_use(o->shader);
-
 	glUniformMatrix4fv(glGetUniformLocation(o->shader->index, "model"), 1,
 		GL_FALSE, model[0]);
-
 	glBindVertexArray(o->vao);
 }
 
