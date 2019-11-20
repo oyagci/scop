@@ -336,32 +336,30 @@ void	obj_triangulate(t_obj *obj)
 
 t_gltri	*obj_get_triangles_arr(t_obj *obj)
 {
-	t_gltri	*triangles;
-	size_t	i;
+	t_gltri		*triangles;
+	t_triangle	*tri;
+	size_t		i;
+	float		color_val;
+	vec3		color;
 
-	triangles = malloc(sizeof(t_gltri) * (obj->triangles.size));
+	triangles = malloc_abort(sizeof(t_gltri) * (obj->triangles.size));
 	i = 0;
-	while (i < obj->triangles.size) {
-		t_triangle *content = obj->triangles.data + i;
-
-		float	color_val = i % 2 ? 0.7f : 1.0f;
-		vec3	color = { color_val, color_val, color_val };
-
-		memcpy(triangles[i].data[0].v, content->vert[0], sizeof(vec3));
-		memcpy(triangles[i].data[1].v, content->vert[1], sizeof(vec3));
-		memcpy(triangles[i].data[2].v, content->vert[2], sizeof(vec3));
-
-		memcpy(triangles[i].data[0].n, content->norm, sizeof(vec3));
-		memcpy(triangles[i].data[1].n, content->norm, sizeof(vec3));
-		memcpy(triangles[i].data[2].n, content->norm, sizeof(vec3));
-
+	while (i < obj->triangles.size)
+	{
+		tri = obj->triangles.data + i;
+		color_val = i % 2 ? 0.7f : 1.0f;
+		memcpy(color, (vec3){ color_val, color_val, color_val }, sizeof(vec3));
+		memcpy(triangles[i].data[0].v, tri->vert[0], sizeof(vec3));
+		memcpy(triangles[i].data[1].v, tri->vert[1], sizeof(vec3));
+		memcpy(triangles[i].data[2].v, tri->vert[2], sizeof(vec3));
+		memcpy(triangles[i].data[0].n, tri->norm, sizeof(vec3));
+		memcpy(triangles[i].data[1].n, tri->norm, sizeof(vec3));
+		memcpy(triangles[i].data[2].n, tri->norm, sizeof(vec3));
 		memcpy(triangles[i].data[0].color, color, sizeof(vec3));
 		memcpy(triangles[i].data[1].color, color, sizeof(vec3));
 		memcpy(triangles[i].data[2].color, color, sizeof(vec3));
-
 		i += 1;
 	}
-
 	return (triangles);
 }
 
