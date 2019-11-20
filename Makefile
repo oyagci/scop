@@ -22,7 +22,9 @@ SRCS	:= \
 	src/malloc_abort.c \
 	src/triangle_container.c \
 	src/face_container.c \
-	src/vertex_container.c
+	src/vertex_container.c \
+	src/handle_move.c \
+	src/handle_rot.c \
 
 OBJS	:= $(SRCS:.c=.o)
 
