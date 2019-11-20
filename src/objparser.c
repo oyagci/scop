@@ -303,8 +303,6 @@ void	obj_triangulate_face(t_obj *obj, t_face *face)
 		memcpy(&t1.vert[2], &obj->vertices.data[face->indices[2].vert],
 				sizeof(float) * 3);
 
-		// Calculate the normal for the face
-
 		vec3 *a = &t1.vert[0];
 		vec3 *b = &t1.vert[1];
 		vec3 *c = &t1.vert[2];

@@ -11,6 +11,7 @@
 #include "object.h"
 #include "stb_image.h"
 #include "obj.h"
+#include "bmp.h"
 
 float cubeVertices[] = {
     -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
@@ -67,6 +68,7 @@ int		scop(GLFWwindow *window, char const *filename)
 	char *lampVertexShaderSource = NULL;
 	struct s_program shader1;
 	struct s_program lampShader;
+	char *stoneWall;
 
 	struct s_object o1;
 	struct s_object lamp;
@@ -116,6 +118,31 @@ int		scop(GLFWwindow *window, char const *filename)
 	shader_set_mat4(&shader1, "proj", projection);
 	shader_set_mat4(&lampShader, "proj", projection);
 
+	int width;
+	int height;
+	int nchan;
+
+	stoneWall = bmp_load("img/Stonewall15_512x512.bmp", &width, &height);
+
+	if (!stoneWall) {
+		fprintf(stderr, "Could not load texture\n");
+		return (0);
+	}
+
+	GLuint	stoneWallTex;
+
+	glGenTextures(1, &stoneWallTex);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, stoneWallTex);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB8, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, stoneWall);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	free(stoneWall);
+
 	while (!glfwWindowShouldClose(window)) {
 
 		update_delta_time();
@@ -142,6 +169,8 @@ int		scop(GLFWwindow *window, char const *filename)
 		shader_set_mat4(&lampShader, "view", view);
 
 		shader_set_vec3(&shader1, "viewPos", g_engine.camera.pos);
+		shader_set_float(&shader1, "opacity",
+			glm_clamp(sin(glfwGetTime()) + 0.5f, 0.0f, 1.0f));
 
 		object_roty(&o1, 10.f * g_engine.delta_time);
 
