@@ -22,7 +22,7 @@ typedef struct	s_bmp_img_hdr {
 	uint32_t	bi_y_pixels_per_meter;
 	uint32_t	bi_clr_used;
 	uint32_t	bi_clr_important;
-} __packed			t_bmp_img_hdr;
+} __packed		t_bmp_img_hdr;
 
 typedef struct	s_bmp_hdr {
 	char			bf_type[2];
@@ -33,7 +33,7 @@ typedef struct	s_bmp_hdr {
 	t_bmp_img_hdr	bi;
 } __packed		t_bmp_hdr;
 
-void	*bmp_load(char *path, int *width, int *height);
-void	bmp_free(void *data);
+void			*bmp_load(char *path, int *width, int *height);
+void			bmp_free(void *data);
 
 #endif
