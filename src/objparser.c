@@ -11,36 +11,6 @@
 
 int	read_file(char const *const filename, char **buf);
 
-int	vertex_container_init(t_vertex_container *vc)
-{
-	vc = calloc(500, sizeof(t_vertex));
-	if (vc) {
-		vc->capacity = 500;
-		vc->size = 0;
-		return (0);
-	}
-	return (-1);
-}
-
-int	vertex_container_add(t_vertex_container *vc, t_vertex *v)
-{
-	t_vertex	*d;
-
-	if (vc->size >= vc->capacity) {
-		d = realloc(vc->data, sizeof(t_vertex) * (vc->capacity + 500));
-		if (d) {
-			vc->data = d;
-			vc->capacity += 500;
-		}
-		else {
-			return (-1);
-		}
-	}
-	memcpy(vc->data + vc->size, v, sizeof(t_vertex));
-	vc->size += 1;
-	return (0);
-}
-
 int	obj_load(t_obj *obj, char const *const filename)
 {
 	char *data;
