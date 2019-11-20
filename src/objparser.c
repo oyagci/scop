@@ -130,8 +130,8 @@ int	obj_load(t_obj *obj, char const *const filename)
 	char *data;
 
 	memset(obj, 0, sizeof(*obj));
-
-	if (!read_file(filename, &data)) {
+	if (!read_file(filename, &data))
+	{
 		return (1);
 	}
 	obj->data = data;
