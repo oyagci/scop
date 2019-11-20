@@ -73,7 +73,6 @@ void object_delete(struct s_object *o)
 {
 	glDeleteVertexArrays(1, &o->vao);
 	glDeleteBuffers(1, &o->vbo);
-
 	free(o->vertices);
 	free(o->indices);
 }
