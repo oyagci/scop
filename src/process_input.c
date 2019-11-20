@@ -67,10 +67,15 @@ void	process_input(GLFWwindow *win)
 		glfwSetWindowShouldClose(win, GLFW_TRUE);
 	}
 	if (glfwGetKey(win, GLFW_KEY_1)) {
-		g_engine.obj.opacity_dir = 1;
-	}
-	if (glfwGetKey(win, GLFW_KEY_2)) {
-		g_engine.obj.opacity_dir = -1;
-	}
+		if (g_engine.obj.opacity_value >= 0.5f) {
+			g_engine.obj.opacity_dir = -1;
+		}
+		else if (g_engine.obj.opacity_value < 0.5f) {
+			g_engine.obj.opacity_dir = 1;
+		}
+		else {
+			g_engine.obj.opacity_dir = 1;
+		}
 
+	}
 }
