@@ -143,6 +143,8 @@ int		scop(GLFWwindow *window, char const *filename)
 
 	free(stoneWall);
 
+	shader_set_float(&shader1, "opacity", 1.0f);
+
 	while (!glfwWindowShouldClose(window)) {
 
 		update_delta_time();
@@ -169,8 +171,6 @@ int		scop(GLFWwindow *window, char const *filename)
 		shader_set_mat4(&lampShader, "view", view);
 
 		shader_set_vec3(&shader1, "viewPos", g_engine.camera.pos);
-		shader_set_float(&shader1, "opacity",
-			glm_clamp(sin(glfwGetTime()) + 0.5f, 0.0f, 1.0f));
 
 		object_roty(&o1, 10.f * g_engine.delta_time);
 
