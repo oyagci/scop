@@ -3,30 +3,30 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include "common.h"
 
 int	read_file(char const *const filename, char **buf)
 {
-	int			fd = open(filename, O_RDONLY);
+	int			fd;
 	struct stat	statbuf;
+	int			ret;
 
-	if (fd < 0) {
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+	{
 		fprintf(stderr, "%s\n", filename);
 		perror("fopen");
 		return (0);
 	}
-	if (fstat(fd, &statbuf) == -1) {
+	if (fstat(fd, &statbuf) == -1)
+	{
+		fprintf(stderr, "%s\n", filename);
 		perror("fstat");
 		return (0);
 	}
-
-	*buf = malloc(sizeof(char) * (statbuf.st_size + 1));
-
-	int ret = read(fd, *buf, statbuf.st_size);
-
-	// Null-terminate the string
+	*buf = malloc_abort(sizeof(char) * (statbuf.st_size + 1));
+	ret = read(fd, *buf, statbuf.st_size);
 	(*buf)[ret] = 0;
-
-	// Don't forget to close the FD as we don't need it anymore
 	close(fd);
 	return (1);
 }
