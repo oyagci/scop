@@ -101,30 +101,6 @@ int	triangle_container_add(t_triangle_container *vc, t_triangle *v)
 	return (0);
 }
 
-void ft_dlstpush(t_dlist **lstp, t_dlist *elem)
-{
-	t_dlist	*lst;
-	t_dlist	*d;
-
-	lst = *lstp;
-	if (lst)
-	{
-		d = lst;
-		while (d && d->next && d->next != lst)
-			d = d->next;
-		elem->next = lst;
-		elem->prev = d;
-		d->next = elem;
-		lst->prev = elem;
-	}
-	else
-	{
-		*lstp = elem;
-		elem->next = 0;
-		elem->prev = 0;
-	}
-}
-
 int	obj_load(t_obj *obj, char const *const filename)
 {
 	char *data;
