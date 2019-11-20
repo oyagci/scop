@@ -11,13 +11,13 @@
             "-I",
             "inc/",
             "-I",
-            "lib/obj/inc",
+            "libft/includes",
             "-o",
-            "src/stb_image.o",
-            "src/stb_image.c"
+            "src/process_input.o",
+            "src/process_input.c"
         ],
         "directory": "/home/oyagci/Projects/scop",
-        "file": "src/stb_image.c"
+        "file": "src/process_input.c"
     },
     {
         "arguments": [
@@ -31,13 +31,13 @@
             "-I",
             "inc/",
             "-I",
-            "lib/obj/inc",
+            "libft/includes",
             "-o",
-            "src/main.o",
-            "src/main.c"
+            "src/glm/cam.o",
+            "src/glm/cam.c"
         ],
         "directory": "/home/oyagci/Projects/scop",
-        "file": "src/main.c"
+        "file": "src/glm/cam.c"
     },
     {
         "arguments": [
@@ -51,7 +51,87 @@
             "-I",
             "inc/",
             "-I",
-            "lib/obj/inc",
+            "libft/includes",
+            "-o",
+            "src/glm/vec3.o",
+            "src/glm/vec3.c"
+        ],
+        "directory": "/home/oyagci/Projects/scop",
+        "file": "src/glm/vec3.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-g3",
+            "-I",
+            "glad/include",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/print_fps.o",
+            "src/print_fps.c"
+        ],
+        "directory": "/home/oyagci/Projects/scop",
+        "file": "src/print_fps.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-g3",
+            "-I",
+            "glad/include",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/glm/vec4.o",
+            "src/glm/vec4.c"
+        ],
+        "directory": "/home/oyagci/Projects/scop",
+        "file": "src/glm/vec4.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-g3",
+            "-I",
+            "glad/include",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/bmp/bmp.o",
+            "src/bmp/bmp.c"
+        ],
+        "directory": "/home/oyagci/Projects/scop",
+        "file": "src/bmp/bmp.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-g3",
+            "-I",
+            "glad/include",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
             "-o",
             "src/object.o",
             "src/object.c"
@@ -71,7 +151,127 @@
             "-I",
             "inc/",
             "-I",
-            "lib/obj/inc",
+            "libft/includes",
+            "-o",
+            "src/engine_init.o",
+            "src/engine_init.c"
+        ],
+        "directory": "/home/oyagci/Projects/scop",
+        "file": "src/engine_init.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-g3",
+            "-I",
+            "glad/include",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "glad/src/glad.o",
+            "glad/src/glad.c"
+        ],
+        "directory": "/home/oyagci/Projects/scop",
+        "file": "glad/src/glad.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-g3",
+            "-I",
+            "glad/include",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/objparser.o",
+            "src/objparser.c"
+        ],
+        "directory": "/home/oyagci/Projects/scop",
+        "file": "src/objparser.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-g3",
+            "-I",
+            "glad/include",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/main.o",
+            "src/main.c"
+        ],
+        "directory": "/home/oyagci/Projects/scop",
+        "file": "src/main.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-g3",
+            "-I",
+            "glad/include",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/glm/mat4.o",
+            "src/glm/mat4.c"
+        ],
+        "directory": "/home/oyagci/Projects/scop",
+        "file": "src/glm/mat4.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-g3",
+            "-I",
+            "glad/include",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/glm/util.o",
+            "src/glm/util.c"
+        ],
+        "directory": "/home/oyagci/Projects/scop",
+        "file": "src/glm/util.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-g3",
+            "-I",
+            "glad/include",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
             "-o",
             "src/shader.o",
             "src/shader.c"
@@ -91,12 +291,12 @@
             "-I",
             "inc/",
             "-I",
-            "lib/obj/inc",
+            "libft/includes",
             "-o",
-            "glad/src/glad.o",
-            "glad/src/glad.c"
+            "src/read_file.o",
+            "src/read_file.c"
         ],
         "directory": "/home/oyagci/Projects/scop",
-        "file": "glad/src/glad.c"
+        "file": "src/read_file.c"
     }
 ]
