@@ -87,6 +87,11 @@ typedef struct	s_gltri {
 	t_glvert	data[3];
 }				t_gltri;
 
+typedef struct	s_tuple_tok {
+	char			*str;
+	enum e_obj_tok	tok;
+}				t_tuple_tok;
+
 int				obj_load(t_obj *obj, char const *const filename);
 int				obj_parse(t_obj *obj);
 unsigned int	*obj_get_indices(t_obj *obj);
