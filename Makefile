@@ -20,7 +20,8 @@ SRCS	:= \
 	src/glm/cam.c \
 	src/glm/util.c \
 	src/malloc_abort.c \
-	src/triangle_container.c
+	src/triangle_container.c \
+	src/face_container.c
 
 OBJS	:= $(SRCS:.c=.o)
 
