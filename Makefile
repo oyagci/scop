@@ -8,7 +8,6 @@ SRCS	:= \
 	src/main.c \
 	src/object.c \
 	src/shader.c \
-	src/stb_image.c \
 	src/objparser.c \
 	src/read_file.c \
 	src/engine_init.c \

@@ -9,7 +9,6 @@
 #include "scop.h"
 #include "shader.h"
 #include "object.h"
-#include "stb_image.h"
 #include "obj.h"
 #include "bmp.h"
 
