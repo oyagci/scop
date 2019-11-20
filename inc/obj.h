@@ -108,4 +108,6 @@ float			*obj_get_vertices(t_obj *obj);
 void			obj_triangulate(t_obj *obj);
 t_gltri			*obj_get_triangles_arr(t_obj *obj);
 
+int	read_file(char const *const filename, char **buf);
+
 #endif

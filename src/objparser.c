@@ -9,8 +9,6 @@
 #include <assert.h>
 #include "common.h"
 
-int	read_file(char const *const filename, char **buf);
-
 int	obj_load(t_obj *obj, char const *const filename)
 {
 	char *data;
