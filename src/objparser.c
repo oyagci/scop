@@ -7,6 +7,7 @@
 #include "libft.h"
 #include <errno.h>
 #include <assert.h>
+#include "common.h"
 
 int	read_file(char const *const filename, char **buf);
 
