@@ -120,7 +120,6 @@ int		scop(GLFWwindow *window, char const *filename)
 
 	int width;
 	int height;
-	int nchan;
 
 	stoneWall = bmp_load("img/Stonewall15_512x512.bmp", &width, &height);
 
@@ -145,6 +144,8 @@ int		scop(GLFWwindow *window, char const *filename)
 
 	shader_set_float(&shader1, "opacity", 1.0f);
 
+	object_set_pos(&o1, g_engine.obj_pos);
+
 	while (!glfwWindowShouldClose(window)) {
 
 		update_delta_time();
@@ -161,6 +162,8 @@ int		scop(GLFWwindow *window, char const *filename)
 
 		shader_set_vec3(&shader1, "lightPos", lightPos);
 		object_set_pos(&lamp, lightPos);
+
+		object_set_pos(&o1, g_engine.obj_pos);
 
 		mat4 view;
 		vec3 cam_target;
@@ -241,46 +244,34 @@ void process_input(GLFWwindow *win)
 		glfwSetWindowShouldClose(win, GLFW_TRUE);
 	}
 	if (glfwGetKey(win, GLFW_KEY_W)) {
-		vec3 newpos = {
-			g_engine.camera.front[0] * speed,
-			g_engine.camera.front[1] * speed,
-			g_engine.camera.front[2] * speed
-		};
+		vec3 newpos = { 0.0f, 0.0f, -speed };
 
-		glm_vec3_add(g_engine.camera.pos, newpos, g_engine.camera.pos);
+		glm_vec3_add(g_engine.obj_pos, newpos, g_engine.obj_pos);
 	}
 	if (glfwGetKey(win, GLFW_KEY_S)) {
-		vec3 newpos = {
-			g_engine.camera.front[0] * -speed,
-			g_engine.camera.front[1] * -speed,
-			g_engine.camera.front[2] * -speed
-		};
+		vec3 newpos = { 0.0f, 0.0f, speed };
 
-		glm_vec3_add(g_engine.camera.pos, newpos, g_engine.camera.pos);
+		glm_vec3_add(g_engine.obj_pos, newpos, g_engine.obj_pos);
 	}
 	if (glfwGetKey(win, GLFW_KEY_A)) {
-		vec3 right;
+		vec3 newpos = { -speed, 0.0f, 0.0f };
 
-		glm_vec3_cross(g_engine.camera.front, g_engine.camera.up, right);
-		glm_normalize(right);
-		glm_vec3_muladds(right, -speed, g_engine.camera.pos);
+		glm_vec3_add(g_engine.obj_pos, newpos, g_engine.obj_pos);
 	}
 	if (glfwGetKey(win, GLFW_KEY_D)) {
-		vec3 right;
+		vec3 newpos = { speed, 0.0f, 0.0f };
 
-		glm_vec3_cross(g_engine.camera.front, g_engine.camera.up, right);
-		glm_normalize(right);
-		glm_vec3_muladds(right, speed, g_engine.camera.pos);
+		glm_vec3_add(g_engine.obj_pos, newpos, g_engine.obj_pos);
 	}
 	if (glfwGetKey(win, GLFW_KEY_SPACE)) {
-		vec3 newpos = { 0.0f, 1.0f * speed, 0.0f };
+		vec3 newpos = { 0.0f, speed, 0.0f };
 
-		glm_vec3_add(g_engine.camera.pos, newpos, g_engine.camera.pos);
+		glm_vec3_add(g_engine.obj_pos, newpos, g_engine.obj_pos);
 	}
 	if (glfwGetKey(win, GLFW_KEY_LEFT_CONTROL)) {
-		vec3 newpos = { 0.0f, 1.0f * -speed, 0.0f };
+		vec3 newpos = { 0.0f, -speed, 0.0f };
 
-		glm_vec3_add(g_engine.camera.pos, newpos, g_engine.camera.pos);
+		glm_vec3_add(g_engine.obj_pos, newpos, g_engine.obj_pos);
 	}
 }
 

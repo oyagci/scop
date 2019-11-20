@@ -30,4 +30,5 @@ void	engine_init(t_engine *engine)
 	mouse_init(&engine->mouse);
 	render_win_init(&engine->window);
 	gl_camera_init(&engine->camera);
+	memset(engine->obj_pos, 0, sizeof(vec3));
 }
