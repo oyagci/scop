@@ -9,7 +9,7 @@
 #include <assert.h>
 #include "common.h"
 
-int	obj_load(t_obj *obj, char const *const filename)
+int				obj_load(t_obj *obj, char const *const filename)
 {
 	char *data;
 
@@ -44,7 +44,7 @@ enum e_obj_tok	obj_kind(char const *const stok)
 	return (OBJ_NONE);
 }
 
-int	obj_add_vertice(t_vertex_container *vc, char const *v)
+int				obj_add_vertice(t_vertex_container *vc, char const *v)
 {
 	t_vertex	vert;
 
@@ -52,7 +52,7 @@ int	obj_add_vertice(t_vertex_container *vc, char const *v)
 	return (vertex_container_add(vc, &vert));
 }
 
-int	scan_verts(unsigned int vert[3], char const *line)
+int				scan_verts(unsigned int vert[3], char const *line)
 {
 	if (*line)
 	{
@@ -69,14 +69,14 @@ int	scan_verts(unsigned int vert[3], char const *line)
 	return (0);
 }
 
-void	put_face_data(t_face_indices *inds, unsigned int vert[3])
+void			put_face_data(t_face_indices *inds, unsigned int vert[3])
 {
 	inds->vert = vert[0];
 	inds->norm = vert[1];
 	inds->text = vert[2];
 }
 
-int	obj_add_face(t_obj *obj, const char *data)
+int				obj_add_face(t_obj *obj, const char *data)
 {
 	t_face			face;
 	size_t			nverts;
@@ -106,7 +106,7 @@ int	obj_add_face(t_obj *obj, const char *data)
 	return (0);
 }
 
-int obj_add_data(t_obj *obj, char *line)
+int				obj_add_data(t_obj *obj, char *line)
 {
 	enum e_obj_tok	kind;
 
@@ -123,7 +123,7 @@ int obj_add_data(t_obj *obj, char *line)
 	return (0);
 }
 
-int	obj_parse(t_obj *obj)
+int				obj_parse(t_obj *obj)
 {
 	char	*lines;
 	char	*nl;
@@ -144,14 +144,14 @@ int	obj_parse(t_obj *obj)
 	return (0);
 }
 
-void	vertex_copy(t_vertex *src, vec3 dst)
+void			vertex_copy(t_vertex *src, vec3 dst)
 {
 	dst[0] = src->x;
 	dst[1] = src->y;
 	dst[2] = src->z;
 }
 
-void	obj_triangulate_face(t_obj *obj, t_face *face)
+void			obj_triangulate_face(t_obj *obj, t_face *face)
 {
 	t_triangle	t1;
 	t_triangle	t2;
@@ -178,7 +178,7 @@ void	obj_triangulate_face(t_obj *obj, t_face *face)
 	}
 }
 
-void	obj_triangulate(t_obj *obj)
+void			obj_triangulate(t_obj *obj)
 {
 	size_t	i;
 
@@ -190,7 +190,7 @@ void	obj_triangulate(t_obj *obj)
 	}
 }
 
-t_gltri	*obj_get_triangles_arr(t_obj *obj)
+t_gltri			*obj_get_triangles_arr(t_obj *obj)
 {
 	t_gltri		*triangles;
 	t_triangle	*tri;
@@ -219,7 +219,7 @@ t_gltri	*obj_get_triangles_arr(t_obj *obj)
 	return (triangles);
 }
 
-float	*obj_get_vertices(t_obj *obj)
+float			*obj_get_vertices(t_obj *obj)
 {
 	return (float *)obj->vertices.data;
 }
