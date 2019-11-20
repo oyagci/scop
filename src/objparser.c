@@ -254,72 +254,37 @@ int	obj_parse(t_obj *obj)
 	return (0);
 }
 
+void	vertex_copy(t_vertex *src, vec3 dst)
+{
+	dst[0] = src->x;
+	dst[1] = src->y;
+	dst[2] = src->z;
+}
+
 void	obj_triangulate_face(t_obj *obj, t_face *face)
 {
-	t_triangle t1;
-	t_triangle t2;
+	t_triangle	t1;
+	t_triangle	t2;
+	vec3		ab;
+	vec3		ac;
+	vec3		norm;
 
-	if (face->nverts == 4) {
-
-		memcpy(&t1.vert[0], &obj->vertices.data[face->indices[0].vert],
-			sizeof(float) * 3);
-		memcpy(&t1.vert[1], &obj->vertices.data[face->indices[1].vert],
-			sizeof(float) * 3);
-		memcpy(&t1.vert[2], &obj->vertices.data[face->indices[2].vert],
-			sizeof(float) * 3);
-
-		memcpy(&t2.vert[0], &obj->vertices.data[face->indices[0].vert],
-			sizeof(float) * 3);
-		memcpy(&t2.vert[1], &obj->vertices.data[face->indices[2].vert],
-			sizeof(float) * 3);
-		memcpy(&t2.vert[2], &obj->vertices.data[face->indices[3].vert],
-			sizeof(float) * 3);
-
-		// Calculate the normal for the face
-
-		vec3 *a = &t1.vert[0];
-		vec3 *b = &t1.vert[1];
-		vec3 *c = &t1.vert[2];
-
-		vec3 ab;
-		vec3 ac;
-		vec3 norm;
-
-		glm_vec3_sub(*b, *a, ab);
-		glm_vec3_sub(*c, *a, ac);
-		glm_cross(ab, ac, norm);
-		glm_normalize(norm);
-
-		memcpy(t1.norm, norm, sizeof(vec3));
+	vertex_copy(&obj->vertices.data[face->indices[0].vert], t1.vert[0]);
+	vertex_copy(&obj->vertices.data[face->indices[1].vert], t1.vert[1]);
+	vertex_copy(&obj->vertices.data[face->indices[2].vert], t1.vert[2]);
+	glm_vec3_sub(t1.vert[1], t1.vert[0], ab);
+	glm_vec3_sub(t1.vert[2], t1.vert[0], ac);
+	glm_cross(ab, ac, norm);
+	glm_normalize(norm);
+	glm_vec3_copy(norm, t1.norm);
+	triangle_container_add(&obj->triangles, &t1);
+	if (face->nverts == 4)
+	{
+		vertex_copy(&obj->vertices.data[face->indices[0].vert], t2.vert[0]);
+		vertex_copy(&obj->vertices.data[face->indices[2].vert], t2.vert[1]);
+		vertex_copy(&obj->vertices.data[face->indices[3].vert], t2.vert[2]);
 		memcpy(t2.norm, norm, sizeof(vec3));
-
-		triangle_container_add(&obj->triangles, &t1);
 		triangle_container_add(&obj->triangles, &t2);
-	}
-	else if (face->nverts == 3) {
-		memcpy(&t1.vert[0], &obj->vertices.data[face->indices[0].vert],
-				sizeof(float) * 3);
-		memcpy(&t1.vert[1], &obj->vertices.data[face->indices[1].vert],
-				sizeof(float) * 3);
-		memcpy(&t1.vert[2], &obj->vertices.data[face->indices[2].vert],
-				sizeof(float) * 3);
-
-		vec3 *a = &t1.vert[0];
-		vec3 *b = &t1.vert[1];
-		vec3 *c = &t1.vert[2];
-
-		vec3 ab;
-		vec3 ac;
-		vec3 norm;
-
-		glm_vec3_sub(*b, *a, ab);
-		glm_vec3_sub(*c, *a, ac);
-		glm_cross(ab, ac, norm);
-		glm_normalize(norm);
-
-		memcpy(t1.norm, norm, sizeof(vec3));
-
-		triangle_container_add(&obj->triangles, &t1);
 	}
 }
 
