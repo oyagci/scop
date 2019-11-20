@@ -13,3 +13,29 @@ void	*malloc_abort(size_t size)
 	}
 	return (p);
 }
+
+void	*realloc_abort(void *ptr, size_t size)
+{
+	void	*p;
+
+	p = realloc(ptr, size);
+	if (!p)
+	{
+		perror("realloc");
+		abort();
+	}
+	return (p);
+}
+
+void	*calloc_abort(size_t nelem, size_t size)
+{
+	void	*p;
+
+	p = calloc(nelem, size);
+	if (!p)
+	{
+		perror("calloc");
+		abort();
+	}
+	return (p);
+}
