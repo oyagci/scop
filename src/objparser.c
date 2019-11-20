@@ -220,16 +220,17 @@ int	obj_add_face(t_obj *obj, const char *data)
 
 int obj_add_data(t_obj *obj, char *line)
 {
-	switch (obj_kind(line)) {
-		case OBJ_VERTEX:
-			obj_add_vertice(&obj->vertices, line);
-			break ;
-		case OBJ_FACE:
-			line += 2;
-			obj_add_face(obj, line);
-			break ;
-		default:
-			break ;
+	enum e_obj_tok	kind;
+
+	kind = obj_kind(line);
+	if (kind == OBJ_VERTEX)
+	{
+		obj_add_vertice(&obj->vertices, line);
+	}
+	else if (kind == OBJ_FACE)
+	{
+		line += 2;
+		obj_add_face(obj, line);
 	}
 	return (0);
 }
