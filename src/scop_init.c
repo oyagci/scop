@@ -39,7 +39,8 @@ GLFWwindow	*scop_init_window(int width, int height)
 	glfwSetFramebufferSizeCallback(window, framebuffer_resize);
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	glfwSetCursorPosCallback(window, mouse_move);
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	glewExperimental = GL_TRUE;
+	if (glewInit() != GLEW_OK)
 	{
 		fprintf(stderr, "Could not load GL loader\n");
 		glfwDestroyWindow(window);

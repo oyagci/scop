@@ -5,14 +5,13 @@ LIBS	:= -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm -L libft -lft
 
 ifeq ($(shell uname -s),Darwin)
 	CFLAGS := -Wall -Wextra -g3 -I glad/include -I inc/ -I libft/includes -I ~/.brew/include
-	LIBS := -framework OpenGL -lpthread -ldl -lm -L libft -lft -L ~/.brew/lib -lglfw
+	LIBS := -framework OpenGL -lpthread -ldl -lm -L libft -lft -L ~/.brew/lib -lglfw -lGLEW
 else
 	CFLAGS := -Wall -Wextra -g3 -I glad/include -I inc/ -I libft/includes
-	LIBS := -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm -L libft -lft
+	LIBS := -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm -L libft -lft -lGLEW
 endif
 
 SRCS	:= \
-	glad/src/glad.c \
 	src/main.c \
 	src/object.c \
 	src/shader.c \

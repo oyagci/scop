@@ -13,7 +13,7 @@
 #ifndef SCOP_H
 # define SCOP_H
 
-# include "glad/glad.h"
+# include <GL/glew.h>
 # include <GLFW/glfw3.h>
 # include <stdint.h>
 # include "glm.h"
