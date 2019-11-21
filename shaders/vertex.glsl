@@ -16,12 +16,8 @@ uniform mat4 proj;
 void main()
 {
 	FragPos = vec3(model * vec4(aPos, 1.0f));
-
-	Normal = vec3(model * vec4(aNormal, 1.0f));
-
+	Normal = mat3(model) * aNormal;
 	TexCoords = normalize(aPos.xy);
-
 	ObjectColor = aColor;
-
 	gl_Position = proj * view * vec4(FragPos, 1.0f);
 }
