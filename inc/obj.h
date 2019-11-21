@@ -107,6 +107,7 @@ unsigned int	*obj_get_indices(t_obj *obj);
 float			*obj_get_vertices(t_obj *obj);
 void			obj_triangulate(t_obj *obj);
 t_gltri			*obj_get_triangles_arr(t_obj *obj);
+int				obj_add_face(t_obj *obj, const char *data);
 
 int				read_file(char const *const filename, char **buf);
 

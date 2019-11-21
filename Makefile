@@ -31,7 +31,10 @@ SRCS	:= \
 	src/scop_init.c \
 	src/mouse.c \
 	src/shader_set.c \
-	src/shader2.c
+	src/shader2.c \
+	src/obj_triangulate.c \
+	src/obj_add_face.c \
+	src/object_set.c
 
 OBJS	:= $(SRCS:.c=.o)
 
