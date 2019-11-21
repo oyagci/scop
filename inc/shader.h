@@ -28,4 +28,11 @@ void	shader_set_vec3(struct s_program *p, char const *name, vec3 v);
 void	shader_set_mat4(struct s_program *p, char const *name, mat4 m);
 void	shader_set_float(struct s_program *p, char const *name, float f);
 
+void	shader_init(struct s_shader *s, GLenum shader_type);
+void	shader_infolog(struct s_shader *s, char *buf, size_t bufsize);
+void	shader_delete(struct s_shader *s);
+void	shader_load_source(struct s_shader *s, const char *const src);
+void	shader_compile(struct s_shader *s);
+int		shader_compile_success(struct s_shader *s);
+
 #endif
