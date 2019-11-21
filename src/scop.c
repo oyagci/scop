@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:55:32 by oyagci            #+#    #+#             */
-/*   Updated: 2019/11/21 15:22:51 by oyagci           ###   ########.fr       */
+/*   Updated: 2019/11/21 15:40:50 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ int			scop(GLFWwindow *window, char const *filename)
 		return (1);
 	scop_shader_init(&shader);
 	object_init(&object, (float *)vdata, obj.triangles.size * 3 * 9,
-		sizeof(GLfloat) * 9, &shader);
+		sizeof(GLfloat) * 9);
+	object.shader = &shader;
 	object_set_pos(&object, g_engine.obj.pos);
 	free(vdata);
 	stonewall = texture_create(GL_TEXTURE0, "img/chaton_roux.bmp");

@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:55:32 by oyagci            #+#    #+#             */
-/*   Updated: 2019/11/21 14:55:39 by oyagci           ###   ########.fr       */
+/*   Updated: 2019/11/21 15:27:30 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ t_gltri			*obj_get_triangles_arr(t_obj *obj)
 	t_gltri		*triangles;
 	t_triangle	*tri;
 	size_t		i;
-	float		color_val;
+	float		color_v;
 	t_vec3		color;
 
 	triangles = malloc_abort(sizeof(t_gltri) * (obj->triangles.size));
@@ -72,8 +72,8 @@ t_gltri			*obj_get_triangles_arr(t_obj *obj)
 	while (i < obj->triangles.size)
 	{
 		tri = obj->triangles.data + i;
-		color_val = i % 2 ? 0.7f : 1.0f;
-		memcpy(color, (t_vec3){ color_val, color_val, color_val }, sizeof(t_vec3));
+		color_v = i % 2 ? 0.7f : 1.0f;
+		memcpy(color, (t_vec3){ color_v, color_v, color_v }, sizeof(t_vec3));
 		memcpy(triangles[i].data[0].v, tri->vert[0], sizeof(t_vec3));
 		memcpy(triangles[i].data[1].v, tri->vert[1], sizeof(t_vec3));
 		memcpy(triangles[i].data[2].v, tri->vert[2], sizeof(t_vec3));

@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:55:32 by oyagci            #+#    #+#             */
-/*   Updated: 2019/11/21 14:55:39 by oyagci           ###   ########.fr       */
+/*   Updated: 2019/11/21 15:35:55 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,8 @@ int				obj_add_face(t_obj *obj, const char *data)
 		scan_verts(verts[nverts], data);
 		nverts++;
 		data = strchr(data, ' ');
-		if (!data)
+		if (!data++)
 			break ;
-		data++;
 	}
 	face.indices = malloc_abort(sizeof(*face.indices) * nverts);
 	face.nverts = nverts;

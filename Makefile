@@ -23,6 +23,8 @@ SRCS	:= \
 	src/bmp/bmp.c \
 	src/process_input.c \
 	src/glm/vec3.c \
+	src/glm/vec3_2.c \
+	src/glm/vec3_3.c \
 	src/glm/vec4.c \
 	src/glm/mat4.c \
 	src/glm/mat4_rot.c \

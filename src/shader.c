@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:55:32 by oyagci            #+#    #+#             */
-/*   Updated: 2019/11/21 14:55:39 by oyagci           ###   ########.fr       */
+/*   Updated: 2019/11/21 15:25:33 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	shader_compile(struct s_shader *s)
 
 int		shader_compile_success(struct s_shader *s)
 {
-	GLint success = 0;
+	GLint success;
 
 	glGetShaderiv(s->index, GL_COMPILE_STATUS, &success);
 	return (success);
@@ -43,9 +43,3 @@ void	shader_infolog(struct s_shader *s, char *buf, size_t bufsize)
 {
 	glGetShaderInfoLog(s->index, bufsize, NULL, buf);
 }
-
-void	shader_delete(struct s_shader *s)
-{
-	glDeleteShader(s->index);
-}
-

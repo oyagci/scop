@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:55:33 by oyagci            #+#    #+#             */
-/*   Updated: 2019/11/21 15:13:15 by oyagci           ###   ########.fr       */
+/*   Updated: 2019/11/21 15:40:39 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ struct					s_object {
 void					object_init(struct s_object *o,
 							GLfloat const *vdata,
 							GLsizei ndata,
-							GLsizei stride,
-							struct s_program *shader);
+							GLsizei stride);
 void					object_prepare_draw(struct s_object *o);
 void					object_draw(struct s_object *o);
 void					object_delete(struct s_object *o);

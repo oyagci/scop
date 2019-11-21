@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:55:32 by oyagci            #+#    #+#             */
-/*   Updated: 2019/11/21 14:55:39 by oyagci           ###   ########.fr       */
+/*   Updated: 2019/11/21 15:32:07 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	handle_pitch(float speed)
 
 void	handle_yaw(float speed)
 {
-	glm_t_vec3_add(g_engine.obj.rot, (t_vec3){ 0.0f, speed, 0.0f  },
+	glm_t_vec3_add(g_engine.obj.rot, (t_vec3){ 0.0f, speed, 0.0f },
 		g_engine.obj.rot);
 }
 

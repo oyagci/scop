@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:55:32 by oyagci            #+#    #+#             */
-/*   Updated: 2019/11/21 14:55:39 by oyagci           ###   ########.fr       */
+/*   Updated: 2019/11/21 15:31:00 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	mouse_camera_front(t_mouse *mouse)
 	glm_t_vec3_copy(front, g_engine.camera.front);
 }
 
-void 		mouse_move(GLFWwindow *win, double xpos, double ypos)
+void		mouse_move(GLFWwindow *win, double xpos, double ypos)
 {
 	float	xoff;
 	float	yoff;

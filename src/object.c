@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:55:32 by oyagci            #+#    #+#             */
-/*   Updated: 2019/11/21 14:55:39 by oyagci           ###   ########.fr       */
+/*   Updated: 2019/11/21 15:40:04 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,12 @@
 void	object_init(struct s_object *o,
 			GLfloat const *vdata,
 			GLsizei ndata,
-			GLsizei stride,
-			struct s_program *shader)
+			GLsizei stride)
 {
 	memset(o, 0, sizeof(*o));
 	o->scale = 1.0f;
 	o->nvert = ndata;
-	o->shader = shader;
+	o->shader = 0;
 	o->vertices = malloc_abort(sizeof(GLfloat) * o->nvert);
 	memcpy(o->vertices, vdata, sizeof(GLfloat) * o->nvert);
 	glGenVertexArrays(1, &o->vao);
@@ -36,9 +35,11 @@ void	object_init(struct s_object *o,
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, stride, (void*)0);
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride, (void*)(sizeof(float) * 3));
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, stride,
+		(void*)(sizeof(float) * 3));
 	glEnableVertexAttribArray(2);
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride, (void*)(sizeof(float) * 6));
+	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, stride,
+		(void*)(sizeof(float) * 6));
 	glBindVertexArray(0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

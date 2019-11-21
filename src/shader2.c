@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:55:32 by oyagci            #+#    #+#             */
-/*   Updated: 2019/11/21 14:55:39 by oyagci           ###   ########.fr       */
+/*   Updated: 2019/11/21 15:25:17 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,17 @@ void	program_create(struct s_program *p,
 	if (!shader_compile_success(&p->fragment))
 	{
 		shader_infolog(&p->fragment, log, sizeof(log));
-		fprintf(stderr, "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n%s\n", log);
+		fprintf(stderr, "ERROR::SHADER::FRAGMENT::COMPILATION_FAILED\n%s\n",
+			log);
 	}
 	glAttachShader(p->index, p->vertex.index);
 	glAttachShader(p->index, p->fragment.index);
 	glLinkProgram(p->index);
 	shader_delete(&p->vertex);
 	shader_delete(&p->fragment);
+}
+
+void	shader_delete(struct s_shader *s)
+{
+	glDeleteShader(s->index);
 }

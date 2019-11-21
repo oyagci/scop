@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:55:32 by oyagci            #+#    #+#             */
-/*   Updated: 2019/11/21 14:55:39 by oyagci           ###   ########.fr       */
+/*   Updated: 2019/11/21 15:30:34 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@ void	process_other_input(GLFWwindow *win)
 		{
 			g_engine.obj.opacity_dir = 1;
 		}
-		else {
+		else
+		{
 			g_engine.obj.opacity_dir = 1;
 		}
-
 	}
 }
 
@@ -47,7 +47,7 @@ void	process_input(GLFWwindow *win)
 		{ GLFW_KEY_D, handle_left, 1.0f }, { GLFW_KEY_Q, handle_yaw, -5.0f },
 		{ GLFW_KEY_X, handle_roll, 5.0f }, { GLFW_KEY_E, handle_yaw, 5.0f },
 	};
-	float				speed = 4.f * g_engine.delta_time;
+	float const			speed = 4.f * g_engine.delta_time;
 	size_t				i;
 
 	i = 0;
