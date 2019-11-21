@@ -52,9 +52,9 @@ OBJS	:= $(SRCS:.c=.o)
 
 # -- Rules --
 
-$(NAME): all
+all: $(NAME)
 
-all: $(OBJS)
+$(NAME): $(OBJS)
 	make -j$(nproc) -C libft
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIBS)
 
