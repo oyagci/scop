@@ -56,48 +56,10 @@ int			main(int ac, char *av[])
 	return (ret);
 }
 
-void		framebuffer_resize(GLFWwindow __unused *win, int width, int height)
+void		framebuffer_resize(GLFWwindow *win, int width, int height)
 {
+	(void)win;
 	g_engine.window.width = width;
 	g_engine.window.height = height;
 	glViewport(0, 0, width, height);
-}
-
-void 		mouse_move(GLFWwindow __unused *win, double xpos, double ypos)
-{
-	t_mouse	*mouse;
-
-	mouse = &g_engine.mouse;
-	if (mouse->first_mouse) {
-		mouse->last_x = xpos;
-		mouse->last_y = ypos;
-		mouse->first_mouse = 0;
-	}
-
-	float xoff = xpos - mouse->last_x;
-	float yoff = mouse->last_y - ypos;
-
-	mouse->last_x = xpos;
-	mouse->last_y = ypos;
-
-	xoff *= mouse->sensitivity * g_engine.delta_time;
-	yoff *= mouse->sensitivity * g_engine.delta_time;
-
-	mouse->yaw += xoff;
-	mouse->pitch += yoff;
-
-	if (mouse->pitch > 89.0f)
-		mouse->pitch = 89.0f;
-	if (mouse->pitch < -89.0f)
-		mouse->pitch = -89.0f;
-
-	vec3 front;
-	glm_vec3_copy((vec3){
-			cos(glm_rad(mouse->yaw)) * cos(glm_rad(mouse->pitch)),
-			sin(glm_rad(mouse->pitch)),
-			sin(glm_rad(mouse->yaw)) * cos(glm_rad(mouse->pitch)),
-		}, front);
-
-	glm_normalize(front);
-	glm_vec3_copy(front, g_engine.camera.front);
 }
