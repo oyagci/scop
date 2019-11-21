@@ -28,7 +28,8 @@ SRCS	:= \
 	src/scop.c \
 	src/texture.c \
 	src/update.c \
-	src/scop_init.c
+	src/scop_init.c \
+	src/mouse.c
 
 OBJS	:= $(SRCS:.c=.o)
 
