@@ -34,7 +34,8 @@ SRCS	:= \
 	src/shader2.c \
 	src/obj_triangulate.c \
 	src/obj_add_face.c \
-	src/object_set.c
+	src/object_set.c \
+	src/obj_delete.c
 
 OBJS	:= $(SRCS:.c=.o)
 

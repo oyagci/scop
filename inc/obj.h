@@ -111,4 +111,6 @@ int				obj_add_face(t_obj *obj, const char *data);
 
 int				read_file(char const *const filename, char **buf);
 
+void			obj_delete(t_obj *obj);
+
 #endif

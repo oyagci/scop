@@ -3,7 +3,7 @@
 
 int	vertex_container_init(t_vertex_container *vc)
 {
-	vc = calloc_abort(500, sizeof(t_vertex));
+	vc->data = calloc_abort(500, sizeof(t_vertex));
 	vc->capacity = 500;
 	vc->size = 0;
 	return (0);

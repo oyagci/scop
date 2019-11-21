@@ -20,7 +20,7 @@ int			shader_from_files(char const *vpath, char const *fpath,
 	char	*vertex;
 	char	*fragment;
 
-	if (!read_file(vpath, &vertex) || !read_file(fpath, &fragment))
+	if (read_file(vpath, &vertex) < 0 || read_file(fpath, &fragment) < 0)
 	{
 		return (-1);
 	}
@@ -50,8 +50,8 @@ int			main(int ac, char *av[])
 		glViewport(0, 0, g_engine.window.width, g_engine.window.height);
 		glEnable(GL_DEPTH_TEST);
 		ret = scop(window, av[1]);
+		glfwDestroyWindow(window);
 	}
-	glfwDestroyWindow(window);
 	glfwTerminate();
 	return (ret);
 }

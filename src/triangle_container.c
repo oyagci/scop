@@ -4,7 +4,7 @@
 
 int	triangle_container_init(t_triangle_container *vc)
 {
-	vc = calloc_abort(500, sizeof(t_triangle));
+	vc->data = calloc_abort(500, sizeof(t_triangle));
 	vc->capacity = 500;
 	vc->size = 0;
 	return (0);

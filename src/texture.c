@@ -23,5 +23,6 @@ GLuint		texture_create(GLenum texture, char const *path)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glGenerateMipmap(GL_TEXTURE_2D);
+	bmp_free(texdata);
 	return (tex);
 }

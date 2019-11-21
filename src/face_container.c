@@ -3,7 +3,7 @@
 
 int	face_container_init(t_face_container *vc)
 {
-	vc = calloc_abort(500, sizeof(t_face));
+	vc->data = calloc_abort(500, sizeof(t_face));
 	vc->capacity = 500;
 	vc->size = 0;
 	return (0);

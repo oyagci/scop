@@ -16,17 +16,17 @@ int	read_file(char const *const filename, char **buf)
 	{
 		fprintf(stderr, "%s\n", filename);
 		perror("fopen");
-		return (0);
+		return (-1);
 	}
 	if (fstat(fd, &statbuf) == -1)
 	{
 		fprintf(stderr, "%s\n", filename);
 		perror("fstat");
-		return (0);
+		return (-1);
 	}
 	*buf = malloc_abort(sizeof(char) * (statbuf.st_size + 1));
 	ret = read(fd, *buf, statbuf.st_size);
 	(*buf)[ret] = 0;
 	close(fd);
-	return (1);
+	return (0);
 }

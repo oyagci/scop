@@ -66,11 +66,11 @@ void	*bmp_load(char const *path, int *width, int *height)
 	void			*rawdata;
 	char			*data;
 
-	if (read_file(path, (char **)&rawdata) < 0) {
+	if (read_file(path, (char **)&rawdata) < 0)
 		return (NULL);
-	}
 	hdr = rawdata;
-	if (hdr->bf_type[0] != 'B' || hdr->bf_type[1] != 'M') {
+	if (hdr->bf_type[0] != 'B' || hdr->bf_type[1] != 'M')
+	{
 		free(rawdata);
 		return (NULL);
 	}

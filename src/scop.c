@@ -51,8 +51,10 @@ int			scop(GLFWwindow *window, char const *filename)
 	GLuint				stonewall;
 	t_obj				obj;
 
-	scop_obj_init(filename, &obj);
+	if (scop_obj_init(filename, &obj) < 0)
+		return (1);
 	vdata = obj_get_triangles_arr(&obj);
+	obj_delete(&obj);
 	if (shader_from_files("./shaders/vertex.glsl", "./shaders/fragment.glsl",
 		&shader) < 0)
 		return (1);
