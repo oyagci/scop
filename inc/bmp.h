@@ -33,7 +33,7 @@ typedef struct	s_bmp_hdr {
 	t_bmp_img_hdr	bi;
 } __packed		t_bmp_hdr;
 
-void			*bmp_load(char *path, int *width, int *height);
+void			*bmp_load(char const *path, int *width, int *height);
 void			bmp_free(void *data);
 
 #endif

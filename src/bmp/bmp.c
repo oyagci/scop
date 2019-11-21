@@ -60,7 +60,7 @@ int		bmp_copy_data(t_bmp_hdr *bmp, char **destp)
 	return (0);
 }
 
-void	*bmp_load(char *path, int *width, int *height)
+void	*bmp_load(char const *path, int *width, int *height)
 {
 	t_bmp_hdr		*hdr;
 	void			*rawdata;
