@@ -3,6 +3,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "common.h"
 
 void	bmp_print_hdrs(t_bmp_hdr *hdr)
 {
@@ -36,26 +37,30 @@ void	bmp_print_hdrs(t_bmp_hdr *hdr)
 	);
 }
 
-int		bmp_copy_data(t_bmp_hdr *bmp, char **destp)
+int		bmp_copy_data(t_bmp_hdr *bmp, char *dest, size_t maxsz)
 {
-	size_t	z;
 	char	*bytes;
-	char	*dest;
+	size_t	i;
+	size_t	j;
+	size_t	z;
 
-	*destp = malloc(3 * bmp->bi.bi_width * bmp->bi.bi_height);
-	dest = *destp;
-	if (!*destp) {
-		return (-1);
-	}
 	bytes = (char *)bmp + bmp->bf_offset_bits;
 	z = 0;
-	for (size_t i = 0; i < bmp->bi.bi_width; i++) {
-		for (size_t j = 0; j < bmp->bi.bi_height; j++) {
+	i = 0;
+	while (i < bmp->bi.bi_width)
+	{
+		j = 0;
+		while (j < bmp->bi.bi_height)
+		{
+			if (z + 2 > maxsz)
+				return (0);
 			dest[z + 2] = *bytes++;
 			dest[z + 1] = *bytes++;
 			dest[z + 0] = *bytes++;
 			z += 3;
+			j += 1;
 		}
+		i += 1;
 	}
 	return (0);
 }
@@ -65,18 +70,22 @@ void	*bmp_load(char const *path, int *width, int *height)
 	t_bmp_hdr		*hdr;
 	void			*rawdata;
 	char			*data;
+	ssize_t			size;
 
-	if (read_file(path, (char **)&rawdata) < 0)
+	size = read_file(path, (char **)&rawdata);
+	if (size < 0)
 		return (NULL);
 	hdr = rawdata;
-	if (hdr->bf_type[0] != 'B' || hdr->bf_type[1] != 'M')
+	if (hdr->bf_type[0] != 'B' || hdr->bf_type[1] != 'M'
+		|| hdr->bf_offset_bits > size)
 	{
 		free(rawdata);
 		return (NULL);
 	}
 	*width = hdr->bi.bi_width;
 	*height = hdr->bi.bi_height;
-	bmp_copy_data(hdr, &data);
+	data = malloc_abort(3 * hdr->bi.bi_width * hdr->bi.bi_height);
+	bmp_copy_data(hdr, data, size - hdr->bf_offset_bits);
 	free(rawdata);
 	return (data);
 }

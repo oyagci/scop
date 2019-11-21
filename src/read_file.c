@@ -28,5 +28,5 @@ int	read_file(char const *const filename, char **buf)
 	ret = read(fd, *buf, statbuf.st_size);
 	(*buf)[ret] = 0;
 	close(fd);
-	return (0);
+	return (statbuf.st_size);
 }
