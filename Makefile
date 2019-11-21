@@ -3,6 +3,14 @@ CC		:= gcc
 CFLAGS	:= -Wall -Wextra -g3 -I glad/include -I inc/ -I libft/includes
 LIBS	:= -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm -L libft -lft
 
+ifeq ($(shell uname -s),Darwin)
+	CFLAGS := -Wall -Wextra -g3 -I glad/include -I inc/ -I libft/includes -I ~/.brew/include
+	LIBS := -framework OpenGL -lpthread -ldl -lm -L libft -lft -L ~/.brew/lib -lglfw
+else
+	CFLAGS := -Wall -Wextra -g3 -I glad/include -I inc/ -I libft/includes
+	LIBS := -lglfw3 -lGL -lX11 -lpthread -lXrandr -lXi -ldl -lm -L libft -lft
+endif
+
 SRCS	:= \
 	glad/src/glad.c \
 	src/main.c \
