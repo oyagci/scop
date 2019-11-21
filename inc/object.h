@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:55:33 by oyagci            #+#    #+#             */
-/*   Updated: 2019/11/21 14:55:40 by oyagci           ###   ########.fr       */
+/*   Updated: 2019/11/21 15:13:15 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include "shader.h"
 # include "glm.h"
 
-struct	s_object {
+struct					s_object {
 	vec3				pos;
 	vec3				rot;
 	GLfloat				scale;
@@ -27,7 +27,7 @@ struct	s_object {
 	GLuint				vao;
 	GLuint				ebo;
 
-	GLfloat 			*vertices;
+	GLfloat				*vertices;
 	GLsizei				nvert;
 
 	GLuint				*indices;
