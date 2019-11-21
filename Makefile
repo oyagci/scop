@@ -25,6 +25,10 @@ SRCS	:= \
 	src/vertex_container.c \
 	src/handle_move.c \
 	src/handle_rot.c \
+	src/scop.c \
+	src/texture.c \
+	src/update.c \
+	src/scop_init.c
 
 OBJS	:= $(SRCS:.c=.o)
 
