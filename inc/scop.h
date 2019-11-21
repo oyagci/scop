@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:55:33 by oyagci            #+#    #+#             */
-/*   Updated: 2019/11/21 14:55:40 by oyagci           ###   ########.fr       */
+/*   Updated: 2019/11/21 16:12:38 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 
 # define WIDTH		1280
 # define HEIGHT		720
-# define __unused	__attribute__((unused))
 
 typedef struct	s_gl_camera {
 	t_vec3	pos;
@@ -73,10 +72,10 @@ void			render_win_init(t_render_win *window);
 void			gl_camera_init(t_gl_camera *camera);
 
 void			process_input(GLFWwindow *win);
-void			framebuffer_resize(GLFWwindow __unused *win, int width,
+void			framebuffer_resize(GLFWwindow *win, int width,
 					int height);
 int				read_file(char const *const filename, char **buf);
-void			mouse_move(GLFWwindow __unused *win, double xpos, double ypos);
+void			mouse_move(GLFWwindow *win, double xpos, double ypos);
 void			print_fps(void);
 GLuint			texture_create(GLenum texture, char const *path);
 

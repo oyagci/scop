@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:55:32 by oyagci            #+#    #+#             */
-/*   Updated: 2019/11/21 14:55:40 by oyagci           ###   ########.fr       */
+/*   Updated: 2019/11/21 16:09:39 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # define BI_RLE_4			2
 # define BI_BITFIELDS		3
 
-# define __packed	__attribute__((packed))
+# pragma pack(1)
 
 typedef struct	s_bmp_img_hdr {
 	uint32_t	bi_size;
@@ -34,7 +34,7 @@ typedef struct	s_bmp_img_hdr {
 	uint32_t	bi_y_pixels_per_meter;
 	uint32_t	bi_clr_used;
 	uint32_t	bi_clr_important;
-} __packed		t_bmp_img_hdr;
+}				t_bmp_img_hdr;
 
 typedef struct	s_bmp_hdr {
 	char			bf_type[2];
@@ -43,7 +43,9 @@ typedef struct	s_bmp_hdr {
 	uint16_t		bf_reserved2;
 	uint32_t		bf_offset_bits;
 	t_bmp_img_hdr	bi;
-} __packed		t_bmp_hdr;
+}				t_bmp_hdr;
+
+# pragma pack()
 
 void			*bmp_load(char const *path, int *width, int *height);
 void			bmp_free(void *data);
