@@ -29,7 +29,9 @@ SRCS	:= \
 	src/texture.c \
 	src/update.c \
 	src/scop_init.c \
-	src/mouse.c
+	src/mouse.c \
+	src/shader_set.c \
+	src/shader2.c
 
 OBJS	:= $(SRCS:.c=.o)
 
