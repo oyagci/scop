@@ -5,6 +5,9 @@
 # include <GLFW/glfw3.h>
 # include <stdint.h>
 # include "glm.h"
+# include "shader.h"
+# include "object.h"
+# include "obj.h"
 
 # define WIDTH		1280
 # define HEIGHT		720
@@ -63,7 +66,11 @@ void			framebuffer_resize(GLFWwindow __unused *win, int width,
 int				read_file(char const *const filename, char **buf);
 void			mouse_move(GLFWwindow __unused *win, double xpos, double ypos);
 void			print_fps(void);
+GLuint			texture_create(GLenum texture, char const *path);
+
 void			update_delta_time(void);
+void			update_opacity(struct s_object *o);
+void			update_camera(size_t n, struct s_program *shaders);
 
 extern t_engine	g_engine;
 
@@ -73,5 +80,12 @@ void			handle_roll(float speed);
 void			handle_forward(float speed);
 void			handle_up(float speed);
 void			handle_left(float speed);
+
+int				shader_from_files(char const *vpath, char const *fpath,
+					struct s_program *p);
+int				scop_obj_init(char const *objpath, t_obj *objbuf);
+GLFWwindow		*scop_init_window(int width, int height);
+int				scop_glfw_init(void);
+int				scop(GLFWwindow *window, char const *filename);
 
 #endif
