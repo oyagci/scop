@@ -12,15 +12,15 @@
 
 #include "glm.h"
 
-void	glm_scale_to(mat4 m, vec3 v, mat4 dest)
+void	glm_scale_to(t_mat4 m, t_vec3 v, t_mat4 dest)
 {
-	glm_vec4_scale(m[0], v[0], dest[0]);
-	glm_vec4_scale(m[1], v[1], dest[1]);
-	glm_vec4_scale(m[2], v[2], dest[2]);
-	glm_vec4_copy(m[3], dest[3]);
+	glm_t_vec4_scale(m[0], v[0], dest[0]);
+	glm_t_vec4_scale(m[1], v[1], dest[1]);
+	glm_t_vec4_scale(m[2], v[2], dest[2]);
+	glm_t_vec4_copy(m[3], dest[3]);
 }
 
-void	glm_scale_uni(mat4 m, float s)
+void	glm_scale_uni(t_mat4 m, float s)
 {
-	glm_scale_to(m, (vec3){ s, s, s }, m);
+	glm_scale_to(m, (t_vec3){ s, s, s }, m);
 }

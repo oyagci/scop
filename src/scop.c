@@ -19,15 +19,15 @@
 
 void		scop_shader_init(struct s_program *shader)
 {
-	mat4	projection;
+	t_mat4	projection;
 
 	glm_perspective(45.0f,
 		(float)g_engine.window.width / (float)g_engine.window.height,
 		(float[]){ 0.1f, 100.0f }, projection);
-	shader_set_vec3(shader, "lightColor", (vec3){ 1.0f, 1.0f, 1.0f });
-	shader_set_vec3(shader, "lightPos", (vec3){ 5.0f, 1.0f, 5.0f });
+	shader_set_t_vec3(shader, "lightColor", (t_vec3){ 1.0f, 1.0f, 1.0f });
+	shader_set_t_vec3(shader, "lightPos", (t_vec3){ 5.0f, 1.0f, 5.0f });
 	shader_set_float(shader, "opacity", 0.0f);
-	shader_set_mat4(shader, "proj", projection);
+	shader_set_t_mat4(shader, "proj", projection);
 }
 
 void		scop_run(GLFWwindow *window, struct s_object *object)

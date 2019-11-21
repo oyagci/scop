@@ -13,7 +13,7 @@
 #include "object.h"
 #include <string.h>
 
-void	object_set_pos(struct s_object *o, vec3 newpos)
+void	object_set_pos(struct s_object *o, t_vec3 newpos)
 {
 	memcpy(o->pos, newpos, sizeof(o->pos));
 }

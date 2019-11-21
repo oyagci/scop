@@ -67,8 +67,8 @@ int				face_container_init(t_face_container *vc);
 int				face_container_add(t_face_container *vc, t_face *v);
 
 typedef struct	s_triangle {
-	vec3	vert[3];
-	vec3	norm;
+	t_vec3	vert[3];
+	t_vec3	norm;
 }				t_triangle;
 
 typedef struct	s_triangle_container

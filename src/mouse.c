@@ -15,15 +15,15 @@
 
 static void	mouse_camera_front(t_mouse *mouse)
 {
-	vec3	front;
+	t_vec3	front;
 
-	glm_vec3_copy((vec3){
+	glm_t_vec3_copy((t_vec3){
 			cos(glm_rad(mouse->yaw)) * cos(glm_rad(mouse->pitch)),
 			sin(glm_rad(mouse->pitch)),
 			sin(glm_rad(mouse->yaw)) * cos(glm_rad(mouse->pitch)),
 		}, front);
 	glm_normalize(front);
-	glm_vec3_copy(front, g_engine.camera.front);
+	glm_t_vec3_copy(front, g_engine.camera.front);
 }
 
 void 		mouse_move(GLFWwindow *win, double xpos, double ypos)

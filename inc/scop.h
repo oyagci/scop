@@ -26,9 +26,9 @@
 # define __unused	__attribute__((unused))
 
 typedef struct	s_gl_camera {
-	vec3	pos;
-	vec3	front;
-	vec3	up;
+	t_vec3	pos;
+	t_vec3	front;
+	t_vec3	up;
 }				t_gl_camera;
 
 typedef struct	s_render_win {
@@ -46,8 +46,8 @@ typedef struct	s_mouse {
 }				t_mouse;
 
 typedef struct	s_obj_info {
-	vec3		pos;
-	vec3		rot;
+	t_vec3		pos;
+	t_vec3		rot;
 	GLboolean	opacity;
 	GLint		opacity_dir;
 	float		opacity_value;

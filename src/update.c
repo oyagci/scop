@@ -16,17 +16,17 @@
 
 void	update_camera(size_t n, struct s_program *shaders)
 {
-	mat4	view;
-	vec3	cam_target;
+	t_mat4	view;
+	t_vec3	cam_target;
 	size_t	i;
 
-	glm_vec3_add(g_engine.camera.front, g_engine.camera.pos, cam_target);
+	glm_t_vec3_add(g_engine.camera.front, g_engine.camera.pos, cam_target);
 	glm_lookat(g_engine.camera.pos, cam_target, g_engine.camera.up, view);
 	i = 0;
 	while (i < n)
 	{
-		shader_set_mat4(shaders + i, "view", view);
-		shader_set_vec3(shaders + i, "viewPos", g_engine.camera.pos);
+		shader_set_t_mat4(shaders + i, "view", view);
+		shader_set_t_vec3(shaders + i, "viewPos", g_engine.camera.pos);
 		i += 1;
 	}
 }

@@ -13,46 +13,46 @@
 #ifndef GLM_H
 # define GLM_H
 
-typedef float	vec3[3];
-typedef float	vec4[4];
-typedef vec4	mat4[4];
+typedef float	t_vec3[3];
+typedef float	t_vec4[4];
+typedef t_vec4	t_mat4[4];
 
-void			glm_vec3_add(vec3 a, vec3 b, vec3 dest);
-void			glm_vec3_sub(vec3 a, vec3 b, vec3 dest);
-void			glm_vec3_copy(vec3 a, vec3 dest);
-float			glm_vec3_dot(vec3 a, vec3 b);
-float			glm_vec3_norm2(vec3 v);
-float			glm_vec3_norm(vec3 v);
-void			glm_vec3_scale(vec3 v, float s, vec3 dest);
-void			glm_vec3_normalize(vec3 v);
-void			glm_vec3_cross(vec3 a, vec3 b, vec3 dest);
-void			glm_vec3_crossn(vec3 a, vec3 b, vec3 dest);
-void			glm_cross(vec3 a, vec3 b, vec3 d);
-void			glm_normalize(vec3 v);
+void			glm_t_vec3_add(t_vec3 a, t_vec3 b, t_vec3 dest);
+void			glm_t_vec3_sub(t_vec3 a, t_vec3 b, t_vec3 dest);
+void			glm_t_vec3_copy(t_vec3 a, t_vec3 dest);
+float			glm_t_vec3_dot(t_vec3 a, t_vec3 b);
+float			glm_t_vec3_norm2(t_vec3 v);
+float			glm_t_vec3_norm(t_vec3 v);
+void			glm_t_vec3_scale(t_vec3 v, float s, t_vec3 dest);
+void			glm_t_vec3_normalize(t_vec3 v);
+void			glm_t_vec3_cross(t_vec3 a, t_vec3 b, t_vec3 dest);
+void			glm_t_vec3_crossn(t_vec3 a, t_vec3 b, t_vec3 dest);
+void			glm_cross(t_vec3 a, t_vec3 b, t_vec3 d);
+void			glm_normalize(t_vec3 v);
 
-void			glm_vec4_scale(vec4 v, float s, vec4 dest);
-void			glm_vec4_add(vec4 a, vec4 b, vec4 dest);
-void			glm_vec4_copy(vec4 v, vec4 dest);
+void			glm_t_vec4_scale(t_vec4 v, float s, t_vec4 dest);
+void			glm_t_vec4_add(t_vec4 a, t_vec4 b, t_vec4 dest);
+void			glm_t_vec4_copy(t_vec4 v, t_vec4 dest);
 
-void			glm_mat4_zero(mat4 m);
-void			glm_mat4_copy(mat4 mat, mat4 dest);
-void			glm_mat4_identity(mat4 mat);
-void			glm_translate(mat4 m, vec3 v);
-void			glm_scale_uni(mat4 m, float s);
+void			glm_t_mat4_zero(t_mat4 m);
+void			glm_t_mat4_copy(t_mat4 mat, t_mat4 dest);
+void			glm_t_mat4_identity(t_mat4 mat);
+void			glm_translate(t_mat4 m, t_vec3 v);
+void			glm_scale_uni(t_mat4 m, float s);
 
-void			glm_rotate_x(mat4 m, float angle, mat4 dest);
-void			glm_rotate_y(mat4 m, float angle, mat4 dest);
-void			glm_rotate_z(mat4 m, float angle, mat4 dest);
+void			glm_rotate_x(t_mat4 m, float angle, t_mat4 dest);
+void			glm_rotate_y(t_mat4 m, float angle, t_mat4 dest);
+void			glm_rotate_z(t_mat4 m, float angle, t_mat4 dest);
 
-void			glm_lookat(vec3 eye,
-					vec3 center,
-					vec3 up,
-					mat4 dest);
+void			glm_lookat(t_vec3 eye,
+					t_vec3 center,
+					t_vec3 up,
+					t_mat4 dest);
 void			glm_perspective(float fovy,
 					float aspect,
 					float const near_far[2],
-					mat4 dest);
-void			glm_mul_rot(mat4 m1, mat4 m2, mat4 dest);
+					t_mat4 dest);
+void			glm_mul_rot(t_mat4 m1, t_mat4 m2, t_mat4 dest);
 
 float			glm_rad(float deg);
 

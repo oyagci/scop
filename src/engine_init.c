@@ -31,15 +31,15 @@ void	render_win_init(t_render_win *window)
 
 void	gl_camera_init(t_gl_camera *camera)
 {
-	memcpy(&camera->front, (vec3){ 0.0f, 0.0f, -1.0f }, sizeof(vec3));
-	memcpy(&camera->up, (vec3){ 0.0f, 1.0f, 0.0f }, sizeof(vec3));
-	memcpy(&camera->pos, (vec3){ 0.0f, 0.0f, 6.0f }, sizeof(vec3));
+	memcpy(&camera->front, (t_vec3){ 0.0f, 0.0f, -1.0f }, sizeof(t_vec3));
+	memcpy(&camera->up, (t_vec3){ 0.0f, 1.0f, 0.0f }, sizeof(t_vec3));
+	memcpy(&camera->pos, (t_vec3){ 0.0f, 0.0f, 6.0f }, sizeof(t_vec3));
 }
 
 void	obj_info_init(t_obj_info *obj)
 {
-	memset(obj->pos, 0, sizeof(vec3));
-	memset(obj->rot, 0, sizeof(vec3));
+	memset(obj->pos, 0, sizeof(t_vec3));
+	memset(obj->rot, 0, sizeof(t_vec3));
 	obj->opacity_value = 0;
 	obj->opacity = GL_FALSE;
 }

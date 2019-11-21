@@ -46,9 +46,9 @@ void	object_init(struct s_object *o,
 
 void	object_prepare_draw(struct s_object *o)
 {
-	mat4	model;
+	t_mat4	model;
 
-	glm_mat4_identity(model);
+	glm_t_mat4_identity(model);
 	glm_translate(model, o->pos);
 	glm_rotate_x(model, o->rot[0], model);
 	glm_rotate_y(model, o->rot[1], model);

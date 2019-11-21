@@ -13,13 +13,13 @@
 #include "glm.h"
 #include <math.h>
 
-void	glm_rotate_x(mat4 m, float angle, mat4 dest)
+void	glm_rotate_x(t_mat4 m, float angle, t_mat4 dest)
 {
-	mat4	t;
+	t_mat4	t;
 	float	c;
 	float	s;
 
-	glm_mat4_identity(t);
+	glm_t_mat4_identity(t);
 	c = cosf(angle);
 	s = sinf(angle);
 	t[1][1] = c;
@@ -29,13 +29,13 @@ void	glm_rotate_x(mat4 m, float angle, mat4 dest)
 	glm_mul_rot(m, t, dest);
 }
 
-void	glm_rotate_y(mat4 m, float angle, mat4 dest)
+void	glm_rotate_y(t_mat4 m, float angle, t_mat4 dest)
 {
-	mat4	t;
+	t_mat4	t;
 	float	c;
 	float	s;
 
-	glm_mat4_identity(t);
+	glm_t_mat4_identity(t);
 	c = cosf(angle);
 	s = sinf(angle);
 	t[0][0] = c;
@@ -45,13 +45,13 @@ void	glm_rotate_y(mat4 m, float angle, mat4 dest)
 	glm_mul_rot(m, t, dest);
 }
 
-void	glm_rotate_z(mat4 m, float angle, mat4 dest)
+void	glm_rotate_z(t_mat4 m, float angle, t_mat4 dest)
 {
-	mat4	t;
+	t_mat4	t;
 	float	c;
 	float	s;
 
-	glm_mat4_identity(t);
+	glm_t_mat4_identity(t);
 	c = cosf(angle);
 	s = sinf(angle);
 	t[0][0] = c;
@@ -61,7 +61,7 @@ void	glm_rotate_z(mat4 m, float angle, mat4 dest)
 	glm_mul_rot(m, t, dest);
 }
 
-void	glm_mul_rot(mat4 m1, mat4 m2, mat4 dest)
+void	glm_mul_rot(t_mat4 m1, t_mat4 m2, t_mat4 dest)
 {
 	float const a[4][4] = {
 		{ m1[0][0], m1[0][1], m1[0][2], m1[0][3] }, { m1[1][0], m1[1][1],

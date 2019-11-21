@@ -13,7 +13,7 @@
 #include "glm.h"
 #include <math.h>
 
-void	glm_mat4_copy(mat4 mat, mat4 dest)
+void	glm_t_mat4_copy(t_mat4 mat, t_mat4 dest)
 {
 	dest[0][0] = mat[0][0];
 	dest[1][0] = mat[1][0];
@@ -33,43 +33,43 @@ void	glm_mat4_copy(mat4 mat, mat4 dest)
 	dest[3][3] = mat[3][3];
 }
 
-void	glm_mat4_identity(mat4 mat)
+void	glm_t_mat4_identity(t_mat4 mat)
 {
-	glm_mat4_copy((mat4){{1.0f, 0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 0.0f},
+	glm_t_mat4_copy((t_mat4){{1.0f, 0.0f, 0.0f, 0.0f}, {0.0f, 1.0f, 0.0f, 0.0f},
 		{0.0f, 0.0f, 1.0f, 0.0f}, {0.0f, 0.0f, 0.0f, 1.0f}}, mat);
 }
 
-void	glm_mat4_zero(mat4 mat)
+void	glm_t_mat4_zero(t_mat4 mat)
 {
-	glm_mat4_copy((mat4){{0.0f, 0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f, 0.0f},
+	glm_t_mat4_copy((t_mat4){{0.0f, 0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f, 0.0f},
 		{0.0f, 0.0f, 0.0f, 0.0f}, {0.0f, 0.0f, 0.0f, 0.0f}}, mat);
 }
 
-void	glm_translate(mat4 m, vec3 v)
+void	glm_translate(t_mat4 m, t_vec3 v)
 {
-	vec4 v1;
-	vec4 v2;
-	vec4 v3;
+	t_vec4 v1;
+	t_vec4 v2;
+	t_vec4 v3;
 
-	glm_vec4_scale(m[0], v[0], v1);
-	glm_vec4_scale(m[1], v[1], v2);
-	glm_vec4_scale(m[2], v[2], v3);
-	glm_vec4_add(v1, m[3], m[3]);
-	glm_vec4_add(v2, m[3], m[3]);
-	glm_vec4_add(v3, m[3], m[3]);
+	glm_t_vec4_scale(m[0], v[0], v1);
+	glm_t_vec4_scale(m[1], v[1], v2);
+	glm_t_vec4_scale(m[2], v[2], v3);
+	glm_t_vec4_add(v1, m[3], m[3]);
+	glm_t_vec4_add(v2, m[3], m[3]);
+	glm_t_vec4_add(v3, m[3], m[3]);
 }
 
 void	glm_perspective(float fovy,
 	float aspect,
 	float const near_far[2],
-	mat4 dest)
+	t_mat4 dest)
 {
 	float		f;
 	float		fn;
 	float const	near_val = near_far[0];
 	float const	far_val = near_far[1];
 
-	glm_mat4_zero(dest);
+	glm_t_mat4_zero(dest);
 	f = 1.0f / tanf(fovy * 0.5f);
 	fn = 1.0f / (near_val - far_val);
 	dest[0][0] = f / aspect;
