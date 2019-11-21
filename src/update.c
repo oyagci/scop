@@ -24,18 +24,22 @@ void	update_opacity(struct s_object *o)
 	float	speed;
 
 	speed = 1.0f * g_engine.delta_time;
-	if (g_engine.obj.opacity_dir > 0) {
+	if (g_engine.obj.opacity_dir > 0)
+	{
 		g_engine.obj.opacity_value += speed;
 		shader_set_float(o->shader, "opacity", g_engine.obj.opacity_value);
-		if (g_engine.obj.opacity_value >= 1.0f) {
+		if (g_engine.obj.opacity_value >= 1.0f)
+		{
 			g_engine.obj.opacity_dir = 0;
 			g_engine.obj.opacity_value = 1.0f;
 		}
 	}
-	else if (g_engine.obj.opacity_dir < 0) {
+	else if (g_engine.obj.opacity_dir < 0)
+	{
 		g_engine.obj.opacity_value -= speed;
 		shader_set_float(o->shader, "opacity", g_engine.obj.opacity_value);
-		if (g_engine.obj.opacity_value <= 0.05f) {
+		if (g_engine.obj.opacity_value <= 0.05f)
+		{
 			g_engine.obj.opacity_dir = 0;
 			g_engine.obj.opacity_value = 0.0f;
 		}
