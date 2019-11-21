@@ -23,7 +23,7 @@ void		scop_shader_init(struct s_program *shader)
 
 	glm_perspective(45.0f,
 		(float)g_engine.window.width / (float)g_engine.window.height,
-		0.1f, 100.0f, projection);
+		(float[]){ 0.1f, 100.0f }, projection);
 	shader_set_vec3(shader, "lightColor", (vec3){ 1.0f, 1.0f, 1.0f });
 	shader_set_vec3(shader, "lightPos", (vec3){ 5.0f, 1.0f, 5.0f });
 	shader_set_float(shader, "opacity", 0.0f);

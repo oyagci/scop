@@ -50,8 +50,7 @@ void			glm_lookat(vec3 eye,
 					mat4 dest);
 void			glm_perspective(float fovy,
 					float aspect,
-					float nearVal,
-					float farVal,
+					float const near_far[2],
 					mat4 dest);
 void			glm_mul_rot(mat4 m1, mat4 m2, mat4 dest);
 
