@@ -6,7 +6,7 @@
 /*   By: oyagci <oyagci@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:55:32 by oyagci            #+#    #+#             */
-/*   Updated: 2019/11/21 15:40:50 by oyagci           ###   ########.fr       */
+/*   Updated: 2019/11/22 10:18:45 by oyagci           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void		scop_shader_init(struct s_program *shader)
 
 void		scop_run(GLFWwindow *window, struct s_object *object)
 {
+	glEnable(GL_CULL_FACE);
 	while (!glfwWindowShouldClose(window))
 	{
 		update_delta_time();
