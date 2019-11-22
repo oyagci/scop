@@ -5,19 +5,16 @@
             "-c",
             "-Wall",
             "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
             "-I",
             "inc/",
             "-I",
             "libft/includes",
             "-o",
-            "src/process_input.o",
-            "src/process_input.c"
+            "src/scop.o",
+            "src/scop.c"
         ],
-        "directory": "/home/oyagci/Projects/scop",
-        "file": "src/process_input.c"
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/scop.c"
     },
     {
         "arguments": [
@@ -25,49 +22,6 @@
             "-c",
             "-Wall",
             "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
-            "-I",
-            "inc/",
-            "-I",
-            "libft/includes",
-            "-o",
-            "src/glm/mat4.o",
-            "src/glm/mat4.c"
-        ],
-        "directory": "/home/oyagci/Projects/scop",
-        "file": "src/glm/mat4.c"
-    },
-    {
-        "arguments": [
-            "gcc",
-            "-c",
-            "-Wall",
-            "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
-            "-I",
-            "inc/",
-            "-I",
-            "libft/includes",
-            "-o",
-            "src/engine_init.o",
-            "src/engine_init.c"
-        ],
-        "directory": "/home/oyagci/Projects/scop",
-        "file": "src/engine_init.c"
-    },
-    {
-        "arguments": [
-            "gcc",
-            "-c",
-            "-Wall",
-            "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
             "-I",
             "inc/",
             "-I",
@@ -76,7 +30,7 @@
             "src/print_fps.o",
             "src/print_fps.c"
         ],
-        "directory": "/home/oyagci/Projects/scop",
+        "directory": "/home/oyagci/Projects/rendu-scop",
         "file": "src/print_fps.c"
     },
     {
@@ -85,19 +39,16 @@
             "-c",
             "-Wall",
             "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
             "-I",
             "inc/",
             "-I",
             "libft/includes",
             "-o",
-            "src/face_container.o",
-            "src/face_container.c"
+            "src/obj_delete.o",
+            "src/obj_delete.c"
         ],
-        "directory": "/home/oyagci/Projects/scop",
-        "file": "src/face_container.c"
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/obj_delete.c"
     },
     {
         "arguments": [
@@ -105,19 +56,16 @@
             "-c",
             "-Wall",
             "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
             "-I",
             "inc/",
             "-I",
             "libft/includes",
             "-o",
-            "src/malloc_abort.o",
-            "src/malloc_abort.c"
+            "src/process_input.o",
+            "src/process_input.c"
         ],
-        "directory": "/home/oyagci/Projects/scop",
-        "file": "src/malloc_abort.c"
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/process_input.c"
     },
     {
         "arguments": [
@@ -125,19 +73,16 @@
             "-c",
             "-Wall",
             "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
             "-I",
             "inc/",
             "-I",
             "libft/includes",
             "-o",
-            "glad/src/glad.o",
-            "glad/src/glad.c"
+            "src/obj_add_face.o",
+            "src/obj_add_face.c"
         ],
-        "directory": "/home/oyagci/Projects/scop",
-        "file": "glad/src/glad.c"
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/obj_add_face.c"
     },
     {
         "arguments": [
@@ -145,149 +90,6 @@
             "-c",
             "-Wall",
             "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
-            "-I",
-            "inc/",
-            "-I",
-            "libft/includes",
-            "-o",
-            "src/handle_move.o",
-            "src/handle_move.c"
-        ],
-        "directory": "/home/oyagci/Projects/scop",
-        "file": "src/handle_move.c"
-    },
-    {
-        "arguments": [
-            "gcc",
-            "-c",
-            "-Wall",
-            "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
-            "-I",
-            "inc/",
-            "-I",
-            "libft/includes",
-            "-o",
-            "src/object.o",
-            "src/object.c"
-        ],
-        "directory": "/home/oyagci/Projects/scop",
-        "file": "src/object.c"
-    },
-    {
-        "arguments": [
-            "gcc",
-            "-c",
-            "-Wall",
-            "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
-            "-I",
-            "inc/",
-            "-I",
-            "libft/includes",
-            "-o",
-            "src/bmp/bmp.o",
-            "src/bmp/bmp.c"
-        ],
-        "directory": "/home/oyagci/Projects/scop",
-        "file": "src/bmp/bmp.c"
-    },
-    {
-        "arguments": [
-            "gcc",
-            "-c",
-            "-Wall",
-            "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
-            "-I",
-            "inc/",
-            "-I",
-            "libft/includes",
-            "-o",
-            "src/shader.o",
-            "src/shader.c"
-        ],
-        "directory": "/home/oyagci/Projects/scop",
-        "file": "src/shader.c"
-    },
-    {
-        "arguments": [
-            "gcc",
-            "-c",
-            "-Wall",
-            "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
-            "-I",
-            "inc/",
-            "-I",
-            "libft/includes",
-            "-o",
-            "src/main.o",
-            "src/main.c"
-        ],
-        "directory": "/home/oyagci/Projects/scop",
-        "file": "src/main.c"
-    },
-    {
-        "arguments": [
-            "gcc",
-            "-c",
-            "-Wall",
-            "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
-            "-I",
-            "inc/",
-            "-I",
-            "libft/includes",
-            "-o",
-            "src/glm/vec3.o",
-            "src/glm/vec3.c"
-        ],
-        "directory": "/home/oyagci/Projects/scop",
-        "file": "src/glm/vec3.c"
-    },
-    {
-        "arguments": [
-            "gcc",
-            "-c",
-            "-Wall",
-            "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
-            "-I",
-            "inc/",
-            "-I",
-            "libft/includes",
-            "-o",
-            "src/vertex_container.o",
-            "src/vertex_container.c"
-        ],
-        "directory": "/home/oyagci/Projects/scop",
-        "file": "src/vertex_container.c"
-    },
-    {
-        "arguments": [
-            "gcc",
-            "-c",
-            "-Wall",
-            "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
             "-I",
             "inc/",
             "-I",
@@ -296,7 +98,7 @@
             "src/objparser.o",
             "src/objparser.c"
         ],
-        "directory": "/home/oyagci/Projects/scop",
+        "directory": "/home/oyagci/Projects/rendu-scop",
         "file": "src/objparser.c"
     },
     {
@@ -305,109 +107,6 @@
             "-c",
             "-Wall",
             "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
-            "-I",
-            "inc/",
-            "-I",
-            "libft/includes",
-            "-o",
-            "src/read_file.o",
-            "src/read_file.c"
-        ],
-        "directory": "/home/oyagci/Projects/scop",
-        "file": "src/read_file.c"
-    },
-    {
-        "arguments": [
-            "gcc",
-            "-c",
-            "-Wall",
-            "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
-            "-I",
-            "inc/",
-            "-I",
-            "libft/includes",
-            "-o",
-            "src/handle_rot.o",
-            "src/handle_rot.c"
-        ],
-        "directory": "/home/oyagci/Projects/scop",
-        "file": "src/handle_rot.c"
-    },
-    {
-        "arguments": [
-            "gcc",
-            "-c",
-            "-Wall",
-            "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
-            "-I",
-            "inc/",
-            "-I",
-            "libft/includes",
-            "-o",
-            "src/glm/cam.o",
-            "src/glm/cam.c"
-        ],
-        "directory": "/home/oyagci/Projects/scop",
-        "file": "src/glm/cam.c"
-    },
-    {
-        "arguments": [
-            "gcc",
-            "-c",
-            "-Wall",
-            "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
-            "-I",
-            "inc/",
-            "-I",
-            "libft/includes",
-            "-o",
-            "src/glm/vec4.o",
-            "src/glm/vec4.c"
-        ],
-        "directory": "/home/oyagci/Projects/scop",
-        "file": "src/glm/vec4.c"
-    },
-    {
-        "arguments": [
-            "gcc",
-            "-c",
-            "-Wall",
-            "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
-            "-I",
-            "inc/",
-            "-I",
-            "libft/includes",
-            "-o",
-            "src/triangle_container.o",
-            "src/triangle_container.c"
-        ],
-        "directory": "/home/oyagci/Projects/scop",
-        "file": "src/triangle_container.c"
-    },
-    {
-        "arguments": [
-            "gcc",
-            "-c",
-            "-Wall",
-            "-Wextra",
-            "-g3",
-            "-I",
-            "glad/include",
             "-I",
             "inc/",
             "-I",
@@ -416,7 +115,483 @@
             "src/glm/util.o",
             "src/glm/util.c"
         ],
-        "directory": "/home/oyagci/Projects/scop",
+        "directory": "/home/oyagci/Projects/rendu-scop",
         "file": "src/glm/util.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/main.o",
+            "src/main.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/main.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/glm/mat4.o",
+            "src/glm/mat4.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/glm/mat4.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/glm/vec3_2.o",
+            "src/glm/vec3_2.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/glm/vec3_2.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/bmp/bmp.o",
+            "src/bmp/bmp.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/bmp/bmp.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/handle_move.o",
+            "src/handle_move.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/handle_move.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/texture.o",
+            "src/texture.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/texture.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/shader_set.o",
+            "src/shader_set.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/shader_set.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/mouse.o",
+            "src/mouse.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/mouse.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/update.o",
+            "src/update.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/update.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/vertex_container.o",
+            "src/vertex_container.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/vertex_container.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/glm/vec3_3.o",
+            "src/glm/vec3_3.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/glm/vec3_3.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/malloc_abort.o",
+            "src/malloc_abort.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/malloc_abort.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/object.o",
+            "src/object.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/object.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/read_file.o",
+            "src/read_file.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/read_file.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/face_container.o",
+            "src/face_container.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/face_container.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/shader2.o",
+            "src/shader2.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/shader2.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/glm/vec3.o",
+            "src/glm/vec3.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/glm/vec3.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/handle_rot.o",
+            "src/handle_rot.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/handle_rot.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/glm/vec4.o",
+            "src/glm/vec4.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/glm/vec4.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/triangle_container.o",
+            "src/triangle_container.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/triangle_container.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/obj_triangulate.o",
+            "src/obj_triangulate.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/obj_triangulate.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/engine_init.o",
+            "src/engine_init.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/engine_init.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/shader.o",
+            "src/shader.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/shader.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/glm/mat4_scale.o",
+            "src/glm/mat4_scale.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/glm/mat4_scale.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/glm/cam.o",
+            "src/glm/cam.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/glm/cam.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/object_set.o",
+            "src/object_set.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/object_set.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/glm/mat4_rot.o",
+            "src/glm/mat4_rot.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/glm/mat4_rot.c"
+    },
+    {
+        "arguments": [
+            "gcc",
+            "-c",
+            "-Wall",
+            "-Wextra",
+            "-I",
+            "inc/",
+            "-I",
+            "libft/includes",
+            "-o",
+            "src/scop_init.o",
+            "src/scop_init.c"
+        ],
+        "directory": "/home/oyagci/Projects/rendu-scop",
+        "file": "src/scop_init.c"
     }
 ]
