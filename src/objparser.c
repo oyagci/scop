@@ -98,6 +98,8 @@ int				obj_parse(t_obj *obj)
 			obj_add_data(obj, lines);
 			lines = nl + 1;
 		}
+		else
+			break ;
 	}
 	return (0);
 }
